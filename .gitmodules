@@ -1,0 +1,6 @@
+[submodule "libs/utilities"]
+	path = libs/utilities
+	url = git@github.com:amulware/utilities.git
+[submodule "libs/graphics"]
+	path = libs/graphics
+	url = git@github.com:amulware/awgraphics.git
