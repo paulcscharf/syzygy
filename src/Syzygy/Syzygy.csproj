@@ -43,8 +43,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Astronomy\Constants.cs" />
     <Compile Include="Astronomy\FixedBody.cs" />
     <Compile Include="Astronomy\IBody.cs" />
+    <Compile Include="Astronomy\OrbitingBody.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameWindow.cs" />

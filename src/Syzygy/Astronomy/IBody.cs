@@ -1,4 +1,4 @@
-using Bearded.Utilities.Collections;
+﻿using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 
 namespace Syzygy.Astronomy

@@ -29,7 +29,7 @@ namespace Syzygy.Rendering
         private void initMatrices()
         {
             this.gameModelview.Matrix = Matrix4.LookAt(
-                new Vector3(0, 0, 10), new Vector3(0, 0, 0), new Vector3(0, 1, 0)
+                new Vector3(0, 0, 20), new Vector3(0, 0, 0), new Vector3(0, 1, 0)
                 );
 
         }
