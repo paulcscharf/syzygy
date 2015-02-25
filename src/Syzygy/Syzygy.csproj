@@ -46,6 +46,9 @@
     <Compile Include="GameState.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Rendering\RenderManager.cs" />
+    <Compile Include="Rendering\ShaderManager.cs" />
+    <Compile Include="Rendering\SurfaceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\graphics\src\amulware.Graphics\amulware.Graphics.csproj">
