@@ -43,6 +43,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Astronomy\FixedBody.cs" />
+    <Compile Include="Astronomy\IBody.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="Program.cs" />
