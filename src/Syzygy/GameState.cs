@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
+using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy
@@ -29,7 +30,9 @@ namespace Syzygy
 
         public void Draw()
         {
-            Console.WriteLine(this.time);
+            var geos = GeometryManager.Instance;
+
+            geos.Primitives.DrawCircle(0, 0, 1);
         }
     }
 }

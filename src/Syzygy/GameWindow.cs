@@ -30,6 +30,8 @@ namespace Syzygy
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, this.Width, this.Height);
+
+            this.renderer.Resize(this.Width, this.Height);
         }
 
         protected override void OnUpdate(UpdateEventArgs e)

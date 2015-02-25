@@ -7,11 +7,19 @@ namespace Syzygy.Rendering
     {
         private readonly ShaderManager shaders;
         private readonly SurfaceManager surfaces;
+        private readonly GeometryManager geometries;
 
         public RenderManager()
         {
             this.shaders = new ShaderManager();
             this.surfaces = new SurfaceManager();
+            this.geometries = new GeometryManager();
+        }
+
+
+        public void Resize(int width, int height)
+        {
+            this.surfaces.Resize(width, height);
         }
 
         public void PrepareFrame()
@@ -31,5 +39,6 @@ namespace Syzygy.Rendering
         {
             
         }
+
     }
 }

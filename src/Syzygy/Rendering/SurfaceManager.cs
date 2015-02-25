@@ -18,7 +18,8 @@ namespace Syzygy.Rendering
 
             this.Primitives = new IndexedSurface<PrimitiveVertexData>();
             this.Primitives.AddSettings(
-                
+                gameModelview,
+                gameProjection
                 );
             shaders.Primitives.UseOnSurface(this.Primitives);
 
@@ -31,11 +32,16 @@ namespace Syzygy.Rendering
                 new Vector3(0, 0, 10), new Vector3(0, 0, 0), new Vector3(0, 1, 0)
                 );
 
+        }
+
+        public void Resize(int width, int height)
+        {
+
             const float zNear = 0.1f;
             const float zFar = 256f;
             const float fovy = (float)Math.PI / 4;
 
-            const float ratio = 16f / 9f;
+            float ratio = (float)width / height;
 
             float yMax = zNear * (float)Math.Tan(0.5f * fovy);
             float yMin = -yMax;
