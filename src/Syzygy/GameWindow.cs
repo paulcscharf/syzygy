@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
 using OpenTK;
@@ -9,11 +9,13 @@ namespace Syzygy
 {
     sealed class GameWindow : amulware.Graphics.Program
     {
+        private GameState gameState;
+
         public GameWindow()
             :base(1290, 720, GraphicsMode.Default, "Syzygy",
             GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
         {
-            
+            this.gameState = new GameState();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -28,7 +30,7 @@ namespace Syzygy
 
         protected override void OnUpdate(UpdateEventArgs e)
         {
-
+            this.gameState.Update(e);
         }
 
         protected override void OnRender(UpdateEventArgs e)
@@ -36,6 +38,7 @@ namespace Syzygy
             GL.ClearColor(0, 0, 0, 0);
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
+            this.gameState.Draw();
 
             this.SwapBuffers();
         }
