@@ -62,10 +62,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="data\shaders\simple_fs.glsl">
+    <Content Include="data\shaders\primitives.fs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="data\shaders\simple_vs.glsl">
+    </Content>
+    <None Include="data\shaders\primitives.vs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

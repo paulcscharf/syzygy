@@ -1,15 +1,17 @@
-﻿using System;
+using System;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using Syzygy.Rendering;
 
 namespace Syzygy
 {
     sealed class GameWindow : amulware.Graphics.Program
     {
         private GameState gameState;
+        private RenderManager renderer;
 
         public GameWindow()
             :base(1290, 720, GraphicsMode.Default, "Syzygy",
@@ -21,6 +23,8 @@ namespace Syzygy
         protected override void OnLoad(EventArgs e)
         {
             InputManager.Initialize(this.Mouse);
+
+            this.renderer = new RenderManager();
         }
 
         protected override void OnResize(EventArgs e)
@@ -35,10 +39,11 @@ namespace Syzygy
 
         protected override void OnRender(UpdateEventArgs e)
         {
-            GL.ClearColor(0, 0, 0, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            this.renderer.PrepareFrame();
 
-            this.gameState.Draw();
+            this.renderer.Render(this.gameState);
+
+            this.renderer.FinaliseFrame();
 
             this.SwapBuffers();
         }
