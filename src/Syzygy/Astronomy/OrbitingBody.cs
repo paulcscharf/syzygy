@@ -1,7 +1,9 @@
-﻿using amulware.Graphics;
+using System;
+using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Rendering;
+using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy.Astronomy
 {
@@ -31,9 +33,8 @@ namespace Syzygy.Astronomy
 
             this.center = this.calculatePosition();
 
-            this.angularVelocity = (1 /
-                (orbitRadius.NumericValue.Cubed() / (Constants.G * parent.Mass)).Sqrted()
-                ).Radians();
+            this.angularVelocity =
+                ((Constants.G * parent.Mass / orbitRadius.NumericValue).Sqrted() / orbitRadius.NumericValue).Radians();
 
             game.Bodies.Add(this);
         }
@@ -48,8 +49,11 @@ namespace Syzygy.Astronomy
 
         public override void Update(TimeSpan t)
         {
-            this.orbitDirection += this.angularVelocity * (float)t.NumericValue;
+            var step = this.angularVelocity * (float)t.NumericValue;
+            this.orbitDirection += step;
             this.center = this.calculatePosition();
+
+            Console.WriteLine(this.orbitDirection.Degrees);
         }
 
         public override void Draw(GeometryManager geos)

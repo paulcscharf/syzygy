@@ -1,7 +1,7 @@
-namespace Syzygy.Astronomy
+﻿namespace Syzygy.Astronomy
 {
     static class Constants
     {
-        public const float G = 1e-10f;
+        public const float G = 1;
     }
 }
