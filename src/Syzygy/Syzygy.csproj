@@ -43,6 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameState.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>

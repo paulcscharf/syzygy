@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using amulware.Graphics;
+using Bearded.Utilities.Input;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -13,6 +14,11 @@ namespace Syzygy
             GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
         {
             
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            InputManager.Initialize(this.Mouse);
         }
 
         protected override void OnResize(EventArgs e)
