@@ -1,4 +1,4 @@
-using Bearded.Utilities;
+﻿using Bearded.Utilities;
 
 namespace Syzygy.Rendering
 {
