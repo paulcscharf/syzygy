@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syzygy", "src\Syzygy\Syzygy.csproj", "{BD55D362-A78B-405A-B6DF-BB21BB798624}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD55D362-A78B-405A-B6DF-BB21BB798624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD55D362-A78B-405A-B6DF-BB21BB798624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD55D362-A78B-405A-B6DF-BB21BB798624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD55D362-A78B-405A-B6DF-BB21BB798624}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
