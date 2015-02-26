@@ -4,3 +4,6 @@
 [submodule "libs/graphics"]
 	path = libs/graphics
 	url = git@github.com:amulware/awgraphics.git
+[submodule "libs/lidgren"]
+	path = libs/lidgren
+	url = git@github.com:amulware/lidgren-network-gen3.git
