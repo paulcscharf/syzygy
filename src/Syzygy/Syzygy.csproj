@@ -77,7 +77,11 @@
       <Name>Bearded.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ConnectionForm.resx">
+      <DependentUpon>ConnectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="data\shaders\primitives.fs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
