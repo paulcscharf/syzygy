@@ -31,14 +31,16 @@ namespace Syzygy
 
             var m0 = new OrbitingBody(this, p0, 1f.Units(), Direction2.Zero, 0.1f.Units(), 0.01f, Color.Gray);
 
-            new FreeObject(this, new Position2(5f.Units(), 5f.Units()), new Velocity2(0f.Units(), 0f.Units()));
+            for (int x = 0; x < 100; x++)
+                for (int y = 0; y < 100; y++)
+                {
+                    var p = new Position2(new Vector2(x * 0.2f - 10, y * 0.2f - 10));
 
-            for (int i = 0; i < 1000; i++)
-            {
-                new FreeObject(this,
-                    new Position2(StaticRandom.Float(-10, 10).Units(), StaticRandom.Float(-10, 10).Units()),
-                    new Velocity2(Direction2.FromRadians(StaticRandom.Float(MathHelper.TwoPi)).Vector * StaticRandom.Float(0)));
-            }
+                    new FreeObject(this, p,
+                        new Velocity2(    
+                            p.Vector.PerpendicularLeft.Normalized() * (Constants.G / p.Vector.Length).Sqrted()
+                        ));
+                }
         }
 
         public void Update(UpdateEventArgs e)

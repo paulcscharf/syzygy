@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -52,8 +52,6 @@ namespace Syzygy.Astronomy
             var step = this.angularVelocity * (float)t.NumericValue;
             this.orbitDirection += step;
             this.center = this.calculatePosition();
-
-            Console.WriteLine(this.orbitDirection.Degrees);
         }
 
         public override void Draw(GeometryManager geos)
