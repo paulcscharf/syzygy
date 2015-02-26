@@ -19,11 +19,12 @@ namespace Syzygy
 
         private bool resized;
 
+        private ConnectionForm connectionForm;
+
         public GameWindow()
             :base(1290, 720, GraphicsMode.Default, "Syzygy",
             GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
         {
-            this.gameState = new GameState();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -31,6 +32,11 @@ namespace Syzygy
             InputManager.Initialize(this.Mouse);
 
             this.renderer = new RenderManager();
+
+            this.connectionForm = new ConnectionForm();
+            this.connectionForm.Show();
+
+            this.gameState = new GameState();
         }
 
         protected override void OnResize(EventArgs e)
