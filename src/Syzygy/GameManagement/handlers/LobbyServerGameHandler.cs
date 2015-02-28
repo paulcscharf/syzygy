@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
@@ -10,6 +11,7 @@ namespace Syzygy.GameManagement
 {
     sealed class LobbyServerGameHandler : IGameHandler
     {
+
         private enum LobbyMessageType : byte
         {
             Unknown = 0,
@@ -37,31 +39,40 @@ namespace Syzygy.GameManagement
 
         private int lastPlayerId;
 
+        private readonly GameWindow gameWindow;
         private readonly List<Player> players = new List<Player>();
-        private readonly NetServer server;
-        private readonly LobbyForm form;
+        private NetServer server;
+        private LobbyForm form;
 
-        public LobbyServerGameHandler(string playerName)
+        public LobbyServerGameHandler(GameWindow gameWindow, string playerName)
         {
+            this.gameWindow = gameWindow;
             this.players.Add(new Player(this.newPlayerId(), playerName, null));
 
-            var config = new NetPeerConfiguration(Settings.Network.AppName)
-            {
-                Port = Settings.Network.DefaultPort
-            };
+            gameWindow.UIActionQueue.RunAndForget(this.makeForm);
+        }
 
-            this.server = new NetServer(config);
-            this.server.Configuration.SetMessageTypeEnabled(NetIncomingMessageType.ConnectionApproval, true);
-            this.server.Start();
-
-            this.form = new LobbyForm();
+        private void makeForm()
+        {
+            this.form = new LobbyForm(true);
             this.form.Show();
+
+            var me = this.players[0];
+
+            this.form.AddPlayer(me.ID, me.Name);
         }
 
         public event GenericEventHandler<IGameHandler> Stopped;
 
         public void Update(UpdateEventArgs e)
         {
+            if (this.form == null)
+                return;
+            if (this.server == null)
+            {
+                this.startServer();
+            }
+
             NetIncomingMessage message;
             while ((message = server.ReadMessage()) != null)
             {
@@ -79,6 +90,18 @@ namespace Syzygy.GameManagement
                     }
                 }
             }
+        }
+
+        private void startServer()
+        {
+            var config = new NetPeerConfiguration(Settings.Network.AppName)
+            {
+                Port = Settings.Network.DefaultPort
+            };
+
+            this.server = new NetServer(config);
+            this.server.Configuration.SetMessageTypeEnabled(NetIncomingMessageType.ConnectionApproval, true);
+            this.server.Start();
         }
 
         private void onClientStatusChanged(NetIncomingMessage message)

@@ -6,11 +6,13 @@ namespace Syzygy.GameManagement
 {
     sealed class GameManager
     {
+        private readonly GameWindow gameWindow;
         private IGameHandler gameHandler;
 
-        public GameManager()
+        public GameManager(GameWindow gameWindow)
         {
-            this.setGameHandler(new ConnectionGameHandler());
+            this.gameWindow = gameWindow;
+            this.setGameHandler(new ConnectionGameHandler(gameWindow));
         }
 
         private void setGameHandler(IGameHandler handler)

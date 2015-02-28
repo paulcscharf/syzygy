@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -8,9 +8,11 @@ namespace Syzygy.Forms
     {
         private readonly Dictionary<int, string> players = new Dictionary<int, string>();
 
-        public LobbyForm()
+        public LobbyForm(bool isServer)
         {
             this.InitializeComponent();
+
+            this.startButton.Enabled = isServer;
         }
 
         public void AddPlayer(int id, string name)

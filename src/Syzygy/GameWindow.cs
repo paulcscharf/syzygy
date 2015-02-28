@@ -32,7 +32,7 @@ namespace Syzygy
 
             this.renderer = new RenderManager();
 
-            this.game = new GameManager();
+            this.game = new GameManager(this);
         }
 
         protected override void OnResize(EventArgs e)

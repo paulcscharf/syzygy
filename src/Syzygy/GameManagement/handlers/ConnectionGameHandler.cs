@@ -6,6 +6,8 @@ namespace Syzygy.GameManagement
 {
     sealed class ConnectionGameHandler : IGameHandler
     {
+        private readonly GameWindow gameWindow;
+
         private enum Status
         {
             Waiting = 0, Hosting, Connecting
@@ -15,9 +17,17 @@ namespace Syzygy.GameManagement
 
         public event GenericEventHandler<IGameHandler> Stopped;
 
-        private readonly ConnectionForm form;
+        private ConnectionForm form;
 
-        public ConnectionGameHandler()
+        public ConnectionGameHandler(GameWindow gameWindow)
+        {
+            this.gameWindow = gameWindow;
+
+            gameWindow.UIActionQueue.RunAndForget(this.makeForm);
+
+        }
+
+        private void makeForm()
         {
             this.form = new ConnectionForm();
 
@@ -29,14 +39,14 @@ namespace Syzygy.GameManagement
 
         private void host()
         {
-            this.status = Status.Hosting;
             this.form.Close();
+            this.status = Status.Hosting;
         }
 
         private void connect()
         {
-            this.status = Status.Connecting;
             this.form.Close();
+            this.status = Status.Connecting;
         }
 
         public void Update(UpdateEventArgs e)
@@ -44,7 +54,7 @@ namespace Syzygy.GameManagement
             switch (this.status)
             {
                 case Status.Hosting:
-                    this.Stopped(new LobbyServerGameHandler(this.form.PlayerName));
+                    this.Stopped(new LobbyServerGameHandler(this.gameWindow, this.form.PlayerName));
                     break;
                 case Status.Connecting:
                     this.Stopped(new ConnectingGameHandler(this.form.PlayerName, this.form.IpAddress));
