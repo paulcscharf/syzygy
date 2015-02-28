@@ -35,8 +35,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\libs\graphics\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\libs\graphics\libs\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\graphics\libs\utilities\libs\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
     <Compile Include="GameManagement\IGameHandler.cs" />
@@ -82,6 +84,10 @@
     <Compile Include="Rendering\SurfaceManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\graphics\libs\utilities\src\Bearded.Utilities.csproj">
+      <Project>{2f580b9d-6255-4427-8395-5ef236c9401c}</Project>
+      <Name>Bearded.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\graphics\src\amulware.Graphics\amulware.Graphics.csproj">
       <Project>{59beda5c-d68a-4011-89ba-c09421d22974}</Project>
       <Name>amulware.Graphics</Name>
@@ -89,10 +95,6 @@
     <ProjectReference Include="..\..\libs\lidgren\Lidgren.Network\Lidgren.Network.csproj">
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\utilities\src\Bearded.Utilities.csproj">
-      <Project>{2f580b9d-6255-4427-8395-5ef236c9401c}</Project>
-      <Name>Bearded.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
