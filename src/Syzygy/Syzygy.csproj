@@ -47,20 +47,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Astronomy\Constants.cs" />
-    <Compile Include="Astronomy\FixedBody.cs" />
-    <Compile Include="Astronomy\FreeObject.cs" />
-    <Compile Include="Astronomy\IBody.cs" />
-    <Compile Include="Astronomy\OrbitingBody.cs" />
-    <Compile Include="ConnectionForm.cs">
+    <Compile Include="GameManagement\handlers\ConnectingGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
+    <Compile Include="GameManagement\IGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\IngameGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\LobbyClientGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\LobbyServerGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\SetupGameHandler.cs" />
+    <Compile Include="Game\Astronomy\Constants.cs" />
+    <Compile Include="Game\Astronomy\FixedBody.cs" />
+    <Compile Include="Game\Astronomy\FreeObject.cs" />
+    <Compile Include="Game\Astronomy\IBody.cs" />
+    <Compile Include="Game\Astronomy\OrbitingBody.cs" />
+    <Compile Include="Forms\ConnectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConnectionForm.Designer.cs">
+    <Compile Include="Forms\ConnectionForm.Designer.cs">
       <DependentUpon>ConnectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameObject.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\GameState.cs" />
     <Compile Include="GameWindow.cs" />
+    <Compile Include="Forms\LobbyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LobbyForm.Designer.cs">
+      <DependentUpon>LobbyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameManagement\GameManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Rendering\GeometryManager.cs" />
     <Compile Include="Rendering\RenderManager.cs" />
@@ -72,14 +86,21 @@
       <Project>{59beda5c-d68a-4011-89ba-c09421d22974}</Project>
       <Name>amulware.Graphics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libs\lidgren\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\utilities\src\Bearded.Utilities.csproj">
       <Project>{2f580b9d-6255-4427-8395-5ef236c9401c}</Project>
       <Name>Bearded.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConnectionForm.resx">
+    <EmbeddedResource Include="Forms\ConnectionForm.resx">
       <DependentUpon>ConnectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LobbyForm.resx">
+      <DependentUpon>LobbyForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

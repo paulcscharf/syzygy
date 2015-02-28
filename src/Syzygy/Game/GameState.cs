@@ -1,16 +1,13 @@
-using System;
-using System.Collections;
 using amulware.Graphics;
-using Bearded.Utilities;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using OpenTK;
-using Syzygy.Astronomy;
+using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
-namespace Syzygy
+namespace Syzygy.Game
 {
     sealed class GameState
     {

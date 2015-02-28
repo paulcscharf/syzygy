@@ -1,5 +1,6 @@
 using Bearded.Utilities;
 using OpenTK.Graphics.OpenGL;
+using Syzygy.Game;
 
 namespace Syzygy.Rendering
 {

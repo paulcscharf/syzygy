@@ -2,7 +2,7 @@ using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Rendering;
 
-namespace Syzygy.Astronomy
+namespace Syzygy.Game.Astronomy
 {
     sealed class FixedBody : GameObject, IBody
     {

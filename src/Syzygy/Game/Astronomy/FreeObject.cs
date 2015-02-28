@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using OpenTK;
+using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
-namespace Syzygy.Astronomy
+namespace Syzygy.Game.Astronomy
 {
     class FreeObject : GameObject
     {

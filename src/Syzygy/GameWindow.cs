@@ -1,25 +1,24 @@
 using System;
-using System.Runtime.InteropServices;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using Syzygy.Game;
+using Syzygy.GameManagement;
 using Syzygy.Rendering;
 
 namespace Syzygy
 {
     sealed class GameWindow : amulware.Graphics.Program
     {
-        private GameState gameState;
         private RenderManager renderer;
 
         private ManualActionQueue glQueue = new ManualActionQueue();
 
         private bool resized;
-
-        private ConnectionForm connectionForm;
+        private GameManager game;
 
         public GameWindow()
             :base(1290, 720, GraphicsMode.Default, "Syzygy",
@@ -33,10 +32,7 @@ namespace Syzygy
 
             this.renderer = new RenderManager();
 
-            this.connectionForm = new ConnectionForm();
-            this.connectionForm.Show();
-
-            this.gameState = new GameState();
+            this.game = new GameManager();
         }
 
         protected override void OnResize(EventArgs e)
@@ -48,8 +44,7 @@ namespace Syzygy
 
         protected override void OnUpdate(UpdateEventArgs e)
         {
-
-            this.gameState.Update(e);
+            this.game.Update(e);
         }
 
         protected override void OnRender(UpdateEventArgs e)
@@ -64,7 +59,9 @@ namespace Syzygy
 
             this.renderer.PrepareFrame();
 
-            this.renderer.Render(this.gameState);
+
+            this.game.Render(this.renderer);
+
 
             this.renderer.FinaliseFrame();
 

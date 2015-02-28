@@ -1,4 +1,4 @@
-﻿namespace Syzygy.Astronomy
+﻿namespace Syzygy.Game.Astronomy
 {
     static class Constants
     {

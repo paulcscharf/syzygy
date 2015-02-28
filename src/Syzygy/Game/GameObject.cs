@@ -2,7 +2,7 @@ using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Rendering;
 
-namespace Syzygy
+namespace Syzygy.Game
 {
     abstract class GameObject : IDeletable
     {
