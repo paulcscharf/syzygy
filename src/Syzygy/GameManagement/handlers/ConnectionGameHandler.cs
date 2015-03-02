@@ -39,13 +39,11 @@ namespace Syzygy.GameManagement
 
         private void host()
         {
-            this.form.Close();
             this.status = Status.Hosting;
         }
 
         private void connect()
         {
-            this.form.Close();
             this.status = Status.Connecting;
         }
 
@@ -55,9 +53,11 @@ namespace Syzygy.GameManagement
             {
                 case Status.Hosting:
                     this.Stopped(new LobbyServerGameHandler(this.gameWindow, this.form.PlayerName));
+                    this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
                 case Status.Connecting:
                     this.Stopped(new ConnectingGameHandler(this.form.PlayerName, this.form.IpAddress));
+                    this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
             }
         }

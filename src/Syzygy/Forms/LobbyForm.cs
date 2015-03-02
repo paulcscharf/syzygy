@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Environment = System.Environment;
 
 namespace Syzygy.Forms
 {

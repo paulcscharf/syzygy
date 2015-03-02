@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Windows;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
@@ -12,7 +10,7 @@ namespace Syzygy.GameManagement
     sealed class LobbyServerGameHandler : IGameHandler
     {
 
-        private enum LobbyMessageType : byte
+        enum LobbyMessageType : byte
         {
             Unknown = 0,
             NewPlayer = 1,
