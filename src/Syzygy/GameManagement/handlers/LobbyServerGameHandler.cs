@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
@@ -9,31 +11,6 @@ namespace Syzygy.GameManagement
 {
     sealed class LobbyServerGameHandler : IGameHandler
     {
-
-        enum LobbyMessageType : byte
-        {
-            Unknown = 0,
-            NewPlayer = 1,
-            NewPlayers = 1,
-        }
-
-        private class Player
-        {
-            private readonly int id;
-            private readonly string name;
-            private readonly NetConnection connection;
-
-            public Player(int id, string name, NetConnection connection)
-            {
-                this.id = id;
-                this.name = name;
-                this.connection = connection;
-            }
-
-            public int ID { get { return this.id; } }
-            public string Name { get { return this.name; } }
-            public NetConnection Connection { get { return this.connection; } }
-        }
 
         private int lastPlayerId;
 
@@ -52,12 +29,14 @@ namespace Syzygy.GameManagement
 
         private void makeForm()
         {
-            this.form = new LobbyForm(true);
-            this.form.Show();
+            var form  = new LobbyForm(true);
 
             var me = this.players[0];
+            form.AddPlayer(me.ID, me.Name);
 
-            this.form.AddPlayer(me.ID, me.Name);
+            form.Show();
+
+            this.form = form;
         }
 
         public event GenericEventHandler<IGameHandler> Stopped;
@@ -72,7 +51,7 @@ namespace Syzygy.GameManagement
             }
 
             NetIncomingMessage message;
-            while ((message = server.ReadMessage()) != null)
+            while ((message = this.server.ReadMessage()) != null)
             {
                 switch (message.MessageType)
                 {
@@ -84,6 +63,13 @@ namespace Syzygy.GameManagement
                     case NetIncomingMessageType.StatusChanged:
                     {
                         this.onClientStatusChanged(message);
+                        break;
+                    }
+                    default:
+                    {
+                        Log.Line("unhandled message with type: " + message.MessageType);
+                        if (message.MessageType == NetIncomingMessageType.DebugMessage)
+                            Log.Debug(message.ReadString());
                         break;
                     }
                 }
@@ -126,7 +112,7 @@ namespace Syzygy.GameManagement
 
             var newPlayerMessage = this.server.CreateMessage();
             newPlayerMessage.Write((byte)LobbyMessageType.NewPlayer);
-            newPlayerMessage.Write(newPlayer.ID);
+            newPlayerMessage.Write((byte)newPlayer.ID);
             newPlayerMessage.Write(newPlayer.Name);
             
             var otherClients = this.players
@@ -135,7 +121,8 @@ namespace Syzygy.GameManagement
                 .Select(p => p.Connection).ToList();
 
             // tell other clients about this player
-            this.server.SendMessage(newPlayerMessage, otherClients, NetDeliveryMethod.ReliableOrdered, 0);
+            if(otherClients.Count > 0)
+                this.server.SendMessage(newPlayerMessage, otherClients, NetDeliveryMethod.ReliableOrdered, 0);
 
             var allOthersMessage = this.server.CreateMessage();
             allOthersMessage.Write((byte)LobbyMessageType.NewPlayers);
@@ -143,14 +130,16 @@ namespace Syzygy.GameManagement
             foreach (var p in this.players.Where(p => p.Connection != connection))
             {
                 // collect all players
-                allOthersMessage.Write(p.ID);
+                allOthersMessage.Write((byte)p.ID);
                 allOthersMessage.Write(p.Name);
             }
             // tell this client about other players
             connection.SendMessage(allOthersMessage, NetDeliveryMethod.ReliableOrdered, 0);
 
             // add client to visible player list
-            this.form.AddPlayer(newPlayer.ID, newPlayer.Name);
+            this.form.Invoke(new Action(() =>
+                this.form.AddPlayer(newPlayer.ID, newPlayer.Name)
+                ));
         }
 
         private void tryApproveClient(NetIncomingMessage message)
@@ -180,7 +169,7 @@ namespace Syzygy.GameManagement
 
             var message = this.server.CreateMessage(4);
 
-            message.Write(p.ID);
+            message.Write((byte)p.ID);
             connection.Approve(message);
         }
     }

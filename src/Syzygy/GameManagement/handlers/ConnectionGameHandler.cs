@@ -56,7 +56,7 @@ namespace Syzygy.GameManagement
                     this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
                 case Status.Connecting:
-                    this.Stopped(new ConnectingGameHandler(this.form.PlayerName, this.form.IpAddress));
+                    this.Stopped(new ConnectingGameHandler(this.gameWindow, this.form.PlayerName, this.form.IpAddress));
                     this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
             }

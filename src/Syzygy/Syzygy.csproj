@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
+    <Compile Include="GameManagement\networking\Player.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
