@@ -52,11 +52,11 @@ namespace Syzygy.GameManagement
             switch (this.status)
             {
                 case Status.Hosting:
-                    this.Stopped(new LobbyServerGameHandler(this.gameWindow, this.form.PlayerName));
+                    this.Stopped(new Server.LobbyGameHandler(this.gameWindow, this.form.PlayerName));
                     this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
                 case Status.Connecting:
-                    this.Stopped(new ConnectingGameHandler(this.gameWindow, this.form.PlayerName, this.form.IpAddress));
+                    this.Stopped(new Client.ConnectingGameHandler(this.gameWindow, this.form.PlayerName, this.form.IpAddress));
                     this.gameWindow.UIActionQueue.RunAndForget(this.form.Close);
                     break;
             }

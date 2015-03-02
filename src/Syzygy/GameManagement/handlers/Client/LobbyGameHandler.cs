@@ -5,9 +5,9 @@ using Bearded.Utilities;
 using Lidgren.Network;
 using Syzygy.Forms;
 
-namespace Syzygy.GameManagement
+namespace Syzygy.GameManagement.Client
 {
-    sealed class LobbyClientGameHandler : IGameHandler
+    sealed class LobbyGameHandler : IGameHandler
     {
         private readonly GameWindow gameWindow;
         private readonly NetClient client;
@@ -17,7 +17,9 @@ namespace Syzygy.GameManagement
         private LobbyForm form;
         private bool addedSelf;
 
-        public LobbyClientGameHandler(GameWindow gameWindow, NetClient client, string playerName)
+        public event GenericEventHandler<IGameHandler> Stopped;
+
+        public LobbyGameHandler(GameWindow gameWindow, NetClient client, string playerName)
         {
             this.gameWindow = gameWindow;
             this.client = client;
@@ -35,8 +37,6 @@ namespace Syzygy.GameManagement
 
             this.form = form;
         }
-
-        public event GenericEventHandler<IGameHandler> Stopped;
 
         public void Update(UpdateEventArgs e)
         {

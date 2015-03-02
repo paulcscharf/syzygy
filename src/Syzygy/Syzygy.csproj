@@ -51,12 +51,12 @@
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\networking\Player.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="GameManagement\handlers\ConnectingGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
     <Compile Include="GameManagement\IGameHandler.cs" />
     <Compile Include="GameManagement\handlers\IngameGameHandler.cs" />
-    <Compile Include="GameManagement\handlers\LobbyClientGameHandler.cs" />
-    <Compile Include="GameManagement\handlers\LobbyServerGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\LobbyGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Server\LobbyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\SetupGameHandler.cs" />
     <Compile Include="Game\Astronomy\Constants.cs" />
     <Compile Include="Game\Astronomy\FixedBody.cs" />

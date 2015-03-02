@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
 using Syzygy.Forms;
 
-namespace Syzygy.GameManagement
+namespace Syzygy.GameManagement.Server
 {
-    sealed class LobbyServerGameHandler : IGameHandler
+    sealed class LobbyGameHandler : IGameHandler
     {
 
         private int lastPlayerId;
@@ -19,7 +18,7 @@ namespace Syzygy.GameManagement
         private NetServer server;
         private LobbyForm form;
 
-        public LobbyServerGameHandler(GameWindow gameWindow, string playerName)
+        public LobbyGameHandler(GameWindow gameWindow, string playerName)
         {
             this.gameWindow = gameWindow;
             this.players.Add(new Player(this.newPlayerId(), playerName, null));

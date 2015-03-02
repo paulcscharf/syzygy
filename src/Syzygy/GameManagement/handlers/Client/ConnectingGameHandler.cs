@@ -1,9 +1,8 @@
-using System.Drawing.Drawing2D;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
 
-namespace Syzygy.GameManagement
+namespace Syzygy.GameManagement.Client
 {
     sealed class ConnectingGameHandler : IGameHandler
     {
@@ -59,7 +58,7 @@ namespace Syzygy.GameManagement
             {
                 case NetConnectionStatus.Connected:
                 {
-                    this.Stopped(new LobbyClientGameHandler(this.gameWindow, this.client, this.playerName));
+                    this.Stopped(new LobbyGameHandler(this.gameWindow, this.client, this.playerName));
                     break;
                 }
                 case NetConnectionStatus.Disconnected:
