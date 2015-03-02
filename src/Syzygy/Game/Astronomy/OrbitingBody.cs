@@ -1,8 +1,6 @@
-using System;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
-using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
@@ -10,6 +8,7 @@ namespace Syzygy.Game.Astronomy
 {
     sealed class OrbitingBody : GameObject, IBody
     {
+        private readonly Id<IBody> id;
         private readonly IBody parent;
         private readonly Unit orbitRadius;
         private Direction2 orbitDirection;
@@ -21,10 +20,11 @@ namespace Syzygy.Game.Astronomy
 
         private Position2 center;
 
-        public OrbitingBody(GameState game, IBody parent, Unit orbitRadius, Direction2 orbitDirection,
-            Unit radius, float mass, Color color)
+        public OrbitingBody(GameState game, Id<IBody> id, IBody parent,
+            Unit orbitRadius, Direction2 orbitDirection, Unit radius, float mass, Color color)
             : base(game)
         {
+            this.id = id;
             this.parent = parent;
             this.orbitRadius = orbitRadius;
             this.orbitDirection = orbitDirection;
@@ -38,6 +38,13 @@ namespace Syzygy.Game.Astronomy
                 ((Constants.G * parent.Mass / orbitRadius.NumericValue).Sqrted() / orbitRadius.NumericValue).Radians();
 
             game.Bodies.Add(this);
+            game.BodyDictionary.Add(id, this);
+        }
+
+        public OrbitingBody(GameState game, Id<IBody> id, Id<IBody> parentId,
+            Unit orbitRadius, Direction2 orbitDirection, Unit radius, float mass, Color color)
+            : this(game, id, game.BodyDictionary[parentId], orbitRadius, orbitDirection, radius, mass, color)
+        {
         }
 
         private Position2 calculatePosition()

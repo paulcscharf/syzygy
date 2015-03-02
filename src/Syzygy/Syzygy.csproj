@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameGeneration\networking\GenerationMessageType.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\networking\Player.cs" />
+    <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\Client\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
@@ -115,6 +117,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

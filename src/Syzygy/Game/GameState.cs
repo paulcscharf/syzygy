@@ -1,8 +1,7 @@
+using System.Collections.Generic;
 using amulware.Graphics;
 using Bearded.Utilities.Collections;
-using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
-using OpenTK;
 using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
@@ -19,25 +18,11 @@ namespace Syzygy.Game
         private readonly DeletableObjectList<IBody> bodies = new DeletableObjectList<IBody>();
         public DeletableObjectList<IBody> Bodies { get { return this.bodies; } }
 
+        private readonly Dictionary<Id<IBody>, IBody> bodyDictionary = new Dictionary<Id<IBody>, IBody>();
+        public Dictionary<Id<IBody>, IBody> BodyDictionary { get { return this.bodyDictionary; } }
+
         public GameState()
         {
-            var sun = new FixedBody(this, new Position2(0f.Units(), 0f.Units()), 1f.Units(), 1, Color.Yellow);
-
-            var p0 = new OrbitingBody(this, sun, 5f.Units(), Direction2.Zero, 0.5f.Units(), 0.25f, Color.Blue);
-            var p1 = new OrbitingBody(this, sun, 9f.Units(), Direction2.Zero, 0.5f.Units(), 0.25f, Color.Green);
-
-            var m0 = new OrbitingBody(this, p0, 1f.Units(), Direction2.Zero, 0.1f.Units(), 0.01f, Color.Gray);
-
-            for (int x = 0; x < 100; x++)
-                for (int y = 0; y < 100; y++)
-                {
-                    var p = new Position2(new Vector2(x * 0.2f - 10, y * 0.2f - 10));
-
-                    new FreeObject(this, p,
-                        new Velocity2(    
-                            p.Vector.PerpendicularLeft.Normalized() * (Constants.G / p.Vector.Length).Sqrted()
-                        ));
-                }
         }
 
         public void Update(UpdateEventArgs e)

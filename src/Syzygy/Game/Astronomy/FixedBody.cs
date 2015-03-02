@@ -6,6 +6,7 @@ namespace Syzygy.Game.Astronomy
 {
     sealed class FixedBody : GameObject, IBody
     {
+        private readonly Id<IBody> id;
         private readonly Position2 center;
         private readonly Unit radius;
         private readonly float mass;
@@ -14,15 +15,17 @@ namespace Syzygy.Game.Astronomy
         public Circle Shape { get { return new Circle(this.center, this.radius); } }
         public float Mass { get { return this.mass; } }
 
-        public FixedBody(GameState game, Position2 center, Unit radius, float mass, Color color)
+        public FixedBody(GameState game, Id<IBody> id, Position2 center, Unit radius, float mass, Color color)
             : base(game)
         {
+            this.id = id;
             this.center = center;
             this.radius = radius;
             this.mass = mass;
             this.color = color;
 
             game.Bodies.Add(this);
+            game.BodyDictionary.Add(id, this);
         }
 
         public override void Update(TimeSpan t)
