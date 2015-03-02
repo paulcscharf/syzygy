@@ -48,9 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameGeneration\instructions\AssignPlayerToBodyInstruction.cs" />
+    <Compile Include="GameGeneration\instructions\GenerationInstruction.cs" />
+    <Compile Include="GameGeneration\instructions\NewOrbitingBodyInstruction.cs" />
+    <Compile Include="GameGeneration\instructions\IGenerationInstruction.cs" />
+    <Compile Include="GameGeneration\IGenerator.cs" />
     <Compile Include="GameGeneration\networking\GenerationMessageType.cs" />
+    <Compile Include="GameGeneration\instructions\NewFixedBodyInstruction.cs" />
+    <Compile Include="GameGeneration\SimpleGenerator.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\networking\Player.cs" />
+    <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\Client\ConnectingGameHandler.cs" />

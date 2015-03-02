@@ -65,12 +65,12 @@ namespace Syzygy.GameManagement.Client
                         break;
                     }
                     default:
-                        {
-                            Log.Line("unhandled message with type: " + message.MessageType);
-                            if (message.MessageType == NetIncomingMessageType.DebugMessage)
-                                Log.Debug(message.ReadString());
-                            break;
-                        }
+                    {
+                        Log.Line("unhandled message with type: " + message.MessageType);
+                        if (message.MessageType == NetIncomingMessageType.DebugMessage)
+                            Log.Debug(message.ReadString());
+                        break;
+                    }
                 }
                 Log.Line("");
             }
