@@ -7,22 +7,19 @@ using Syzygy.Forms;
 
 namespace Syzygy.GameManagement.Client
 {
-    sealed class LobbyGameHandler : IGameHandler
+    sealed class LobbyGameHandler : GenericGameHandler<NetClient>
     {
         private readonly GameWindow gameWindow;
-        private readonly NetClient client;
         private readonly string playerName;
         private readonly int playerId;
         private readonly List<Player> players = new List<Player>();
         private LobbyForm form;
         private bool addedSelf;
 
-        public event GenericEventHandler<IGameHandler> Stopped;
-
         public LobbyGameHandler(GameWindow gameWindow, NetClient client, string playerName)
+            : base(client)
         {
             this.gameWindow = gameWindow;
-            this.client = client;
             this.playerName = playerName;
             this.playerId = this.client.ServerConnection.RemoteHailMessage.ReadByte();
 
@@ -38,7 +35,7 @@ namespace Syzygy.GameManagement.Client
             this.form = form;
         }
 
-        public void Update(UpdateEventArgs e)
+        public override void Update(UpdateEventArgs e)
         {
             if (this.form == null)
                 return;
@@ -48,35 +45,10 @@ namespace Syzygy.GameManagement.Client
                 this.addedSelf = true;
             }
 
-            NetIncomingMessage message;
-            while ((message = this.client.ReadMessage()) != null)
-            {
-                switch (message.MessageType)
-                {
-                    case NetIncomingMessageType.Data:
-                    {
-                        this.handleData(message);
-                        break;
-                    }
-                    case NetIncomingMessageType.StatusChanged:
-                    {
-                        Log.Warning("status changed to :" + this.client.ConnectionStatus);
-                        Log.Warning("We have no idea yet how to handle that yet.");
-                        break;
-                    }
-                    default:
-                    {
-                        Log.Line("unhandled message with type: " + message.MessageType);
-                        if (message.MessageType == NetIncomingMessageType.DebugMessage)
-                            Log.Debug(message.ReadString());
-                        break;
-                    }
-                }
-                Log.Line("");
-            }
+            base.Update(e);
         }
 
-        private void handleData(NetIncomingMessage message)
+        protected override void onDataMessage(NetIncomingMessage message)
         {
             var type = (LobbyMessageType)message.ReadByte();
             switch (type)

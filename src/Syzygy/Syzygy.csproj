@@ -56,6 +56,7 @@
     <Compile Include="GameGeneration\networking\GenerationMessageType.cs" />
     <Compile Include="GameGeneration\instructions\NewFixedBodyInstruction.cs" />
     <Compile Include="GameGeneration\SimpleGenerator.cs" />
+    <Compile Include="GameManagement\handlers\Client\GenericClientGameHandler.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\networking\Player.cs" />
     <Compile Include="IdManager.cs" />
