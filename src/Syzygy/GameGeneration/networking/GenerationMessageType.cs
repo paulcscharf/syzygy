@@ -6,6 +6,6 @@
         NewFixedBody,
         NewOrbitingBody,
         AssignPlayerToBody,
-        FinishedGenerating,
+        FinishGenerating,
     }
 }

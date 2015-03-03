@@ -5,13 +5,13 @@ using Syzygy.GameManagement.Client;
 
 namespace Syzygy.GameManagement
 {
-    abstract class BuildGameHandler<TPeer> : GenericGameHandler<TPeer>
+    abstract class GenericBuildGameHandler<TPeer> : GenericGameHandler<TPeer>
         where TPeer : NetPeer
     {
         private GameBuilder gameBuilder;
 
-        public BuildGameHandler(TPeer client)
-            : base(client)
+        public GenericBuildGameHandler(TPeer peer)
+            : base(peer)
         {
             this.gameBuilder = new GameBuilder();
         }

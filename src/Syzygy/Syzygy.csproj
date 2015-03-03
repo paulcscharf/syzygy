@@ -56,8 +56,11 @@
     <Compile Include="GameGeneration\networking\GenerationMessageType.cs" />
     <Compile Include="GameGeneration\instructions\NewFixedBodyInstruction.cs" />
     <Compile Include="GameGeneration\SimpleGenerator.cs" />
-    <Compile Include="GameManagement\handlers\Client\GenericClientGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\GenericGameHandler.cs" />
     <Compile Include="GameGeneration\GameBuilder.cs" />
+    <Compile Include="GameManagement\handlers\Server\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Server\ReadyGameHandler.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\networking\Player.cs" />
     <Compile Include="IdManager.cs" />
@@ -69,7 +72,7 @@
     <Compile Include="GameManagement\handlers\IngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Client\LobbyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\LobbyGameHandler.cs" />
-    <Compile Include="GameManagement\handlers\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\GenericBuildGameHandler.cs" />
     <Compile Include="Game\Astronomy\Constants.cs" />
     <Compile Include="Game\Astronomy\FixedBody.cs" />
     <Compile Include="Game\Astronomy\FreeObject.cs" />

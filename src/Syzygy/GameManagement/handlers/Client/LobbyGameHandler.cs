@@ -16,12 +16,12 @@ namespace Syzygy.GameManagement.Client
         private LobbyForm form;
         private bool addedSelf;
 
-        public LobbyGameHandler(GameWindow gameWindow, NetClient client, string playerName)
-            : base(client)
+        public LobbyGameHandler(GameWindow gameWindow, NetClient peer, string playerName)
+            : base(peer)
         {
             this.gameWindow = gameWindow;
             this.playerName = playerName;
-            this.playerId = this.client.ServerConnection.RemoteHailMessage.ReadByte();
+            this.playerId = this.peer.ServerConnection.RemoteHailMessage.ReadByte();
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);
         }

@@ -1,20 +1,20 @@
-﻿using amulware.Graphics;
+using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
 
-namespace Syzygy.GameManagement.Client
+namespace Syzygy.GameManagement
 {
     abstract class GenericGameHandler<TPeer> : IGameHandler
         where TPeer : NetPeer
     {
-        protected readonly TPeer client;
+        protected readonly TPeer peer;
         private bool dontHandleMessages;
 
         public event GenericEventHandler<IGameHandler> Stopped;
 
-        protected GenericGameHandler(TPeer client)
+        protected GenericGameHandler(TPeer peer)
         {
-            this.client = client;
+            this.peer = peer;
         }
 
         public virtual void Update(UpdateEventArgs e)
@@ -23,7 +23,7 @@ namespace Syzygy.GameManagement.Client
                 return;
 
             NetIncomingMessage message;
-            while ((message = this.client.ReadMessage()) != null)
+            while ((message = this.peer.ReadMessage()) != null)
             {
                 switch (message.MessageType)
                 {
@@ -57,6 +57,11 @@ namespace Syzygy.GameManagement.Client
             }
             else
                 Log.Line("unhandled message with type: " + message.MessageType);
+        }
+
+        protected void stop(IGameHandler handler)
+        {
+            this.Stopped(handler);
         }
 
         protected void stopMessageHandling()
