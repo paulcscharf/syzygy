@@ -9,7 +9,7 @@ namespace Syzygy.GameManagement
     {
         private GameBuilder gameBuilder;
 
-        public GenericBuildGameHandler(TPeer peer, PlayerList players)
+        public GenericBuildGameHandler(TPeer peer, PlayerLookup players)
             : base(peer)
         {
             this.gameBuilder = new GameBuilder(players);

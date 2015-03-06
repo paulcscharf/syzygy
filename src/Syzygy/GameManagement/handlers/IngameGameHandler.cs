@@ -8,9 +8,9 @@ namespace Syzygy.GameManagement
     sealed class IngameGameHandler : GenericGameHandler<NetPeer>, IGameDrawer
     {
         private readonly GameState game;
-        private readonly PlayerList players;
+        private readonly PlayerLookup players;
 
-        public IngameGameHandler(NetPeer peer, GameState game, PlayerList players)
+        public IngameGameHandler(NetPeer peer, GameState game, PlayerLookup players)
             : base(peer)
         {
             this.game = game;

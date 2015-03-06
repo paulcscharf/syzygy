@@ -10,18 +10,18 @@ namespace Syzygy.GameManagement.Server
 {
     sealed class BuildGameHandler : GenericBuildGameHandler<NetServer>
     {
-        private readonly PlayerList players;
+        private readonly PlayerLookup players;
+        private readonly PlayerConnectionLookup connections;
         private GameState game;
 
-        public BuildGameHandler(NetServer server, PlayerList players)
+        public BuildGameHandler(NetServer server, PlayerLookup players, PlayerConnectionLookup connections)
             : base(server, players)
         {
             this.players = players;
+            this.connections = connections;
             var generator = new SimpleGenerator();
 
             var instructions = generator.Generate(players.Select(p => p.ID).ToList());
-
-            var playerConnections = players.Select(p => p.Connection).NotNull().ToList();
 
             // instructions may want to be spaced out in time in the future,
             // to prevent packet loss, and thus longer building time
@@ -30,29 +30,29 @@ namespace Syzygy.GameManagement.Server
                 // build own game
                 this.executeInstruction(instruction);
 
-                if (playerConnections.Count > 0)
+                if (connections.Count > 0)
                 {
                     // instruct clients how to build game
                     var message = server.CreateMessage();
                     instruction.WriteMessage(message);
-                    server.SendMessage(message, playerConnections, NetDeliveryMethod.ReliableOrdered, 0);
+                    server.SendMessage(message, connections, NetDeliveryMethod.ReliableOrdered, 0);
                 }
             }
 
             // send finish message and finish
             this.game = this.finish();
 
-            if (playerConnections.Count > 0)
+            if (connections.Count > 0)
             {
                 var finishMessage = server.CreateMessage();
                 finishMessage.Write((byte)GenerationMessageType.FinishGenerating);
-                server.SendMessage(finishMessage, playerConnections, NetDeliveryMethod.ReliableOrdered, 0);
+                server.SendMessage(finishMessage, connections, NetDeliveryMethod.ReliableOrdered, 0);
             }
         }
 
         public override void Update(UpdateEventArgs e)
         {
-            this.stop(new ReadyGameHandler(this.peer, game, players));
+            this.stop(new ReadyGameHandler(this.peer, this.game, this.players, this.connections));
         }
     }
 }

@@ -7,9 +7,9 @@ namespace Syzygy.GameManagement.Client
     sealed class ReadyGameHandler : GenericGameHandler<NetClient>
     {
         private readonly GameState game;
-        private readonly PlayerList players;
+        private readonly PlayerLookup players;
 
-        public ReadyGameHandler(NetClient client, GameState game, PlayerList players)
+        public ReadyGameHandler(NetClient client, GameState game, PlayerLookup players)
             : base(client)
         {
             this.game = game;

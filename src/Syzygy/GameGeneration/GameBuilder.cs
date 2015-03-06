@@ -6,11 +6,11 @@ namespace Syzygy.GameGeneration
 {
     class GameBuilder
     {
-        private readonly PlayerList players;
+        private readonly PlayerLookup players;
         private readonly GameState game = new GameState();
         private bool finished;
 
-        public GameBuilder(PlayerList players)
+        public GameBuilder(PlayerLookup players)
         {
             this.players = players;
         }

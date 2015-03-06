@@ -5,9 +5,9 @@ namespace Syzygy.GameManagement.Client
 {
     sealed class BuildGameHandler : GenericBuildGameHandler<NetClient>
     {
-        private readonly PlayerList players;
+        private readonly PlayerLookup players;
 
-        public BuildGameHandler(NetClient peer, PlayerList players)
+        public BuildGameHandler(NetClient peer, PlayerLookup players)
             : base(peer, players)
         {
             this.players = players;
@@ -24,7 +24,7 @@ namespace Syzygy.GameManagement.Client
                 readyMessage.Write((byte)GameGenerationMessageType.PlayerReady);
                 this.peer.SendMessage(readyMessage, NetDeliveryMethod.ReliableOrdered);
 
-                this.stop(new ReadyGameHandler(this.peer, game, players));
+                this.stop(new ReadyGameHandler(this.peer, game, this.players));
             }
             else
             {

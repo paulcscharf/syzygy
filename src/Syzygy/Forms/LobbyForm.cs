@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Bearded.Utilities;
+using Syzygy.Game;
 using Syzygy.GameManagement;
 using Environment = System.Environment;
 

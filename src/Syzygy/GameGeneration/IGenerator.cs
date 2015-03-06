@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Syzygy.Game;
 using Syzygy.GameManagement;
 
 namespace Syzygy.GameGeneration

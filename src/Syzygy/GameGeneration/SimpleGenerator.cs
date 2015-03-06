@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using Syzygy.Game;
 using Syzygy.Game.Astronomy;
 using Syzygy.GameManagement;
 

@@ -66,8 +66,9 @@
     <Compile Include="GameManagement\IGameDrawer.cs" />
     <Compile Include="GameManagement\networking\GameGenerationMessageType.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
-    <Compile Include="GameManagement\Player.cs" />
-    <Compile Include="GameManagement\PlayerList.cs" />
+    <Compile Include="GameManagement\PlayerConnectionLookup.cs" />
+    <Compile Include="Game\Player.cs" />
+    <Compile Include="GameManagement\PlayerLookup.cs" />
     <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />

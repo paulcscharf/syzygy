@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
 using Syzygy.Forms;
+using Syzygy.Game;
 
 namespace Syzygy.GameManagement.Client
 {
@@ -10,7 +12,7 @@ namespace Syzygy.GameManagement.Client
     {
         private readonly GameWindow gameWindow;
         private readonly Player me;
-        private readonly PlayerList players = new PlayerList(false);
+        private readonly List<Player> players = new List<Player>();
         private LobbyForm form;
         private bool addedSelf;
 
@@ -21,7 +23,7 @@ namespace Syzygy.GameManagement.Client
 
             var myId = this.peer.ServerConnection.RemoteHailMessage.Read<Id>().Generic<Player>();
 
-            this.me = new Player(myId, playerName, null);
+            this.me = new Player(myId, playerName);
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);
         }
@@ -83,12 +85,12 @@ namespace Syzygy.GameManagement.Client
         private void startGameBuilding()
         {
             this.gameWindow.UIActionQueue.RunAndForget(() => this.form.Close());
-            this.stop(new BuildGameHandler(this.peer, this.players));
+            this.stop(new BuildGameHandler(this.peer, new PlayerLookup(this.players)));
         }
 
         private void addPlayer(Id<Player> id, string name)
         {
-            this.players.Add(new Player(id, name, null));
+            this.players.Add(new Player(id, name));
             this.form.Invoke(new Action(() =>
                 this.form.AddPlayer(id, name)
                 ));
