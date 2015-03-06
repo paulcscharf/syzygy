@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Bearded.Utilities;
+using Syzygy.GameManagement;
 using Environment = System.Environment;
 
 namespace Syzygy.Forms
 {
-    public partial class LobbyForm : Form
+    partial class LobbyForm : Form
     {
-        private readonly Dictionary<int, string> players = new Dictionary<int, string>();
+        private readonly Dictionary<Id<Player>, string> players = new Dictionary<Id<Player>, string>();
+
+        public event VoidEventHandler Started;
 
         public LobbyForm(bool isServer)
         {
@@ -15,10 +19,16 @@ namespace Syzygy.Forms
             this.startButton.Enabled = isServer;
         }
 
-        public void AddPlayer(int id, string name)
+        public void AddPlayer(Id<Player> id, string name)
         {
             this.players.Add(id, name);
             this.playersTextBox.AppendText(name + Environment.NewLine);
+        }
+
+        private void startButton_Click(object sender, System.EventArgs e)
+        {
+            if (this.Started != null)
+                this.Started();
         }
     }
 }

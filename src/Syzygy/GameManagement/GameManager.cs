@@ -8,6 +8,7 @@ namespace Syzygy.GameManagement
     {
         private readonly GameWindow gameWindow;
         private IGameHandler gameHandler;
+        private IGameDrawer gameDrawer;
 
         public GameManager(GameWindow gameWindow)
         {
@@ -24,6 +25,9 @@ namespace Syzygy.GameManagement
                 this.gameHandler.Stopped -= this.setGameHandler;
 
             this.gameHandler = handler;
+
+            this.gameDrawer = handler as IGameDrawer;
+
             this.gameHandler.Stopped += this.setGameHandler;
         }
 
@@ -34,7 +38,8 @@ namespace Syzygy.GameManagement
 
         public void Render(RenderManager renderMan)
         {
-            
+            if(this.gameDrawer != null)
+                this.gameDrawer.Render(renderMan);
         }
     }
 }

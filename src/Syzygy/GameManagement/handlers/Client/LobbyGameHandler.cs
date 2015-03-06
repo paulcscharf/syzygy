@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Lidgren.Network;
@@ -10,9 +9,8 @@ namespace Syzygy.GameManagement.Client
     sealed class LobbyGameHandler : GenericGameHandler<NetClient>
     {
         private readonly GameWindow gameWindow;
-        private readonly string playerName;
-        private readonly int playerId;
-        private readonly List<Player> players = new List<Player>();
+        private readonly Player me;
+        private readonly PlayerList players = new PlayerList(false);
         private LobbyForm form;
         private bool addedSelf;
 
@@ -20,8 +18,10 @@ namespace Syzygy.GameManagement.Client
             : base(peer)
         {
             this.gameWindow = gameWindow;
-            this.playerName = playerName;
-            this.playerId = this.peer.ServerConnection.RemoteHailMessage.ReadByte();
+
+            var myId = this.peer.ServerConnection.RemoteHailMessage.Read<Id>().Generic<Player>();
+
+            this.me = new Player(myId, playerName, null);
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);
         }
@@ -41,7 +41,7 @@ namespace Syzygy.GameManagement.Client
                 return;
             if (!this.addedSelf)
             {
-                this.addPlayer(this.playerId, this.playerName);
+                this.addPlayer(this.me.ID, this.me.Name);
                 this.addedSelf = true;
             }
 
@@ -55,7 +55,7 @@ namespace Syzygy.GameManagement.Client
             {
                 case LobbyMessageType.NewPlayer:
                 {
-                    this.addPlayer(message.ReadByte(), message.ReadString());
+                    this.addPlayer(message.Read<Id>().Generic<Player>(), message.ReadString());
                     break;
                 }
                 case LobbyMessageType.NewPlayers:
@@ -63,8 +63,13 @@ namespace Syzygy.GameManagement.Client
                     var count = message.ReadByte();
                     for (int i = 0; i < count; i++)
                     {
-                        this.addPlayer(message.ReadByte(), message.ReadString());
+                        this.addPlayer(message.Read<Id>().Generic<Player>(), message.ReadString());
                     }
+                    break;
+                }
+                case LobbyMessageType.StartGameBuilding:
+                {
+                    this.startGameBuilding();
                     break;
                 }
                 default:
@@ -75,7 +80,13 @@ namespace Syzygy.GameManagement.Client
             }
         }
 
-        private void addPlayer(int id, string name)
+        private void startGameBuilding()
+        {
+            this.gameWindow.UIActionQueue.RunAndForget(() => this.form.Close());
+            this.stop(new BuildGameHandler(this.peer, this.players));
+        }
+
+        private void addPlayer(Id<Player> id, string name)
         {
             this.players.Add(new Player(id, name, null));
             this.form.Invoke(new Action(() =>

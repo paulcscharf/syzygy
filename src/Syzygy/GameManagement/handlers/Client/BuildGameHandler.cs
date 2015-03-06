@@ -1,13 +1,16 @@
-﻿using Lidgren.Network;
+using Lidgren.Network;
 using Syzygy.GameGeneration;
 
 namespace Syzygy.GameManagement.Client
 {
     sealed class BuildGameHandler : GenericBuildGameHandler<NetClient>
     {
-        public BuildGameHandler(NetClient peer)
-            : base(peer)
+        private readonly PlayerList players;
+
+        public BuildGameHandler(NetClient peer, PlayerList players)
+            : base(peer, players)
         {
+            this.players = players;
         }
 
         protected override void onDataMessage(NetIncomingMessage message)
@@ -16,8 +19,12 @@ namespace Syzygy.GameManagement.Client
             if (type == GenerationMessageType.FinishGenerating)
             {
                 var game = this.finish();
-                // todo: send ready message and go into waiting loop
-                this.stopMessageHandling();
+
+                var readyMessage = this.peer.CreateMessage();
+                readyMessage.Write((byte)GameGenerationMessageType.PlayerReady);
+                this.peer.SendMessage(readyMessage, NetDeliveryMethod.ReliableOrdered);
+
+                this.stop(new ReadyGameHandler(this.peer, game, players));
             }
             else
             {

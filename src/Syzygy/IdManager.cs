@@ -1,11 +1,31 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Syzygy
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct Id
+    {
+        private readonly int value;
+
+        public Id(int value)
+        {
+            this.value = value;
+        }
+
+        public Id<T> Generic<T>()
+        {
+            return new Id<T>(this.value);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Id<T> : IEquatable<Id<T>>
     {
         private readonly int value;
+
+        public Id Simple { get { return new Id(this.value); } } 
 
         public Id(int value)
         {
@@ -41,9 +61,12 @@ namespace Syzygy
         {
             int i;
             var type = typeof (T);
-            this.lastIds.TryGetValue(type, out i);
-            i++;
-            this.lastIds[type] = i;
+            lock (lastIds)
+            {
+                this.lastIds.TryGetValue(type, out i);
+                i++;
+                this.lastIds[type] = i;
+            }
             return new Id<T>(i);
         }
     }

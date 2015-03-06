@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,12 +58,16 @@
     <Compile Include="GameGeneration\instructions\NewFixedBodyInstruction.cs" />
     <Compile Include="GameGeneration\SimpleGenerator.cs" />
     <Compile Include="GameManagement\handlers\Client\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\ReadyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\GenericGameHandler.cs" />
     <Compile Include="GameGeneration\GameBuilder.cs" />
     <Compile Include="GameManagement\handlers\Server\BuildGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\ReadyGameHandler.cs" />
+    <Compile Include="GameManagement\IGameDrawer.cs" />
+    <Compile Include="GameManagement\networking\GameGenerationMessageType.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
-    <Compile Include="GameManagement\networking\Player.cs" />
+    <Compile Include="GameManagement\Player.cs" />
+    <Compile Include="GameManagement\PlayerList.cs" />
     <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />

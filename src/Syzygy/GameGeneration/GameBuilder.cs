@@ -1,12 +1,19 @@
 using System;
 using Syzygy.Game;
+using Syzygy.GameManagement;
 
 namespace Syzygy.GameGeneration
 {
     class GameBuilder
     {
+        private readonly PlayerList players;
         private readonly GameState game = new GameState();
         private bool finished;
+
+        public GameBuilder(PlayerList players)
+        {
+            this.players = players;
+        }
 
         public void Execute(IGenerationInstruction instruction)
         {

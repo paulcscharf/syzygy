@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using amulware.Graphics;
 using Bearded.Utilities;
+using Bearded.Utilities.Linq;
 using Lidgren.Network;
 using Syzygy.Forms;
 
@@ -10,18 +10,26 @@ namespace Syzygy.GameManagement.Server
 {
     sealed class LobbyGameHandler : IGameHandler
     {
+        private enum LobbyStatus
+        {
+            Waiting = 0,
+            Starting = 1
+        }
 
-        private int lastPlayerId;
+        private LobbyStatus status = LobbyStatus.Waiting;
+
+        private readonly IdManager idMan = new IdManager();
 
         private readonly GameWindow gameWindow;
-        private readonly List<Player> players = new List<Player>();
+        private readonly PlayerList players = new PlayerList(true);
+        private readonly Player me;
         private NetServer server;
         private LobbyForm form;
 
         public LobbyGameHandler(GameWindow gameWindow, string playerName)
         {
             this.gameWindow = gameWindow;
-            this.players.Add(new Player(this.newPlayerId(), playerName, null));
+            this.players.Add(this.me = new Player(idMan.GetNext<Player>(), playerName, null));
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);
         }
@@ -30,12 +38,19 @@ namespace Syzygy.GameManagement.Server
         {
             var form  = new LobbyForm(true);
 
-            var me = this.players[0];
-            form.AddPlayer(me.ID, me.Name);
+            form.AddPlayer(this.me.ID, this.me.Name);
 
             form.Show();
 
+            form.Started += this.clickedStart;
+
             this.form = form;
+        }
+
+        private void clickedStart()
+        {
+            this.form.Close();
+            this.status = LobbyStatus.Starting;
         }
 
         public event GenericEventHandler<IGameHandler> Stopped;
@@ -47,6 +62,19 @@ namespace Syzygy.GameManagement.Server
             if (this.server == null)
             {
                 this.startServer();
+            }
+
+            if (this.status != LobbyStatus.Waiting)
+            {
+                switch (status)
+                {
+                    case LobbyStatus.Starting:
+                        this.startGame();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                return;
             }
 
             NetIncomingMessage message;
@@ -73,6 +101,30 @@ namespace Syzygy.GameManagement.Server
                     }
                 }
             }
+        }
+
+        private void startGame()
+        {
+            var connectionsToKill = this.players
+                .Where(p => p.Connection != null &&
+                    p.Connection.Status != NetConnectionStatus.Connected)
+                .ToList();
+            foreach (var player in connectionsToKill)
+            {
+                player.Connection.Disconnect("");
+                this.players.Remove(player);
+            }
+
+            var connectionsLeft = this.players.Select(p => p.Connection).NotNull().ToList();
+
+            if (connectionsLeft.Count > 0)
+            {
+                var startMessage = this.server.CreateMessage();
+                startMessage.Write((byte)LobbyMessageType.StartGameBuilding);
+                this.server.SendMessage(startMessage, connectionsLeft, NetDeliveryMethod.ReliableOrdered, 0);
+            }
+
+            this.Stopped(new BuildGameHandler(this.server, this.players));
         }
 
         private void startServer()
@@ -111,7 +163,7 @@ namespace Syzygy.GameManagement.Server
 
             var newPlayerMessage = this.server.CreateMessage();
             newPlayerMessage.Write((byte)LobbyMessageType.NewPlayer);
-            newPlayerMessage.Write((byte)newPlayer.ID);
+            newPlayerMessage.Write(newPlayer.ID.Simple);
             newPlayerMessage.Write(newPlayer.Name);
             
             var otherClients = this.players
@@ -129,7 +181,7 @@ namespace Syzygy.GameManagement.Server
             foreach (var p in this.players.Where(p => p.Connection != connection))
             {
                 // collect all players
-                allOthersMessage.Write((byte)p.ID);
+                allOthersMessage.Write(p.ID.Simple);
                 allOthersMessage.Write(p.Name);
             }
             // tell this client about other players
@@ -155,20 +207,14 @@ namespace Syzygy.GameManagement.Server
             }
             message.SenderConnection.Deny();
         }
-
-        private int newPlayerId()
-        {
-            return ++this.lastPlayerId;
-        }
-
         private void approveClient(NetConnection connection, string name)
         {
-            var p = new Player(this.newPlayerId(), name, connection);
+            var p = new Player(this.idMan.GetNext<Player>(), name, connection);
             this.players.Add(p);
 
             var message = this.server.CreateMessage(4);
 
-            message.Write((byte)p.ID);
+            message.Write(p.ID.Simple);
             connection.Approve(message);
         }
     }

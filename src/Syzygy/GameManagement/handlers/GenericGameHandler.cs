@@ -61,6 +61,7 @@ namespace Syzygy.GameManagement
 
         protected void stop(IGameHandler handler)
         {
+            this.dontHandleMessages = true;
             this.Stopped(handler);
         }
 

@@ -1,7 +1,6 @@
 using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.GameGeneration;
-using Syzygy.GameManagement.Client;
 
 namespace Syzygy.GameManagement
 {
@@ -10,10 +9,10 @@ namespace Syzygy.GameManagement
     {
         private GameBuilder gameBuilder;
 
-        public GenericBuildGameHandler(TPeer peer)
+        public GenericBuildGameHandler(TPeer peer, PlayerList players)
             : base(peer)
         {
-            this.gameBuilder = new GameBuilder();
+            this.gameBuilder = new GameBuilder(players);
         }
 
         protected void executeInstruction(IGenerationInstruction instruction)
