@@ -27,7 +27,7 @@ namespace Syzygy.Game
 
         public void Update(UpdateEventArgs e)
         {
-            var elapsed = e.ElapsedTimeInS.Seconds();
+            var elapsed = new TimeSpan(e.ElapsedTimeInS);
 
             this.update(elapsed);
         }

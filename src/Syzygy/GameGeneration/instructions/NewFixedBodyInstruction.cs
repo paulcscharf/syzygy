@@ -15,10 +15,10 @@ namespace Syzygy.GameGeneration
         {
             public readonly Id<IBody> Id; 
             public readonly Position2 Position;
-            public readonly Unit Radius;
+            public readonly Radius Radius;
             public readonly float Mass;
 
-            public Parameters(Id<IBody> id, Position2 position, Unit radius, float mass)
+            public Parameters(Id<IBody> id, Position2 position, Radius radius, float mass)
             {
                 this.Id = id;
                 this.Position = position;
@@ -33,7 +33,7 @@ namespace Syzygy.GameGeneration
         public NewFixedBodyInstruction(Parameters parameters)
             : base(GenerationMessageType.NewFixedBody, parameters) { }
 
-        public NewFixedBodyInstruction(Id<IBody> id, Position2 position, Unit radius, float mass)
+        public NewFixedBodyInstruction(Id<IBody> id, Position2 position, Radius radius, float mass)
             : this(new Parameters(id, position, radius, mass)) { }
 
         public override void Execute(GameState game)

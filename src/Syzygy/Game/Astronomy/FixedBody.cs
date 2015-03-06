@@ -8,14 +8,14 @@ namespace Syzygy.Game.Astronomy
     {
         private readonly Id<IBody> id;
         private readonly Position2 center;
-        private readonly Unit radius;
+        private readonly Radius radius;
         private readonly float mass;
         private readonly Color color;
 
         public Circle Shape { get { return new Circle(this.center, this.radius); } }
         public float Mass { get { return this.mass; } }
 
-        public FixedBody(GameState game, Id<IBody> id, Position2 center, Unit radius, float mass, Color color)
+        public FixedBody(GameState game, Id<IBody> id, Position2 center, Radius radius, float mass, Color color)
             : base(game)
         {
             this.id = id;

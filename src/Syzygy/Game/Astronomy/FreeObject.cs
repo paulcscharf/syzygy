@@ -36,14 +36,14 @@ namespace Syzygy.Game.Astronomy
 
                 var distanceSquared = difference.LengthSquared;
 
-                if (distanceSquared < shape.Radius.NumericValue.Squared())
+                if (distanceSquared < shape.Radius.Squared)
                 {
                     this.hitBody(body);
                     if(this.Deleted)
                         return;
                 }
 
-                var a = Constants.G * body.Mass / distanceSquared;
+                var a = Constants.G * body.Mass / distanceSquared.NumericValue;
 
                 var dirNormal = difference.Direction.Vector;
 

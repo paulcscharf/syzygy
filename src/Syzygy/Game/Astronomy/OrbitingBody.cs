@@ -10,9 +10,9 @@ namespace Syzygy.Game.Astronomy
     {
         private readonly Id<IBody> id;
         private readonly IBody parent;
-        private readonly Unit orbitRadius;
+        private readonly Radius orbitRadius;
         private Direction2 orbitDirection;
-        private readonly Unit radius;
+        private readonly Radius radius;
         private readonly float mass;
         private readonly Color color;
 
@@ -21,7 +21,7 @@ namespace Syzygy.Game.Astronomy
         private Position2 center;
 
         public OrbitingBody(GameState game, Id<IBody> id, IBody parent,
-            Unit orbitRadius, Direction2 orbitDirection, Unit radius, float mass, Color color)
+            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
             : base(game)
         {
             this.id = id;
@@ -42,7 +42,7 @@ namespace Syzygy.Game.Astronomy
         }
 
         public OrbitingBody(GameState game, Id<IBody> id, Id<IBody> parentId,
-            Unit orbitRadius, Direction2 orbitDirection, Unit radius, float mass, Color color)
+            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
             : this(game, id, game.BodyDictionary[parentId], orbitRadius, orbitDirection, radius, mass, color)
         {
         }

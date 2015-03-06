@@ -13,11 +13,11 @@ namespace Syzygy.GameGeneration
 
             var sun = idMan.GetNext<IBody>();
 
-            yield return new NewFixedBodyInstruction(sun, new Position2(), 1f.Units(), 1f);
+            yield return new NewFixedBodyInstruction(sun, new Position2(), Radius.FromValue(1), 1f);
 
             var planet = idMan.GetNext<IBody>();
 
-            yield return new NewOrbitingBodyInstruction(planet, sun, 5f.Units(), Direction2.Zero, 1f.Units(), 1f);
+            yield return new NewOrbitingBodyInstruction(planet, sun, Radius.FromValue(5), Direction2.Zero, Radius.FromValue(1), 1f);
         }
     }
 }
