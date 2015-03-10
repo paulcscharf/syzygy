@@ -28,7 +28,7 @@ namespace Syzygy.Game
 
         private readonly PlayerLookup players;
         private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
-        private readonly DeletableObjectList<FreeObject> freeObjects = new DeletableObjectList<FreeObject>();
+        private readonly DeletableObjectDictionary<FreeObject> freeObjects = new DeletableObjectDictionary<FreeObject>();
 
         #endregion
 
@@ -55,10 +55,11 @@ namespace Syzygy.Game
 
 
             this.deletableDictionaries = new Dictionary<Type, object>{
-                { typeof (IBody), this.bodies }
+                { typeof (IBody), this.bodies },
+                { typeof(FreeObject), this.freeObjects },
             };
             this.deletableLists = new Dictionary<Type, object>{
-                { typeof(FreeObject), this.freeObjects }
+                // no lists? :(
             };
         }
 

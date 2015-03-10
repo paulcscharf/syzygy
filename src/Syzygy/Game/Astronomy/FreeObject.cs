@@ -6,7 +6,7 @@ using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy.Game.Astronomy
 {
-    class FreeObject : GameObject
+    class FreeObject : GameObject<FreeObject>
     {
         private Position2 position;
         private Velocity2 velocity;
@@ -14,13 +14,11 @@ namespace Syzygy.Game.Astronomy
         public Position2 Position { get { return this.position; } }
         public Velocity2 Velocity { get { return this.velocity; } }
 
-        public FreeObject(GameState game, Position2 position, Velocity2 velocity)
-            : base(game)
+        public FreeObject(GameState game, Id<FreeObject> id, Position2 position, Velocity2 velocity)
+            : base(game, id)
         {
             this.position = position;
             this.velocity = velocity;
-
-            this.listAs<FreeObject>();
         }
 
         public override void Update(TimeSpan t)
