@@ -19,19 +19,31 @@ namespace Syzygy.Game
         private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
         public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
 
+        private readonly DeletableObjectList<FreeObject> freeObjects = new DeletableObjectList<FreeObject>();
+
         private readonly Dictionary<Type, object> deletableDictionaries;
+        private readonly Dictionary<Type, object> deletableLists;
 
         public GameState()
         {
             this.deletableDictionaries = new Dictionary<Type, object>{
                 { typeof (IBody), this.bodies }
             };
+            this.deletableLists = new Dictionary<Type, object>{
+                { typeof(FreeObject), this.freeObjects }
+            };
         }
 
-        public DeletableObjectDictionary<TId> List<TId>()
-            where TId : class, IDeletable<TId>
+        public DeletableObjectDictionary<TId> IdDictionary<TId>()
+            where TId : class, IIdable<TId>, IDeletable
         {
             return (DeletableObjectDictionary<TId>)this.deletableDictionaries[typeof (TId)];
+        }
+
+        public DeletableObjectList<T> List<T>()
+            where T : class, Bearded.Utilities.Collections.IDeletable
+        {
+            return (DeletableObjectList<T>)this.deletableLists[typeof (T)];
         }
 
         public void Update(UpdateEventArgs e)

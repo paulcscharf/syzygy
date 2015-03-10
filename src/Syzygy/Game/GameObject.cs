@@ -1,13 +1,12 @@
 using System;
 using Bearded.Utilities;
-using Bearded.Utilities.Collections;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy.Game
 {
-    abstract class GameObject<TId> : GameObject, IDeletable<TId>
-        where TId : class, IDeletable<TId>
+    abstract class GameObject<TId> : GameObject, IIdable<TId>
+        where TId : class, IIdable<TId>, IDeletable
     {
         private readonly Id<TId> id;
 
@@ -15,7 +14,7 @@ namespace Syzygy.Game
             : base(game)
         {
             this.id = id;
-            this.listAs<TId>();
+            this.idAs<TId>();
         }
 
         public Id<TId> Id { get { return this.id; } }
@@ -30,7 +29,7 @@ namespace Syzygy.Game
         }
     }
 
-    abstract class GameObject : IDeletable
+    abstract class GameObject : Bearded.Utilities.Collections.IDeletable
     {
         private readonly GameState _game;
 
@@ -42,14 +41,23 @@ namespace Syzygy.Game
             game.Add(this);
         }
 
-        protected void listAs<TId>()
-            where TId : class, IDeletable<TId>
+        protected void idAs<TId>()
+            where TId : class, IIdable<TId>, IDeletable
         {
-            var asTOtherId = this as TId;
-            if (asTOtherId == null)
-                throw new Exception("This instance must inherit from the given id type.");
+            var asTId = this as TId;
+            if (asTId == null)
+                throw new Exception("This instance must inherit from the given id-able interface.");
 
-            this.game.List<TId>().Add(asTOtherId);
+            this.game.IdDictionary<TId>().Add(asTId);
+        }
+        protected void listAs<T>()
+            where T : class, Bearded.Utilities.Collections.IDeletable
+        {
+            var asT = this as T;
+            if (asT == null)
+                throw new Exception("This instance must inherit from the given deletable interface.");
+
+            this.game.List<T>().Add(asT);
         }
 
         public bool Deleted { get; private set; }

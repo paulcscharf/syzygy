@@ -1,9 +1,6 @@
-using System;
 using amulware.Graphics;
-using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using OpenTK;
-using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
@@ -22,6 +19,8 @@ namespace Syzygy.Game.Astronomy
         {
             this.position = position;
             this.velocity = velocity;
+
+            this.listAs<FreeObject>();
         }
 
         public override void Update(TimeSpan t)

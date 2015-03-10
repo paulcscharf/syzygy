@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bearded.Utilities;
@@ -6,15 +6,19 @@ using Bearded.Utilities.Collections;
 
 namespace Syzygy
 {
-    interface IDeletable<TId> : IDeletable
-        where TId : IDeletable<TId>
+    interface IIdable<TId>
+        where TId : IIdable<TId>
     {
         Id<TId> Id { get; }
+    }
+
+    interface IDeletable : Bearded.Utilities.Collections.IDeletable
+    {
         event VoidEventHandler Deleting;
     }
 
     sealed class DeletableObjectDictionary<TId> : IEnumerable<TId>
-        where TId : class, IDeletable<TId>
+        where TId : class, IIdable<TId>, IDeletable
     {
         private readonly DeletableObjectList<TId> list = new DeletableObjectList<TId>();
         private readonly Dictionary<Id<TId>, TId> dictionary = new Dictionary<Id<TId>, TId>();
