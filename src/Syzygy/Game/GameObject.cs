@@ -18,22 +18,17 @@ namespace Syzygy.Game
         }
 
         public Id<TId> Id { get { return this.id; } }
-
-        public event VoidEventHandler Deleting;
-
-        new protected void delete()
-        {
-            if(this.Deleting != null)
-                this.Deleting();
-            base.delete();
-        }
     }
 
-    abstract class GameObject : Bearded.Utilities.Collections.IDeletable
+    abstract class GameObject : IDeletable
     {
         private readonly GameState _game;
 
         protected GameState game { get { return this._game; } }
+
+        public event VoidEventHandler Deleting;
+
+        public bool Deleted { get; private set; }
 
         public GameObject(GameState game)
         {
@@ -60,14 +55,14 @@ namespace Syzygy.Game
             this.game.List<T>().Add(asT);
         }
 
-        public bool Deleted { get; private set; }
-
         public abstract void Update(TimeSpan t);
 
         public abstract void Draw(GeometryManager geos);
 
         protected void delete()
         {
+            if (this.Deleting != null)
+                this.Deleting();
             this.Deleted = true;
         }
     }
