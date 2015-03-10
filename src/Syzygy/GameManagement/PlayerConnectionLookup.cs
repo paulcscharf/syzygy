@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Lidgren.Network;
 using Syzygy.Game;
@@ -33,7 +33,12 @@ namespace Syzygy.GameManagement
         }
         public NetConnection this[Id<Player> id]
         {
-            get { return this.idToConnection[id]; }
+            get
+            {
+                NetConnection c;
+                this.idToConnection.TryGetValue(id, out c);
+                return c;
+            }
         }
 
         public IEnumerator<NetConnection> GetEnumerator()

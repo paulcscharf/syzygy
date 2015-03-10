@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Bearded.Utilities;
 
 namespace Syzygy
 {
@@ -37,7 +38,7 @@ namespace Syzygy
         }
         public bool Equals(Id<T> other)
         {
-            return other.value.Equals(other.value);
+            return this.value.Equals(other.value);
         }
         public override bool Equals(object obj)
         {
@@ -67,6 +68,7 @@ namespace Syzygy
                 i++;
                 this.lastIds[type] = i;
             }
+            Log.Debug("{0} id: {1}", typeof(T), i);
             return new Id<T>(i);
         }
     }

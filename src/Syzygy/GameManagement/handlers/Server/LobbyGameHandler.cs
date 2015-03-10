@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using amulware.Graphics;
 using Bearded.Utilities;
 using Bearded.Utilities.Linq;
@@ -32,7 +33,7 @@ namespace Syzygy.GameManagement.Server
         public LobbyGameHandler(GameWindow gameWindow, string playerName)
         {
             this.gameWindow = gameWindow;
-            this.players.Add(this.me = new Player(idMan.GetNext<Player>(), playerName));
+            this.players.Add(this.me = new Player(this.idMan.GetNext<Player>(), playerName));
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);
         }
@@ -182,9 +183,12 @@ namespace Syzygy.GameManagement.Server
             var allOthersMessage = this.server.CreateMessage();
             allOthersMessage.Write((byte)LobbyMessageType.NewPlayers);
             allOthersMessage.Write((byte)(otherClientConnections.Count + 1));
-            foreach (var p in this.players
-                .Where(p => p.ID != newPlayerId &&
-                    this.connections[p.ID].Status == NetConnectionStatus.Connected))
+            foreach (var p in this.players.Where(p => p.ID != newPlayerId)
+                .Where(p =>
+                {
+                    var c = this.connections[p.ID];
+                    return c == null || c.Status == NetConnectionStatus.Connected;
+                }))
             {
                 // collect all players
                 allOthersMessage.Write(p.ID.Simple);
