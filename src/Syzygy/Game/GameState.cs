@@ -4,6 +4,7 @@ using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Game.Astronomy;
+using Syzygy.GameManagement;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
@@ -11,27 +12,65 @@ namespace Syzygy.Game
 {
     sealed class GameState
     {
-        private Instant time = Instant.Zero;
+        #region Fields
 
-        // more info on this collection at http://genericgamedev.com/general/on-collections
-        private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
-
-        private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
-        public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
-
-        private readonly DeletableObjectList<FreeObject> freeObjects = new DeletableObjectList<FreeObject>();
+        #region Bookkeeping
 
         private readonly Dictionary<Type, object> deletableDictionaries;
         private readonly Dictionary<Type, object> deletableLists;
 
-        public GameState()
+        #endregion
+
+        #region Lists and Dictionaries
+
+        // more info on this collection at http://genericgamedev.com/general/on-collections
+        private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
+
+        private readonly PlayerLookup players;
+        private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
+        private readonly DeletableObjectList<FreeObject> freeObjects = new DeletableObjectList<FreeObject>();
+
+        #endregion
+
+        #region State
+
+        private Instant time = Instant.Zero;
+
+        #endregion
+
+        #endregion
+
+        #region Properties
+
+        public PlayerLookup Players { get { return this.players; } }
+        public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
+
+        #endregion
+
+        #region Constructor
+
+        public GameState(PlayerLookup players)
         {
+            this.players = players;
+
+
             this.deletableDictionaries = new Dictionary<Type, object>{
                 { typeof (IBody), this.bodies }
             };
             this.deletableLists = new Dictionary<Type, object>{
                 { typeof(FreeObject), this.freeObjects }
             };
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Bookkeeping
+
+        public void Add(GameObject gameObject)
+        {
+            this.gameObjects.Add(gameObject);
         }
 
         public DeletableObjectDictionary<TId> IdDictionary<TId>()
@@ -45,6 +84,10 @@ namespace Syzygy.Game
         {
             return (DeletableObjectList<T>)this.deletableLists[typeof (T)];
         }
+
+        #endregion
+
+        #region Update
 
         public void Update(UpdateEventArgs e)
         {
@@ -63,6 +106,10 @@ namespace Syzygy.Game
             }
         }
 
+        #endregion
+
+        #region Draw
+
         public void Draw()
         {
             var geos = GeometryManager.Instance;
@@ -73,9 +120,8 @@ namespace Syzygy.Game
             }
         }
 
-        public void Add(GameObject gameObject)
-        {
-            this.gameObjects.Add(gameObject);
-        }
+        #endregion
+
+        #endregion
     }
 }
