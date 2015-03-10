@@ -1,14 +1,14 @@
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using Microsoft.SqlServer.Server;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy.Game.Astronomy
 {
-    sealed class OrbitingBody : GameObject, IBody
+    sealed class OrbitingBody : GameObject<IBody>, IBody
     {
-        private readonly Id<IBody> id;
         private readonly IBody parent;
         private readonly Radius orbitRadius;
         private Direction2 orbitDirection;
@@ -22,9 +22,8 @@ namespace Syzygy.Game.Astronomy
 
         public OrbitingBody(GameState game, Id<IBody> id, IBody parent,
             Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
-            : base(game)
+            : base(game, id)
         {
-            this.id = id;
             this.parent = parent;
             this.orbitRadius = orbitRadius;
             this.orbitDirection = orbitDirection;
@@ -36,14 +35,11 @@ namespace Syzygy.Game.Astronomy
 
             this.angularVelocity =
                 ((Constants.G * parent.Mass / orbitRadius.NumericValue).Sqrted() / orbitRadius.NumericValue).Radians();
-
-            game.Bodies.Add(this);
-            game.BodyDictionary.Add(id, this);
         }
 
         public OrbitingBody(GameState game, Id<IBody> id, Id<IBody> parentId,
             Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
-            : this(game, id, game.BodyDictionary[parentId], orbitRadius, orbitDirection, radius, mass, color)
+            : this(game, id, game.Bodies[parentId], orbitRadius, orbitDirection, radius, mass, color)
         {
         }
 

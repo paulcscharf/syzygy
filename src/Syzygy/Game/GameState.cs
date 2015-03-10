@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using amulware.Graphics;
 using Bearded.Utilities.Collections;
@@ -15,14 +16,22 @@ namespace Syzygy.Game
         // more info on this collection at http://genericgamedev.com/general/on-collections
         private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
 
-        private readonly DeletableObjectList<IBody> bodies = new DeletableObjectList<IBody>();
-        public DeletableObjectList<IBody> Bodies { get { return this.bodies; } }
+        private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
+        public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
 
-        private readonly Dictionary<Id<IBody>, IBody> bodyDictionary = new Dictionary<Id<IBody>, IBody>();
-        public Dictionary<Id<IBody>, IBody> BodyDictionary { get { return this.bodyDictionary; } }
+        private readonly Dictionary<Type, object> deletableDictionaries;
 
         public GameState()
         {
+            this.deletableDictionaries = new Dictionary<Type, object>{
+                { typeof (IBody), this.bodies }
+            };
+        }
+
+        public DeletableObjectDictionary<TId> List<TId>()
+            where TId : class, IDeletable<TId>
+        {
+            return (DeletableObjectDictionary<TId>)this.deletableDictionaries[typeof (TId)];
         }
 
         public void Update(UpdateEventArgs e)

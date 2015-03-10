@@ -4,9 +4,8 @@ using Syzygy.Rendering;
 
 namespace Syzygy.Game.Astronomy
 {
-    sealed class FixedBody : GameObject, IBody
+    sealed class FixedBody : GameObject<IBody>, IBody
     {
-        private readonly Id<IBody> id;
         private readonly Position2 center;
         private readonly Radius radius;
         private readonly float mass;
@@ -16,16 +15,12 @@ namespace Syzygy.Game.Astronomy
         public float Mass { get { return this.mass; } }
 
         public FixedBody(GameState game, Id<IBody> id, Position2 center, Radius radius, float mass, Color color)
-            : base(game)
+            : base(game, id)
         {
-            this.id = id;
             this.center = center;
             this.radius = radius;
             this.mass = mass;
             this.color = color;
-
-            game.Bodies.Add(this);
-            game.BodyDictionary.Add(id, this);
         }
 
         public override void Update(TimeSpan t)

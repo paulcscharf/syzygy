@@ -67,6 +67,7 @@
     <Compile Include="GameManagement\networking\GameGenerationMessageType.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\PlayerConnectionLookup.cs" />
+    <Compile Include="DeletableObjectDictionary.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="GameManagement\PlayerLookup.cs" />
     <Compile Include="IdManager.cs" />
