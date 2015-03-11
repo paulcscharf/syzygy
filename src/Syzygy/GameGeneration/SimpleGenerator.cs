@@ -26,6 +26,8 @@ namespace Syzygy.GameGeneration
                 yield return new NewOrbitingBodyInstruction(planet, sun,
                     Radius.FromValue(orbitRadius), Direction2.Zero, Radius.FromValue(0.5f), 0.25f);
 
+                yield return new AssignPlayerToBodyInstruction(pId, planet);
+
                 orbitRadius += orbitStep;
             }
 

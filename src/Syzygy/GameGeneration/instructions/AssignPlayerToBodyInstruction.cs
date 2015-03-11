@@ -1,8 +1,7 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Astronomy;
-using Syzygy.GameManagement;
 
 namespace Syzygy.GameGeneration
 {
@@ -28,9 +27,14 @@ namespace Syzygy.GameGeneration
         public AssignPlayerToBodyInstruction(Parameters parameters)
             : base(GenerationMessageType.AssignPlayerToBody, parameters) { }
 
+        public AssignPlayerToBodyInstruction(Id<Player> player, Id<IBody> body)
+            : this(new Parameters(player, body))
+        {
+        }
+
         public override void Execute(GameState game)
         {
-            throw new System.NotImplementedException();
+            new Economy(game, this.parameters.Player, this.parameters.Body);
         }
     }
 }

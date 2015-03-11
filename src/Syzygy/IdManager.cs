@@ -68,7 +68,7 @@ namespace Syzygy
                 i++;
                 this.lastIds[type] = i;
             }
-            Log.Debug("{0} id: {1}", typeof(T), i);
+            Log.Debug("generated {0} id: {1}", typeof(T), i);
             return new Id<T>(i);
         }
     }

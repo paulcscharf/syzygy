@@ -48,6 +48,7 @@ namespace Syzygy.Game
         protected void listAs<T>()
             where T : class, Bearded.Utilities.Collections.IDeletable
         {
+
             var asT = this as T;
             if (asT == null)
                 throw new Exception("This instance must inherit from the given deletable interface.");

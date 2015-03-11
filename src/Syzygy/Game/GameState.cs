@@ -30,6 +30,8 @@ namespace Syzygy.Game
         private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
         private readonly DeletableObjectDictionary<FreeObject> freeObjects = new DeletableObjectDictionary<FreeObject>();
 
+        private readonly DeletableObjectList<Economy> economies = new DeletableObjectList<Economy>();
+
         #endregion
 
         #region State
@@ -45,6 +47,8 @@ namespace Syzygy.Game
         public PlayerLookup Players { get { return this.players; } }
         public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
 
+        public DeletableObjectList<Economy> Economies { get { return this.economies; } }
+
         #endregion
 
         #region Constructor
@@ -59,8 +63,14 @@ namespace Syzygy.Game
                 { typeof (FreeObject), this.freeObjects },
             };
             this.deletableLists = new Dictionary<Type, object>{
-                // no lists? :(
+                { typeof (Economy), this.economies },
             };
+
+
+            for (int i = 0; i < 100; i++)
+            {
+                new FreeObject(this, new Id<FreeObject>(i), new Position2(i * 0.1f, i * 0.1f), new Velocity2());
+            }
         }
 
         #endregion
