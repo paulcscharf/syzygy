@@ -56,7 +56,7 @@ namespace Syzygy.Game
 
             this.deletableDictionaries = new Dictionary<Type, object>{
                 { typeof (IBody), this.bodies },
-                { typeof(FreeObject), this.freeObjects },
+                { typeof (FreeObject), this.freeObjects },
             };
             this.deletableLists = new Dictionary<Type, object>{
                 // no lists? :(
