@@ -14,8 +14,8 @@ namespace Syzygy.GameManagement.Server
         private readonly PlayerConnectionLookup connections;
         private GameState game;
 
-        public BuildGameHandler(NetServer server, PlayerLookup players, PlayerConnectionLookup connections)
-            : base(server, players)
+        public BuildGameHandler(NetServer server, PlayerLookup players, PlayerConnectionLookup connections, Id<Player> ownID)
+            : base(server, players, ownID)
         {
             this.players = players;
             this.connections = connections;

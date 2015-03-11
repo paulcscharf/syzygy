@@ -7,11 +7,13 @@ namespace Syzygy.GameManagement
     abstract class GenericBuildGameHandler<TPeer> : GenericGameHandler<TPeer>
         where TPeer : NetPeer
     {
-        private GameBuilder gameBuilder;
+        private readonly Id<Player> ownID;
+        private readonly GameBuilder gameBuilder;
 
-        public GenericBuildGameHandler(TPeer peer, PlayerLookup players)
+        public GenericBuildGameHandler(TPeer peer, PlayerLookup players, Id<Player> ownID)
             : base(peer)
         {
+            this.ownID = ownID;
             this.gameBuilder = new GameBuilder(players);
         }
 
@@ -22,6 +24,7 @@ namespace Syzygy.GameManagement
 
         protected GameState finish()
         {
+            new EconomyController(this.gameBuilder.Game, this.ownID);
             this.gameBuilder.Finish();
             return gameBuilder.Game;
         }

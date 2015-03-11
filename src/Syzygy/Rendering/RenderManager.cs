@@ -1,3 +1,4 @@
+using amulware.Graphics;
 using Bearded.Utilities;
 using OpenTK.Graphics.OpenGL;
 using Syzygy.Game;
@@ -32,6 +33,8 @@ namespace Syzygy.Rendering
         public void Render(GameState game)
         {
             game.Draw();
+
+            SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 
             this.surfaces.Primitives.Render();
         }

@@ -85,7 +85,7 @@ namespace Syzygy.GameManagement.Client
         private void startGameBuilding()
         {
             this.gameWindow.UIActionQueue.RunAndForget(() => this.form.Close());
-            this.stop(new BuildGameHandler(this.peer, new PlayerLookup(this.players)));
+            this.stop(new BuildGameHandler(this.peer, new PlayerLookup(this.players), this.me.ID));
         }
 
         private void addPlayer(Id<Player> id, string name)

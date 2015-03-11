@@ -126,7 +126,7 @@ namespace Syzygy.GameManagement.Server
                 this.server.SendMessage(startMessage, this.connections, NetDeliveryMethod.ReliableOrdered, 0);
             }
 
-            this.Stopped(new BuildGameHandler(this.server, new PlayerLookup(this.players), this.connections));
+            this.Stopped(new BuildGameHandler(this.server, new PlayerLookup(this.players), this.connections, this.me.ID));
         }
 
         private void startServer()
