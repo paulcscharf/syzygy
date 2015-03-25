@@ -71,12 +71,6 @@ namespace Syzygy.Game
             this.deletableLists = new Dictionary<Type, object>{
                 { typeof (Economy), this.economies },
             };
-
-
-            for (int i = 0; i < 100; i++)
-            {
-                new FreeObject(this, this.GetUniqueId<FreeObject>(), new Position2(i * 0.1f, 0), new Velocity2());
-            }
         }
 
         #endregion
