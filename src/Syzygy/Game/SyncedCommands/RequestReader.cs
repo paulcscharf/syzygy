@@ -27,8 +27,6 @@ namespace Syzygy.Game.SyncedCommands
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return null;
         }
     }
 }

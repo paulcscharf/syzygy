@@ -10,21 +10,21 @@ namespace Syzygy.Game.SyncedCommands
     {
         public static IRequest Request(GameState game, PlayerController controller, IBody body, Direction2 direction)
         {
-            return new Implementation(controller, game, body, direction);
+            return new RequestImplementation(controller, game, body, direction);
         }
 
         public static IRequest Request(GameState game, PlayerConnectionLookup connectionLookup, NetConnection connection,
             NetBuffer buffer)
         {
-            return new Implementation(connectionLookup, connection, buffer, game);
+            return new RequestImplementation(connectionLookup, connection, buffer, game);
         }
 
         public static ICommand Command(NetBuffer buffer, GameState game)
         {
-            return new Implementation(buffer, game);
+            return new CommandImplementation(buffer, game);
         }
 
-        private struct Parameters
+        private struct RequestParameters
         {
             private readonly Id bodyId;
             private readonly Direction2 direction;
@@ -32,44 +32,51 @@ namespace Syzygy.Game.SyncedCommands
             public Id<IBody> BodyId { get { return this.bodyId.Generic<IBody>(); } }
             public Direction2 Direction { get { return this.direction; } }
 
-            public Parameters(IBody body, Direction2 direction)
+            public RequestParameters(IBody body, Direction2 direction)
             {
                 this.bodyId = body.Id.Simple;
                 this.direction = direction;
             }
         }
 
-        private sealed class Implementation : UnifiedRequestCommand<Parameters>
+        private struct CommandParameters
+        {
+            private readonly Id id;
+            private readonly Position2 position;
+            private readonly Velocity2 velocity;
+
+            public Id<FreeObject> ID { get { return this.id.Generic<FreeObject>(); } }
+            public Position2 Position { get { return this.position; } }
+            public Velocity2 Velocity { get { return this.velocity; } }
+
+            public CommandParameters(Id<FreeObject> id, Position2 position, Velocity2 velocity)
+            {
+                this.id = id.Simple;
+                this.position = position;
+                this.velocity = velocity;
+            }
+        }
+
+        private sealed class RequestImplementation : BaseRequest<RequestParameters>
         {
             private readonly IBody body;
             private readonly Direction2 direction;
 
-            public Implementation(PlayerController controller, GameState game,
+            public RequestImplementation(PlayerController controller, GameState game,
                 IBody body, Direction2 direction)
-                : base(RequestType.ShootDebugParticleFromPlanet, CommandType.ShootDebugparticleFromPlanet, controller, game)
+                : base(RequestType.ShootDebugParticleFromPlanet, game, controller)
             {
                 this.body = body;
                 this.direction = direction;
             }
 
-            public Implementation(PlayerConnectionLookup connectionLookup, NetConnection connection,
+            public RequestImplementation(PlayerConnectionLookup connectionLookup, NetConnection connection,
                 NetBuffer buffer, GameState game)
-                : base(RequestType.ShootDebugParticleFromPlanet, CommandType.ShootDebugparticleFromPlanet, connectionLookup, connection, game)
+                : base(RequestType.ShootDebugParticleFromPlanet, game, connectionLookup, connection)
             {
-                this.init(buffer, out this.body, out this.direction);
-            }
-
-            public Implementation(NetBuffer buffer, GameState game)
-                : base(CommandType.ShootDebugparticleFromPlanet, game)
-            {
-                this.init(buffer, out this.body, out this.direction);
-            }
-
-            private void init(NetBuffer buffer, out IBody body, out Direction2 direction)
-            {
-                var p = buffer.Read<Parameters>();
-                body = game.Bodies[p.BodyId];
-                direction = p.Direction;
+                var p = buffer.Read<RequestParameters>();
+                this.body = game.Bodies[p.BodyId];
+                this.direction = p.Direction;
             }
 
             public override bool CheckPreconditions()
@@ -81,20 +88,49 @@ namespace Syzygy.Game.SyncedCommands
 #endif
             }
 
-            public override void Execute()
+            public override ICommand MakeCommand()
+            {
+                return new CommandImplementation(this.game, this.body, this.direction);
+            }
+
+            protected override RequestParameters parameters
+            {
+                get { return new RequestParameters(body, direction); }
+            }
+        }
+
+        private sealed class CommandImplementation : BaseCommand<CommandParameters>
+        {
+            private readonly CommandParameters ps;
+
+            public CommandImplementation(GameState game, IBody body, Direction2 direction)
+                : base(CommandType.ShootDebugparticleFromPlanet, game)
             {
                 var bodyShape = body.Shape;
 
-                var d = Difference2.In(this.direction, 1.U());
+                var d = Difference2.In(direction, 1.U());
 
-                new FreeObject(this.game, this.game.GetUniqueId<FreeObject>(),
+                this.ps = new CommandParameters(
+                    this.game.GetUniqueId<FreeObject>(),
                     bodyShape.Center + d * bodyShape.Radius.NumericValue * 1.5f,
-                    d * 5 / TimeSpan.One);
+                    d * 5 / TimeSpan.One
+                    );
             }
 
-            protected override Parameters parameters
+            public CommandImplementation(NetBuffer buffer, GameState game)
+                : base(CommandType.ShootDebugparticleFromPlanet, game)
             {
-                get { return new Parameters(body, direction); }
+                this.ps = buffer.Read<CommandParameters>();
+            }
+
+            public override void Execute()
+            {
+                new FreeObject(this.game, this.ps.ID, this.ps.Position, this.ps.Velocity);
+            }
+
+            protected override CommandParameters parameters
+            {
+                get { return this.ps; }
             }
         }
     }

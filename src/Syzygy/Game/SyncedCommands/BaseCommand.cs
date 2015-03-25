@@ -6,10 +6,12 @@ namespace Syzygy.Game.SyncedCommands
         where T : struct
     {
         private readonly CommandType type;
+        protected readonly GameState game;
 
-        protected BaseCommand(CommandType type)
+        protected BaseCommand(CommandType type, GameState game)
         {
             this.type = type;
+            this.game = game;
         }
 
         public abstract void Execute();
@@ -17,9 +19,9 @@ namespace Syzygy.Game.SyncedCommands
         public void WriteToBuffer(NetBuffer buffer)
         {
             buffer.Write((byte)this.type);
-            buffer.Write(this.getParameters());
+            buffer.Write(this.parameters);
         }
 
-        protected abstract T getParameters();
+        protected abstract T parameters { get; }
     }
 }

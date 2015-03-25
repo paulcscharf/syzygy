@@ -2,7 +2,7 @@ namespace Syzygy.Game.SyncedCommands
 {
     internal enum CommandType
     {
-        Unknow = 0,
+        Unknown = 0,
         ShootDebugparticleFromPlanet = 1,
     }
 }

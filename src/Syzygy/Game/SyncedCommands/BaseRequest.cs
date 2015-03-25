@@ -4,19 +4,23 @@ using Syzygy.GameManagement;
 namespace Syzygy.Game.SyncedCommands
 {
     abstract class BaseRequest<T> : IRequest
-        where T : struct 
+        where T : struct
     {
-        private readonly Id<Player> requester;
         private readonly RequestType type;
+        protected readonly GameState game;
+        private readonly Id<Player> requester;
 
-        protected BaseRequest(RequestType type, PlayerController controller)
+        protected BaseRequest(RequestType type, GameState game, PlayerController controller)
         {
-            this.requester = controller.PlayerId;
             this.type = type;
+            this.game = game;
+            this.requester = controller.PlayerId;
         }
 
-        protected BaseRequest(RequestType type, PlayerConnectionLookup connectionLookup, NetConnection connection)
+        protected BaseRequest(RequestType type, GameState game, PlayerConnectionLookup connectionLookup, NetConnection connection)
         {
+            this.type = type;
+            this.game = game;
             this.requester = connectionLookup[connection];
         }
 
@@ -27,23 +31,11 @@ namespace Syzygy.Game.SyncedCommands
         public void WriteToBuffer(NetBuffer buffer)
         {
             buffer.Write((byte)this.type);
-            buffer.Write(this.getParameters());
+            buffer.Write(this.parameters);
         }
 
-        protected abstract T getParameters();
+        protected abstract T parameters { get; }
 
         public abstract ICommand MakeCommand();
-    }
-
-    class PlayerController
-    {
-        private readonly Id<Player> playerId;
-
-        public PlayerController(Id<Player> playerId)
-        {
-            this.playerId = playerId;
-        }
-
-        public Id<Player> PlayerId { get { return this.playerId; } }
     }
 }
