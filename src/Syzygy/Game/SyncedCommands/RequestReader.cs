@@ -7,12 +7,12 @@ namespace Syzygy.Game.SyncedCommands
     class RequestReader
     {
         private readonly GameState game;
-        private readonly PlayerConnectionLookup connectionLookup;
+        private readonly PlayerConnectionLookup connections;
 
-        public RequestReader(GameState game, PlayerConnectionLookup connectionLookup)
+        public RequestReader(GameState game, PlayerConnectionLookup connections)
         {
             this.game = game;
-            this.connectionLookup = connectionLookup;
+            this.connections = connections;
         }
 
         public IRequest FromBuffer(NetIncomingMessage message)
@@ -23,7 +23,7 @@ namespace Syzygy.Game.SyncedCommands
             {
                 case RequestType.ShootDebugParticleFromPlanet:
                     return ShootDebugParticleFromPlanet.Request(this.game,
-                        this.connectionLookup, connection, message);
+                        this.connections, connection, message);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

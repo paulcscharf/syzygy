@@ -8,7 +8,7 @@ namespace Syzygy.Game.SyncedCommands
 {
     static class ShootDebugParticleFromPlanet
     {
-        public static IRequest Request(GameState game, PlayerController controller, IBody body, Direction2 direction)
+        public static IRequest Request(GameState game, IPlayerController controller, IBody body, Direction2 direction)
         {
             return new RequestImplementation(controller, game, body, direction);
         }
@@ -62,7 +62,7 @@ namespace Syzygy.Game.SyncedCommands
             private readonly IBody body;
             private readonly Direction2 direction;
 
-            public RequestImplementation(PlayerController controller, GameState game,
+            public RequestImplementation(IPlayerController controller, GameState game,
                 IBody body, Direction2 direction)
                 : base(RequestType.ShootDebugParticleFromPlanet, game, controller)
             {
@@ -113,7 +113,7 @@ namespace Syzygy.Game.SyncedCommands
                 this.ps = new CommandParameters(
                     this.game.GetUniqueId<FreeObject>(),
                     bodyShape.Center + d * bodyShape.Radius.NumericValue * 1.5f,
-                    d * 5 / TimeSpan.One
+                    d * 1 / TimeSpan.One
                     );
             }
 

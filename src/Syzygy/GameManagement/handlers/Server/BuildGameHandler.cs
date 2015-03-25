@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using amulware.Graphics;
-using Bearded.Utilities.Linq;
 using Lidgren.Network;
 using Syzygy.Game;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameGeneration;
 
 namespace Syzygy.GameManagement.Server
@@ -15,7 +14,7 @@ namespace Syzygy.GameManagement.Server
         private GameState game;
 
         public BuildGameHandler(NetServer server, PlayerLookup players, PlayerConnectionLookup connections, Id<Player> ownID)
-            : base(server, players, ownID)
+            : base(server, players, ownID, new ServerRequestHandler(server, connections))
         {
             this.players = players;
             this.connections = connections;

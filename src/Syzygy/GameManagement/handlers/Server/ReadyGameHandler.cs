@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using amulware.Graphics;
 using Bearded.Utilities;
-using Bearded.Utilities.Linq;
 using Lidgren.Network;
 using Syzygy.Game;
 
@@ -65,7 +64,7 @@ namespace Syzygy.GameManagement.Server
                 this.peer.SendMessage(startMessage, this.connections,
                     NetDeliveryMethod.ReliableOrdered, 0);
             }
-            this.stop(new IngameGameHandler(this.peer, this.game, this.players));
+            this.stop(new IngameGameHandler(this.peer, this.game, this.players, this.connections));
         }
     }
 }

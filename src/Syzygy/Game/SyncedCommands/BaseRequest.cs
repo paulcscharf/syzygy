@@ -10,7 +10,7 @@ namespace Syzygy.Game.SyncedCommands
         protected readonly GameState game;
         private readonly Id<Player> requester;
 
-        protected BaseRequest(RequestType type, GameState game, PlayerController controller)
+        protected BaseRequest(RequestType type, GameState game, IPlayerController controller)
         {
             this.type = type;
             this.game = game;

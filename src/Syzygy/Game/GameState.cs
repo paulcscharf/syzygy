@@ -4,6 +4,7 @@ using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Game.Astronomy;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameManagement;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
@@ -21,6 +22,7 @@ namespace Syzygy.Game
 
         private readonly IdManager idManager = new IdManager();
 
+        private readonly IRequestHandler requestHandler;
         #endregion
 
         #region Lists and Dictionaries
@@ -51,14 +53,16 @@ namespace Syzygy.Game
 
         public DeletableObjectList<Economy> Economies { get { return this.economies; } }
 
+        public IRequestHandler RequestHandler { get { return this.requestHandler; } }
+
         #endregion
 
         #region Constructor
 
-        public GameState(PlayerLookup players)
+        public GameState(PlayerLookup players, IRequestHandler requestHandler)
         {
             this.players = players;
-
+            this.requestHandler = requestHandler;
 
             this.deletableDictionaries = new Dictionary<Type, object>{
                 { typeof (IBody), this.bodies },
@@ -71,7 +75,7 @@ namespace Syzygy.Game
 
             for (int i = 0; i < 100; i++)
             {
-                new FreeObject(this, new Id<FreeObject>(i), new Position2(i * 0.1f, 0), new Velocity2());
+                new FreeObject(this, this.GetUniqueId<FreeObject>(), new Position2(i * 0.1f, 0), new Velocity2());
             }
         }
 

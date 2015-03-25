@@ -13,7 +13,7 @@ namespace Syzygy.Game.SyncedCommands
 
         #region Request
         protected UnifiedRequestCommand(RequestType requestType, CommandType commandType,
-            PlayerController controller, GameState game)
+            IPlayerController controller, GameState game)
         {
             this.requestType = requestType;
             this.commandType = commandType;

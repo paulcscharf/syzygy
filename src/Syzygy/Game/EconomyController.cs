@@ -1,15 +1,21 @@
 using System.Linq;
 using amulware.Graphics;
+using Bearded.Utilities.Input;
+using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using OpenTK.Input;
 using Syzygy.Game.Astronomy;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
 
 namespace Syzygy.Game
 {
-    sealed class EconomyController : GameObject
+    sealed class EconomyController : GameObject, IPlayerController
     {
         private readonly Player player;
         private readonly IBody body;
+
+        public Id<Player> PlayerId { get { return this.player.ID; } }
 
         public EconomyController(GameState game, Id<Player> player)
             : base(game)
@@ -21,7 +27,11 @@ namespace Syzygy.Game
         public override void Update(TimeSpan t)
         {
 
-
+            if (InputManager.IsKeyHit(Key.Space))
+            {
+                var request = ShootDebugParticleFromPlanet.Request(this.game, this, this.body, Direction2.Zero);
+                this.game.RequestHandler.TryDo(request);
+            }
 
         }
 
@@ -38,5 +48,6 @@ namespace Syzygy.Game
             geo.DrawCircle(shape.Center.Vector, shape.Radius.NumericValue + 0.2f, false);
 
         }
+
     }
 }

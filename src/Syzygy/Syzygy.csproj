@@ -58,13 +58,16 @@
     <Compile Include="GameGeneration\instructions\NewFixedBodyInstruction.cs" />
     <Compile Include="GameGeneration\SimpleGenerator.cs" />
     <Compile Include="GameManagement\handlers\Client\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\IngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Client\ReadyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\GenericGameHandler.cs" />
     <Compile Include="GameGeneration\GameBuilder.cs" />
     <Compile Include="GameManagement\handlers\Server\BuildGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Server\IngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\ReadyGameHandler.cs" />
     <Compile Include="GameManagement\IGameDrawer.cs" />
     <Compile Include="GameManagement\networking\GameGenerationMessageType.cs" />
+    <Compile Include="GameManagement\networking\IngameMessageType.cs" />
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\PlayerConnectionLookup.cs" />
     <Compile Include="DeletableObjectDictionary.cs" />
@@ -73,23 +76,26 @@
     <Compile Include="Game\Player.cs" />
     <Compile Include="GameManagement\PlayerLookup.cs" />
     <Compile Include="Game\SyncedCommands\BaseRequest.cs" />
-    <Compile Include="Game\SyncedCommands\Command.cs" />
+    <Compile Include="Game\SyncedCommands\ClientRequestHandler.cs" />
+    <Compile Include="Game\SyncedCommands\CommandReader.cs" />
     <Compile Include="Game\SyncedCommands\BaseCommand.cs" />
     <Compile Include="Game\SyncedCommands\CommandType.cs" />
     <Compile Include="Game\SyncedCommands\IRequest.cs" />
     <Compile Include="Game\SyncedCommands\IRequestHandler.cs" />
     <Compile Include="Game\SyncedCommands\ICommand.cs" />
+    <Compile Include="Game\PlayerController.cs" />
     <Compile Include="Game\SyncedCommands\RequestReader.cs" />
     <Compile Include="Game\SyncedCommands\RequestType.cs" />
-    <Compile Include="Game\SyncedCommands\unified\ShootDebugParticleFromPlanet.cs" />
-    <Compile Include="Game\SyncedCommands\unified\UnifiedRequestCommand.cs" />
+    <Compile Include="Game\SyncedCommands\implementations\ShootDebugParticleFromPlanet.cs" />
+    <Compile Include="Game\SyncedCommands\ServerRequestHandler.cs" />
+    <Compile Include="Game\SyncedCommands\UnifiedRequestCommand.cs" />
     <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\Client\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />
     <Compile Include="GameManagement\IGameHandler.cs" />
-    <Compile Include="GameManagement\handlers\IngameGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\GenericIngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Client\LobbyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\LobbyGameHandler.cs" />
     <Compile Include="GameManagement\handlers\GenericBuildGameHandler.cs" />
@@ -150,10 +156,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\SyncedCommands\commands\" />
-    <Folder Include="Game\SyncedCommands\requests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

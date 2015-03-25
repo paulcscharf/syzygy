@@ -1,14 +1,7 @@
 namespace Syzygy.Game
 {
-    class PlayerController
+    interface IPlayerController
     {
-        private readonly Id<Player> playerId;
-
-        public PlayerController(Id<Player> playerId)
-        {
-            this.playerId = playerId;
-        }
-
-        public Id<Player> PlayerId { get { return this.playerId; } }
+        Id<Player> PlayerId { get; }
     }
 }

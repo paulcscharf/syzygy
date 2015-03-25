@@ -5,12 +5,13 @@ using Syzygy.Rendering;
 
 namespace Syzygy.GameManagement
 {
-    sealed class IngameGameHandler : GenericGameHandler<NetPeer>, IGameDrawer
+    abstract class GenericIngameGameHandler<TPeer> : GenericGameHandler<TPeer>, IGameDrawer
+        where TPeer : NetPeer
     {
-        private readonly GameState game;
-        private readonly PlayerLookup players;
+        protected readonly GameState game;
+        protected readonly PlayerLookup players;
 
-        public IngameGameHandler(NetPeer peer, GameState game, PlayerLookup players)
+        public GenericIngameGameHandler(TPeer peer, GameState game, PlayerLookup players)
             : base(peer)
         {
             this.game = game;

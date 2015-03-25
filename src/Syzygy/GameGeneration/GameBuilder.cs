@@ -1,5 +1,6 @@
 using System;
 using Syzygy.Game;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameManagement;
 
 namespace Syzygy.GameGeneration
@@ -9,9 +10,9 @@ namespace Syzygy.GameGeneration
         private readonly GameState game;
         private bool finished;
 
-        public GameBuilder(PlayerLookup players)
+        public GameBuilder(PlayerLookup players, IRequestHandler requestHandler)
         {
-            this.game = new GameState(players);
+            this.game = new GameState(players, requestHandler);
         }
 
         public void Execute(IGenerationInstruction instruction)

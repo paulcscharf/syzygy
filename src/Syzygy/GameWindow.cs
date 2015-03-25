@@ -44,6 +44,8 @@ namespace Syzygy
 
         protected override void OnUpdate(UpdateEventArgs e)
         {
+            InputManager.Update();
+
             this.game.Update(e);
         }
 

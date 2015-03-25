@@ -1,5 +1,6 @@
 using Lidgren.Network;
 using Syzygy.Game;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameGeneration;
 
 namespace Syzygy.GameManagement.Client
@@ -9,7 +10,7 @@ namespace Syzygy.GameManagement.Client
         private readonly PlayerLookup players;
 
         public BuildGameHandler(NetClient peer, PlayerLookup players, Id<Player> ownID)
-            : base(peer, players, ownID)
+            : base(peer, players, ownID, new ClientRequestHandler(peer))
         {
             this.players = players;
         }

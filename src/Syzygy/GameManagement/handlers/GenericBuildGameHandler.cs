@@ -1,5 +1,6 @@
 using Lidgren.Network;
 using Syzygy.Game;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameGeneration;
 
 namespace Syzygy.GameManagement
@@ -10,11 +11,11 @@ namespace Syzygy.GameManagement
         private readonly Id<Player> ownID;
         private readonly GameBuilder gameBuilder;
 
-        public GenericBuildGameHandler(TPeer peer, PlayerLookup players, Id<Player> ownID)
+        public GenericBuildGameHandler(TPeer peer, PlayerLookup players, Id<Player> ownID, IRequestHandler requestHandler)
             : base(peer)
         {
             this.ownID = ownID;
-            this.gameBuilder = new GameBuilder(players);
+            this.gameBuilder = new GameBuilder(players, requestHandler);
         }
 
         protected void executeInstruction(IGenerationInstruction instruction)
