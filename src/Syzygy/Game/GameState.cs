@@ -19,6 +19,8 @@ namespace Syzygy.Game
         private readonly Dictionary<Type, object> deletableDictionaries;
         private readonly Dictionary<Type, object> deletableLists;
 
+        private readonly IdManager idManager = new IdManager();
+
         #endregion
 
         #region Lists and Dictionaries
@@ -69,7 +71,7 @@ namespace Syzygy.Game
 
             for (int i = 0; i < 100; i++)
             {
-                new FreeObject(this, new Id<FreeObject>(i), new Position2(i * 0.1f, i * 0.1f), new Velocity2());
+                new FreeObject(this, new Id<FreeObject>(i), new Position2(i * 0.1f, 0), new Velocity2());
             }
         }
 
@@ -94,6 +96,11 @@ namespace Syzygy.Game
             where T : class, Bearded.Utilities.Collections.IDeletable
         {
             return (DeletableObjectList<T>)this.deletableLists[typeof (T)];
+        }
+
+        public Id<T> GetUniqueId<T>()
+        {
+            return this.idManager.GetNext<T>();
         }
 
         #endregion

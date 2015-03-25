@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bearded.Utilities;
@@ -37,7 +37,12 @@ namespace Syzygy
 
         public TId this[Id<TId> id]
         {
-            get { return this.dictionary[id]; }
+            get
+            {
+                TId value;
+                this.dictionary.TryGetValue(id, out value);
+                return value;
+            }
         }
 
         public IEnumerator<TId> GetEnumerator()

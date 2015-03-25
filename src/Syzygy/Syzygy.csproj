@@ -72,6 +72,17 @@
     <Compile Include="Game\EconomyController.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="GameManagement\PlayerLookup.cs" />
+    <Compile Include="Game\SyncedCommands\BaseRequest.cs" />
+    <Compile Include="Game\SyncedCommands\Command.cs" />
+    <Compile Include="Game\SyncedCommands\BaseCommand.cs" />
+    <Compile Include="Game\SyncedCommands\CommandType.cs" />
+    <Compile Include="Game\SyncedCommands\IRequest.cs" />
+    <Compile Include="Game\SyncedCommands\IRequestHandler.cs" />
+    <Compile Include="Game\SyncedCommands\ICommand.cs" />
+    <Compile Include="Game\SyncedCommands\RequestReader.cs" />
+    <Compile Include="Game\SyncedCommands\RequestType.cs" />
+    <Compile Include="Game\SyncedCommands\unified\ShootDebugParticleFromPlanet.cs" />
+    <Compile Include="Game\SyncedCommands\unified\UnifiedRequestCommand.cs" />
     <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="Settings.cs" />
@@ -139,7 +150,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Game\SyncedCommands\commands\" />
+    <Folder Include="Game\SyncedCommands\requests\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
