@@ -1,4 +1,3 @@
-using Syzygy.Game.SyncedCommands;
 
 namespace Syzygy.Game.Behaviours
 {
@@ -6,5 +5,6 @@ namespace Syzygy.Game.Behaviours
     {
         ICollisionHandler GetCollisionHandler(GameState game);
         IRequestHandler GetRequestHandler();
+        IContinuousSynchronizer GetContinuousSynchronizer(GameState gameState);
     }
 }

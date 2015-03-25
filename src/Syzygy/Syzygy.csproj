@@ -73,7 +73,10 @@
     <Compile Include="DeletableObjectDictionary.cs" />
     <Compile Include="Game\Astronomy\ClientCollisionHandler.cs" />
     <Compile Include="Game\Behaviours\ClientBehaviourProvider.cs" />
+    <Compile Include="Game\Behaviours\ClientContinuousSynchronizer.cs" />
+    <Compile Include="Game\Behaviours\IContinuousSynchronizer.cs" />
     <Compile Include="Game\Behaviours\ServerCommandSender.cs" />
+    <Compile Include="Game\Behaviours\ServerContinuousSynchronizer.cs" />
     <Compile Include="Game\Economy.cs" />
     <Compile Include="Game\EconomyController.cs" />
     <Compile Include="Game\Behaviours\GameBehaviourProvider.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Game\SyncedCommands\BaseCommand.cs" />
     <Compile Include="Game\SyncedCommands\CommandType.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ParticlePlanetCollision.cs" />
+    <Compile Include="Game\SyncedCommands\implementations\ParticleUpdate.cs" />
     <Compile Include="Game\SyncedCommands\IRequest.cs" />
     <Compile Include="Game\Behaviours\IRequestHandler.cs" />
     <Compile Include="Game\SyncedCommands\ICommand.cs" />

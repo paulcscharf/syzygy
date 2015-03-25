@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Activation;
 using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
@@ -25,6 +26,7 @@ namespace Syzygy.Game
 
         private readonly IRequestHandler requestHandler;
         private readonly ICollisionHandler collisionHandler;
+        private readonly IContinuousSynchronizer continuousSynchronizer;
         #endregion
 
         #region Lists and Dictionaries
@@ -58,6 +60,7 @@ namespace Syzygy.Game
 
         public IRequestHandler RequestHandler { get { return this.requestHandler; } }
         public ICollisionHandler CollisionHandler { get { return this.collisionHandler; } }
+        public IContinuousSynchronizer ContinuousSynchronizer { get { return this.continuousSynchronizer; } }
 
         #endregion
 
@@ -68,6 +71,7 @@ namespace Syzygy.Game
             this.players = players;
             this.requestHandler = behaviours.GetRequestHandler();
             this.collisionHandler = behaviours.GetCollisionHandler(this);
+            this.continuousSynchronizer = behaviours.GetContinuousSynchronizer(this);
 
             this.deletableDictionaries = new Dictionary<Type, object>{
                 { typeof (IBody), this.bodies },

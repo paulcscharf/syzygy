@@ -19,6 +19,8 @@ namespace Syzygy.Game.Astronomy
         {
             this.position = position;
             this.velocity = velocity;
+
+            game.ContinuousSynchronizer.Sync(this);
         }
 
         public override void Update(TimeSpan t)
@@ -64,6 +66,12 @@ namespace Syzygy.Game.Astronomy
         {
             geos.Primitives.Color = Color.White;
             geos.Primitives.DrawRectangle(this.position.Vector, new Vector2(0.05f, 0.05f));
+        }
+
+        public void UpdatePositionAndVelocity(Position2 position, Velocity2 velocity)
+        {
+            this.position = position;
+            this.velocity = velocity;
         }
     }
 }

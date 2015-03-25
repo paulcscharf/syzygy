@@ -21,5 +21,10 @@ namespace Syzygy.Game.Behaviours
         {
             return new ClientRequestHandler(this.client);
         }
+
+        public IContinuousSynchronizer GetContinuousSynchronizer(GameState gameState)
+        {
+            return new ClientContinuousSynchronizer();
+        }
     }
 }
