@@ -73,6 +73,7 @@
     <Compile Include="DeletableObjectDictionary.cs" />
     <Compile Include="Game\Astronomy\ClientCollisionHandler.cs" />
     <Compile Include="Game\Behaviours\ClientBehaviourProvider.cs" />
+    <Compile Include="Game\Behaviours\ServerCommandSender.cs" />
     <Compile Include="Game\Economy.cs" />
     <Compile Include="Game\EconomyController.cs" />
     <Compile Include="Game\Behaviours\GameBehaviourProvider.cs" />
