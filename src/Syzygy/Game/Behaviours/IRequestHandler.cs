@@ -1,5 +1,7 @@
 
-namespace Syzygy.Game.SyncedCommands
+using Syzygy.Game.SyncedCommands;
+
+namespace Syzygy.Game.Behaviours
 {
     interface IRequestHandler
     {

@@ -1,7 +1,8 @@
 using Lidgren.Network;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameManagement;
 
-namespace Syzygy.Game.SyncedCommands
+namespace Syzygy.Game.Behaviours
 {
     sealed class ClientRequestHandler : IRequestHandler
     {
@@ -14,7 +15,7 @@ namespace Syzygy.Game.SyncedCommands
 
         public void TryDo(IRequest request)
         {
-            var message = client.CreateMessage();
+            var message = this.client.CreateMessage();
             message.Write((byte)IngameMessageType.Request);
             request.WriteToBuffer(message);
 

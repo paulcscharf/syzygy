@@ -23,6 +23,11 @@ namespace Syzygy.Game.Astronomy
 
         public override void Update(TimeSpan t)
         {
+            this.game.CollisionHandler.HandleCollision(this);
+
+            if (this.Deleted)
+                return;
+
             var acceleration = Vector2.Zero;
 
             foreach (var body in this.game.Bodies)
@@ -32,13 +37,6 @@ namespace Syzygy.Game.Astronomy
                 var difference = shape.Center - this.position;
 
                 var distanceSquared = difference.LengthSquared;
-
-                if (distanceSquared < shape.Radius.Squared)
-                {
-                    this.hitBody(body);
-                    if(this.Deleted)
-                        return;
-                }
 
                 var a = Constants.G * body.Mass / distanceSquared.NumericValue;
 
@@ -50,6 +48,11 @@ namespace Syzygy.Game.Astronomy
             this.velocity += new Velocity2(acceleration * (float)t.NumericValue);
 
             this.position += this.velocity * t;
+        }
+
+        public void HitBody(IBody body)
+        {
+            this.hitBody(body);
         }
 
         protected virtual void hitBody(IBody body)

@@ -1,8 +1,9 @@
 using System;
 using Lidgren.Network;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.GameManagement;
 
-namespace Syzygy.Game.SyncedCommands
+namespace Syzygy.Game.Behaviours
 {
     sealed class ServerRequestHandler : IRequestHandler
     {
