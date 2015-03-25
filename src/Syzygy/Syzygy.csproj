@@ -86,6 +86,7 @@
     <Compile Include="Game\SyncedCommands\CommandReader.cs" />
     <Compile Include="Game\SyncedCommands\BaseCommand.cs" />
     <Compile Include="Game\SyncedCommands\CommandType.cs" />
+    <Compile Include="Game\SyncedCommands\implementations\ParticlePlanetCollision.cs" />
     <Compile Include="Game\SyncedCommands\IRequest.cs" />
     <Compile Include="Game\Behaviours\IRequestHandler.cs" />
     <Compile Include="Game\SyncedCommands\ICommand.cs" />

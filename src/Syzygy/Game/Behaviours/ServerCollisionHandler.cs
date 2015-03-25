@@ -1,15 +1,17 @@
 using Syzygy.Game.Astronomy;
-using Syzygy.Game.Behaviours;
+using Syzygy.Game.SyncedCommands;
 
-namespace Syzygy.Game
+namespace Syzygy.Game.Behaviours
 {
     sealed class ServerCollisionHandler : ICollisionHandler
     {
         private readonly GameState game;
+        private readonly ServerCommandSender commandSender;
 
-        public ServerCollisionHandler(GameState game)
+        public ServerCollisionHandler(GameState game, ServerCommandSender commandSender)
         {
             this.game = game;
+            this.commandSender = commandSender;
         }
 
         public void HandleCollision(FreeObject obj)
@@ -26,7 +28,10 @@ namespace Syzygy.Game
 
                 if (distanceSquared < shape.Radius.Squared)
                 {
-                    obj.HitBody(body);
+                    var command = ParticlePlanetCollision.Command(this.game, obj, body);
+
+                    this.commandSender.ExecuteAndSend(command);
+
                     if (obj.Deleted)
                         return;
                 }

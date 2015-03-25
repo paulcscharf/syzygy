@@ -19,6 +19,8 @@ namespace Syzygy.Game.SyncedCommands
             {
                 case CommandType.ShootDebugparticleFromPlanet:
                     return ShootDebugParticleFromPlanet.Command(message, this.game);
+                case CommandType.ParticlePlanetCollision:
+                    return ParticlePlanetCollision.Command(this.game, message);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

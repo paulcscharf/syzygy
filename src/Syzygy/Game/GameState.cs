@@ -52,6 +52,7 @@ namespace Syzygy.Game
 
         public PlayerLookup Players { get { return this.players; } }
         public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
+        public DeletableObjectDictionary<FreeObject> FreeObjects { get { return this.freeObjects; } }
 
         public DeletableObjectList<Economy> Economies { get { return this.economies; } }
 
