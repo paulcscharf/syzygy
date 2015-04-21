@@ -40,6 +40,8 @@ namespace Syzygy.Rendering
             SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 
             this.surfaces.Primitives.Render();
+            this.surfaces.GameText.Render();
+            this.surfaces.HudText.Render();
         }
 
         public void FinaliseFrame()

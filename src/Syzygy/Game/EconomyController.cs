@@ -96,8 +96,14 @@ namespace Syzygy.Game
             geo.LineWidth = 0.05f;
             geo.DrawLine(center + dVector * r, center + dVector * (r + 0.25f));
 
-            this.drawHealthBar(geo);
+            this.drawHealthBar(geos);
             this.drawProjectilePathPreview(geo);
+            this.drawHud(geos);
+        }
+
+        private void drawHud(GeometryManager geos)
+        {
+
         }
 
         private void drawProjectilePathPreview(PrimitiveGeometry geo)
@@ -145,8 +151,10 @@ namespace Syzygy.Game
             }
         }
 
-        private void drawHealthBar(PrimitiveGeometry geo)
+        private void drawHealthBar(GeometryManager geos)
         {
+            var geo = geos.Primitives;
+
             var shape = this.body.Shape;
             var center = shape.Center.Vector;
             var r = shape.Radius.NumericValue + 0.2f;
@@ -159,8 +167,19 @@ namespace Syzygy.Game
             geo.LineWidth = 0.075f;
             geo.Color = Color.Gray;
             geo.DrawLine(barStart, barStart + new Vector2(barLength, 0));
-            geo.Color = Color.FromHSVA(p.Squared() * GameMath.Pi * 2 / 3, 0.8f, 0.8f);
+
+            var healthColor = Color.FromHSVA(p.Squared() * GameMath.Pi * 2 / 3, 0.8f, 0.8f);
+
+            geo.Color = healthColor;
             geo.DrawLine(barStart, barStart + new Vector2(barLength * p, 0));
+
+            var text = geos.GameText;
+
+            text.Color = healthColor;
+
+            text.Height = 0.5f;
+            text.DrawString(center + new Vector2(0, -r - 0.3f),
+                string.Format("{0:0}%", (int)(p * 100)), 0.5f);
         }
     }
 }
