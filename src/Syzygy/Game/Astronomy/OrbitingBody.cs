@@ -50,6 +50,15 @@ namespace Syzygy.Game.Astronomy
         public Circle Shape { get { return new Circle(this.center, this.radius); } }
         public float Mass { get { return this.mass; } }
 
+        public Velocity2 Velocity
+        {
+            get
+            {
+                return new Velocity2(this.orbitDirection.Vector.PerpendicularLeft
+                    * (this.angularVelocity.Radians * this.orbitRadius.NumericValue));
+            }
+        }
+
         public override void Update(TimeSpan t)
         {
             var step = this.angularVelocity * (float)t.NumericValue;

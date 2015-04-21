@@ -17,12 +17,14 @@ namespace Syzygy.Game.SyncedCommands
             var type = (CommandType)message.ReadByte();
             switch (type)
             {
-                case CommandType.ShootDebugparticleFromPlanet:
+                case CommandType.ShootDebugParticleFromPlanet:
                     return ShootDebugParticleFromPlanet.Command(message, this.game);
                 case CommandType.ParticlePlanetCollision:
                     return ParticlePlanetCollision.Command(this.game, message);
                 case CommandType.ParticleUpdate:
                     return ParticleUpdate.Command(this.game, message);
+                case CommandType.ShootProjectileFromPlanet:
+                    return ShootProjectileFromPlanet.Command(message, this.game);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

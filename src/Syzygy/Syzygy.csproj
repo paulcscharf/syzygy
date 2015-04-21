@@ -85,6 +85,7 @@
     <Compile Include="Game\EconomyController.cs" />
     <Compile Include="Game\Behaviours\GameBehaviourProvider.cs" />
     <Compile Include="Game\Behaviours\ICollisionHandler.cs" />
+    <Compile Include="Game\FreeObjects\Projectile.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="GameManagement\PlayerLookup.cs" />
     <Compile Include="Game\Behaviours\ServerBehaviourProvider.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Game\SyncedCommands\CommandType.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ParticlePlanetCollision.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ParticleUpdate.cs" />
+    <Compile Include="Game\SyncedCommands\implementations\ShootProjectileFromPlanet.cs" />
     <Compile Include="Game\SyncedCommands\IRequest.cs" />
     <Compile Include="Game\Behaviours\IRequestHandler.cs" />
     <Compile Include="Game\SyncedCommands\ICommand.cs" />

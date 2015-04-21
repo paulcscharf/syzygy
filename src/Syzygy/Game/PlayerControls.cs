@@ -10,12 +10,14 @@ namespace Syzygy.Game
         private readonly IAction shoot;
         private readonly IAction zoomIn;
         private readonly IAction zoomOut;
+        private readonly IAction shootDebug;
 
         public IAction RotateClockwise { get { return this.rotateClockwise; } }
         public IAction RotateCounterClockwise { get { return this.rotateCounterClockwise; } }
         public IAction Shoot { get { return this.shoot; } }
         public IAction ZoomIn { get { return this.zoomIn; } }
         public IAction ZoomOut { get { return this.zoomOut; } }
+        public IAction ShootDebug { get { return this.shootDebug; } }
 
         public PlayerControls()
         {
@@ -24,6 +26,8 @@ namespace Syzygy.Game
             this.shoot = KeyboardAction.FromKey(Key.Space);
             this.zoomIn = KeyboardAction.FromKey(Key.PageDown);
             this.zoomOut = KeyboardAction.FromKey(Key.PageUp);
+
+            this.shootDebug = KeyboardAction.FromKey(Key.P);
         }
     }
 }

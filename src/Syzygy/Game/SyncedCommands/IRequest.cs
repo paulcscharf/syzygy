@@ -7,7 +7,7 @@ namespace Syzygy.Game.SyncedCommands
         // ctor From(player controller, parameters) // requesting player is always current player, can be read from player controller
         // ctor From(Buffer, requesting player as gotten from connection)
 
-        Id<Player> Requester { get; } 
+        Player Requester { get; } 
 
         bool CheckPreconditions();
         void WriteToBuffer(NetBuffer buffer);

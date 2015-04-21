@@ -8,23 +8,23 @@ namespace Syzygy.Game.SyncedCommands
     {
         private readonly RequestType type;
         protected readonly GameState game;
-        private readonly Id<Player> requester;
+        private readonly Player requester;
 
         protected BaseRequest(RequestType type, GameState game, IPlayerController controller)
         {
             this.type = type;
             this.game = game;
-            this.requester = controller.PlayerId;
+            this.requester = controller.Player;
         }
 
         protected BaseRequest(RequestType type, GameState game, PlayerConnectionLookup connectionLookup, NetConnection connection)
         {
             this.type = type;
             this.game = game;
-            this.requester = connectionLookup[connection];
+            this.requester = game.Players[connectionLookup[connection]];
         }
 
-        public Id<Player> Requester { get { return this.requester; } }
+        public Player Requester { get { return this.requester; } }
 
         public abstract bool CheckPreconditions();
 

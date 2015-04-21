@@ -13,6 +13,7 @@ namespace Syzygy.Game.Astronomy
 
         public Circle Shape { get { return new Circle(this.center, this.radius); } }
         public float Mass { get { return this.mass; } }
+        public Velocity2 Velocity { get { return new Velocity2(); } }
 
         public FixedBody(GameState game, Id<IBody> id, Position2 center, Radius radius, float mass, Color color)
             : base(game, id)

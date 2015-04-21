@@ -6,5 +6,7 @@ namespace Syzygy.Game.Astronomy
     {
         Circle Shape { get; }
         float Mass { get; }
+
+        Velocity2 Velocity { get; }
     }
 }

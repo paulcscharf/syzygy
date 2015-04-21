@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Windows.Forms;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
@@ -17,7 +18,7 @@ namespace Syzygy.Game
         private readonly IBody body;
         private readonly Economy economy;
 
-        public Id<Player> PlayerId { get { return this.player.ID; } }
+        public Player Player { get { return this.player; } }
 
         private readonly PlayerControls controls;
 
@@ -43,9 +44,16 @@ namespace Syzygy.Game
 
             this.aimDirection += 2f.Radians() * rotation * (float)t.NumericValue;
     
-            if (this.controls.Shoot.Hit)
+#if DEBUG
+            if (this.controls.ShootDebug.Hit)
             {
                 var request = ShootDebugParticleFromPlanet.Request(this.game, this, this.body, this.aimDirection);
+                this.game.RequestHandler.TryDo(request);
+            }
+#endif
+            if (this.controls.Shoot.Hit)
+            {
+                var request = ShootProjectileFromPlanet.Request(this.game, this, this.body, this.aimDirection);
                 this.game.RequestHandler.TryDo(request);
             }
 

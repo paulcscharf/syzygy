@@ -6,7 +6,7 @@ namespace Syzygy.Game.SyncedCommands
     abstract class UnifiedRequestCommand<T> : IRequest, ICommand
         where T : struct
     {
-        private readonly Id<Player> requester;
+        private readonly Player requester;
         private readonly RequestType requestType;
         private readonly CommandType commandType;
         protected readonly GameState game;
@@ -18,7 +18,7 @@ namespace Syzygy.Game.SyncedCommands
             this.requestType = requestType;
             this.commandType = commandType;
             this.game = game;
-            this.requester = controller.PlayerId;
+            this.requester = controller.Player;
         }
 
         protected UnifiedRequestCommand(RequestType requestType, CommandType commandType,
@@ -27,9 +27,9 @@ namespace Syzygy.Game.SyncedCommands
             this.requestType = requestType;
             this.commandType = commandType;
             this.game = game;
-            this.requester = connectionLookup[connection];
+            this.requester = game.Players[connectionLookup[connection]];
         }
-        public Id<Player> Requester { get { return this.requester; } }
+        public Player Requester { get { return this.requester; } }
 
         public abstract bool CheckPreconditions();
 

@@ -24,6 +24,9 @@ namespace Syzygy.Game.SyncedCommands
                 case RequestType.ShootDebugParticleFromPlanet:
                     return ShootDebugParticleFromPlanet.Request(this.game,
                         this.connections, connection, message);
+                case RequestType.ShootProjectileFromPlanet:
+                    return ShootProjectileFromPlanet.Request(this.game,
+                        this.connections, connection, message);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

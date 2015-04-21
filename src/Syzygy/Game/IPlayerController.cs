@@ -2,6 +2,6 @@ namespace Syzygy.Game
 {
     interface IPlayerController
     {
-        Id<Player> PlayerId { get; }
+        Player Player { get; }
     }
 }
