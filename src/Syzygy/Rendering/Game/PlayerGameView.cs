@@ -8,6 +8,14 @@ namespace Syzygy.Rendering.Game
     sealed class PlayerGameView : GameObject, IGameView
     {
         private IBody body;
+        private float zoom = 2;
+        private float zoomGoal = 2;
+
+        public float Zoom
+        {
+            get { return this.zoomGoal; }
+            set { this.zoomGoal = value.Clamped(1, 20); }
+        }
 
         public PlayerGameView(GameState game)
             : base(game)
@@ -27,7 +35,7 @@ namespace Syzygy.Rendering.Game
             {
                 var p = this.body.Shape.Center;
 
-                return new ViewParameters(p.Vector.WithZ(20));
+                return new ViewParameters(p.Vector.WithZ(5 * this.zoom));
             }
         }
 
@@ -40,6 +48,7 @@ namespace Syzygy.Rendering.Game
 
         public override void Update(TimeSpan t)
         {
+            this.zoom += (this.zoomGoal - this.zoom) * ((float)t.NumericValue * 10);
         }
 
         public override void Draw(GeometryManager geos)

@@ -3,7 +3,6 @@ using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
-using OpenTK.Input;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
@@ -16,12 +15,11 @@ namespace Syzygy.Game
         private readonly PlayerGameView view;
         private readonly Player player;
         private readonly IBody body;
+        private readonly Economy economy;
 
         public Id<Player> PlayerId { get { return this.player.ID; } }
 
-        private IAction rotateClockwiseAction;
-        private IAction rotateCounterClockwiseAction;
-        private IAction shootAction;
+        private readonly PlayerControls controls;
 
         private Direction2 aimDirection;
 
@@ -30,25 +28,42 @@ namespace Syzygy.Game
         {
             this.view = view;
             this.player = game.Players[player];
-            this.body = game.Economies.First(e => e.Player == this.player).Body;
+            this.economy = game.Economies.First(e => e.Player == this.player);
+            this.body = this.economy.Body;
 
             view.FocusOnBody(this.body);
 
-            this.rotateClockwiseAction = KeyboardAction.FromKey(Key.Right);
-            this.rotateCounterClockwiseAction = KeyboardAction.FromKey(Key.Left);
-            this.shootAction = KeyboardAction.FromKey(Key.Space);
+            this.controls = new PlayerControls();
         }
 
         public override void Update(TimeSpan t)
         {
-            var rotation = this.rotateCounterClockwiseAction.AnalogAmount - this.rotateClockwiseAction.AnalogAmount;
+            var rotation = this.controls.RotateCounterClockwise.AnalogAmount
+                - this.controls.RotateClockwise.AnalogAmount;
 
             this.aimDirection += 2f.Radians() * rotation * (float)t.NumericValue;
     
-            if (this.shootAction.Hit)
+            if (this.controls.Shoot.Hit)
             {
                 var request = ShootDebugParticleFromPlanet.Request(this.game, this, this.body, this.aimDirection);
                 this.game.RequestHandler.TryDo(request);
+            }
+
+            this.updateZoom(t);
+        }
+
+        private void updateZoom(TimeSpan t)
+        {
+            float zoomDelta = InputManager.DeltaScroll;
+            zoomDelta += (float)t.NumericValue * 15
+                * (this.controls.ZoomOut.AnalogAmount - this.controls.ZoomIn.AnalogAmount)
+                + (this.controls.ZoomOut.Hit ? 1 : 0)
+                + (this.controls.ZoomIn.Hit ? -1 : 0);
+
+            if (zoomDelta != 0)
+            {
+                var zoomFactor = GameMath.Pow(1 / 1.4f, zoomDelta);
+                this.view.Zoom *= zoomFactor;
             }
         }
 

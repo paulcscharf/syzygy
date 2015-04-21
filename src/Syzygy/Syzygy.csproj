@@ -89,6 +89,7 @@
     <Compile Include="GameManagement\PlayerLookup.cs" />
     <Compile Include="Game\Behaviours\ServerBehaviourProvider.cs" />
     <Compile Include="Game\Behaviours\ServerCollisionHandler.cs" />
+    <Compile Include="Game\PlayerControls.cs" />
     <Compile Include="Game\SyncedCommands\BaseRequest.cs" />
     <Compile Include="Game\Behaviours\ClientRequestHandler.cs" />
     <Compile Include="Game\SyncedCommands\CommandReader.cs" />

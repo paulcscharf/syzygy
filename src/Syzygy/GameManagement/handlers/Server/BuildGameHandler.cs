@@ -4,7 +4,6 @@ using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Behaviours;
 using Syzygy.GameGeneration;
-using Syzygy.Rendering.Game;
 
 namespace Syzygy.GameManagement.Server
 {
