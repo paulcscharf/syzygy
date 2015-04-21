@@ -103,7 +103,18 @@ namespace Syzygy.Game
 
         private void drawHud(GeometryManager geos)
         {
+            var p = new Vector2(-16f, 9f);
 
+            var text = geos.HudText;
+            text.Height = 0.4f;
+
+            foreach (var economy in this.game.Economies)
+            {
+                text.Color = economy.Body.HealthPercentage > 0 ? Color.White : Color.Red;
+                text.DrawString(p, string.Format("{0}", economy.Player.Name));
+
+                p += new Vector2(0, -0.4f);
+            }
         }
 
         private void drawProjectilePathPreview(PrimitiveGeometry geo)

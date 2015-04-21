@@ -73,7 +73,7 @@ namespace Syzygy.Rendering
                 );
 
             this.hudModelview.Matrix = Matrix4.LookAt(
-                new Vector3(0, 0, 16), new Vector3(0, 0, 0), new Vector3(0, 1, 0)
+                new Vector3(0, 0, 22), new Vector3(0, 0, 0), new Vector3(0, 1, 0)
                 );
         }
 
