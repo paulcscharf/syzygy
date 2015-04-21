@@ -52,7 +52,7 @@ namespace Syzygy.Game
 
             var geo = geos.Primitives;
 
-            geo.Color = Color.Lime * 0.25f;
+            geo.Color = Color.Lime * 0.5f;
             geo.LineWidth = 0.1f;
 
             var shape = this.body.Shape;

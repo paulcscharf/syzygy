@@ -60,8 +60,11 @@
     <Compile Include="GameManagement\handlers\Client\BuildGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Client\IngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Client\ReadyGameHandler.cs" />
+    <Compile Include="GameManagement\handlers\Client\StateContainer.cs" />
     <Compile Include="GameManagement\handlers\GenericGameHandler.cs" />
     <Compile Include="GameGeneration\GameBuilder.cs" />
+    <Compile Include="GameManagement\handlers\Server\StateContainer.cs" />
+    <Compile Include="GameManagement\IStateContainer.cs" />
     <Compile Include="GameManagement\handlers\Server\BuildGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\IngameGameHandler.cs" />
     <Compile Include="GameManagement\handlers\Server\ReadyGameHandler.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="GameManagement\networking\LobbyMessageType.cs" />
     <Compile Include="GameManagement\PlayerConnectionLookup.cs" />
     <Compile Include="DeletableObjectDictionary.cs" />
+    <Compile Include="GameManagement\StateContainer.cs" />
     <Compile Include="Game\Astronomy\ClientCollisionHandler.cs" />
     <Compile Include="Game\Behaviours\ClientBehaviourProvider.cs" />
     <Compile Include="Game\Behaviours\ClientContinuousSynchronizer.cs" />
@@ -103,6 +107,9 @@
     <Compile Include="Game\SyncedCommands\UnifiedRequestCommand.cs" />
     <Compile Include="IdManager.cs" />
     <Compile Include="NetworkHelpers.cs" />
+    <Compile Include="Rendering\Game\IGameView.cs" />
+    <Compile Include="Rendering\Game\PlayerGameView.cs" />
+    <Compile Include="Rendering\Game\ViewParameters.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="GameManagement\handlers\Client\ConnectingGameHandler.cs" />
     <Compile Include="GameManagement\handlers\ConnectionGameHandler.cs" />

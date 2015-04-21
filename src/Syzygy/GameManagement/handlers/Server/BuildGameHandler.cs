@@ -4,20 +4,23 @@ using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Behaviours;
 using Syzygy.GameGeneration;
+using Syzygy.Rendering.Game;
 
 namespace Syzygy.GameManagement.Server
 {
     sealed class BuildGameHandler : GenericBuildGameHandler<NetServer>
     {
-        private readonly PlayerLookup players;
-        private readonly PlayerConnectionLookup connections;
-        private GameState game;
+        private readonly StateContainer.Builder stateBuilder;
 
         public BuildGameHandler(NetServer server, PlayerLookup players, PlayerConnectionLookup connections, Id<Player> ownID)
             : base(server, players, ownID, new ServerBehaviourProvider(server, connections))
         {
-            this.players = players;
-            this.connections = connections;
+            this.stateBuilder = new StateContainer.Builder
+            {
+                Server = server,
+                Players = players,
+                Connections = connections,
+            };
             var generator = new SimpleGenerator();
 
             var instructions = generator.Generate(players.Select(p => p.ID).ToList());
@@ -39,7 +42,8 @@ namespace Syzygy.GameManagement.Server
             }
 
             // send finish message and finish
-            this.game = this.finish();
+            this.stateBuilder.Game = this.finish();
+            this.stateBuilder.View = new PlayerGameView(this.stateBuilder.Game);
 
             if (connections.Count > 0)
             {
@@ -51,7 +55,7 @@ namespace Syzygy.GameManagement.Server
 
         public override void Update(UpdateEventArgs e)
         {
-            this.stop(new ReadyGameHandler(this.peer, this.game, this.players, this.connections));
+            this.stop(new ReadyGameHandler(this.stateBuilder.Build()));
         }
     }
 }

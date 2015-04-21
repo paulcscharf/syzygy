@@ -1,6 +1,5 @@
 using System;
 using Lidgren.Network;
-using Syzygy.Game;
 using Syzygy.Game.SyncedCommands;
 
 namespace Syzygy.GameManagement.Server
@@ -9,10 +8,10 @@ namespace Syzygy.GameManagement.Server
     {
         private readonly RequestReader requestReader;
 
-        public IngameGameHandler(NetServer peer, GameState game, PlayerLookup players, PlayerConnectionLookup connections)
-            : base(peer, game, players)
+        public IngameGameHandler(StateContainer state)
+            : base(state)
         {
-            this.requestReader = new RequestReader(this.game, connections);
+            this.requestReader = new RequestReader(state.Game, state.Connections);
         }
 
         protected override void onDataMessage(NetIncomingMessage message)
@@ -33,7 +32,7 @@ namespace Syzygy.GameManagement.Server
         {
             var request = this.requestReader.FromBuffer(message);
 
-            this.game.RequestHandler.TryDo(request);
+            this.state.Game.RequestHandler.TryDo(request);
         }
     }
 }

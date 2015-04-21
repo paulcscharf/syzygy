@@ -2,6 +2,7 @@ using amulware.Graphics;
 using Bearded.Utilities;
 using OpenTK.Graphics.OpenGL;
 using Syzygy.Game;
+using Syzygy.Rendering.Game;
 
 namespace Syzygy.Rendering
 {
@@ -30,9 +31,11 @@ namespace Syzygy.Rendering
             GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 
-        public void Render(GameState game)
+        public void Render(IGameView view)
         {
-            game.Draw();
+            this.surfaces.SetMatrices(view.ViewParameters);
+
+            view.DrawGame();
 
             SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 

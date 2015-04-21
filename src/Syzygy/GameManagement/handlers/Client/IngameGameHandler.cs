@@ -1,6 +1,5 @@
 ﻿using System;
 using Lidgren.Network;
-using Syzygy.Game;
 using Syzygy.Game.SyncedCommands;
 
 namespace Syzygy.GameManagement.Client
@@ -9,10 +8,10 @@ namespace Syzygy.GameManagement.Client
     {
         private readonly CommandReader commandReader;
 
-        public IngameGameHandler(NetClient peer, GameState game, PlayerLookup players)
-            : base(peer, game, players)
+        public IngameGameHandler(StateContainer state)
+            : base(state)
         {
-            this.commandReader = new CommandReader(game);
+            this.commandReader = new CommandReader(state.Game);
         }
 
         protected override void onDataMessage(NetIncomingMessage message)

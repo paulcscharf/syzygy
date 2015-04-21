@@ -1,19 +1,16 @@
 using Bearded.Utilities;
 using Lidgren.Network;
-using Syzygy.Game;
 
 namespace Syzygy.GameManagement.Client
 {
     sealed class ReadyGameHandler : GenericGameHandler<NetClient>
     {
-        private readonly GameState game;
-        private readonly PlayerLookup players;
+        private readonly StateContainer state;
 
-        public ReadyGameHandler(NetClient client, GameState game, PlayerLookup players)
-            : base(client)
+        public ReadyGameHandler(StateContainer state)
+            : base(state.Peer)
         {
-            this.game = game;
-            this.players = players;
+            this.state = state;
         }
 
         protected override void onDataMessage(NetIncomingMessage message)
@@ -32,7 +29,7 @@ namespace Syzygy.GameManagement.Client
 
         private void startGame()
         {
-            this.stop(new IngameGameHandler(this.peer, this.game, this.players));
+            this.stop(new IngameGameHandler(this.state));
         }
     }
 }

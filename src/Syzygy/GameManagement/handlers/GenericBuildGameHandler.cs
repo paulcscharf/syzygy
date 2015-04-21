@@ -1,7 +1,6 @@
 using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Behaviours;
-using Syzygy.Game.SyncedCommands;
 using Syzygy.GameGeneration;
 
 namespace Syzygy.GameManagement
@@ -12,7 +11,7 @@ namespace Syzygy.GameManagement
         private readonly Id<Player> ownID;
         private readonly GameBuilder gameBuilder;
 
-        public GenericBuildGameHandler(TPeer peer, PlayerLookup players, Id<Player> ownID, IGameBehaviourProvider behaviourProvider)
+        protected GenericBuildGameHandler(TPeer peer, PlayerLookup players, Id<Player> ownID, IGameBehaviourProvider behaviourProvider)
             : base(peer)
         {
             this.ownID = ownID;

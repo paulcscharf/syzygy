@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using amulware.Graphics;
 using Bearded.Utilities;
-using Bearded.Utilities.Linq;
 using Lidgren.Network;
 using Syzygy.Forms;
 using Syzygy.Game;
@@ -23,7 +21,6 @@ namespace Syzygy.GameManagement.Server
 
         private readonly IdManager idMan = new IdManager();
 
-        private readonly GameWindow gameWindow;
         private readonly List<Player> players = new List<Player>();
         private readonly PlayerConnectionLookup connections = new PlayerConnectionLookup();
         private readonly Player me;
@@ -32,7 +29,6 @@ namespace Syzygy.GameManagement.Server
 
         public LobbyGameHandler(GameWindow gameWindow, string playerName)
         {
-            this.gameWindow = gameWindow;
             this.players.Add(this.me = new Player(this.idMan.GetNext<Player>(), playerName));
 
             gameWindow.UIActionQueue.RunAndForget(this.makeForm);

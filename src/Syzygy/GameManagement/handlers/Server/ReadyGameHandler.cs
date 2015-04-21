@@ -9,18 +9,14 @@ namespace Syzygy.GameManagement.Server
 {
     sealed class ReadyGameHandler : GenericGameHandler<NetServer>
     {
-        private readonly GameState game;
-        private readonly PlayerLookup players;
-        private readonly PlayerConnectionLookup connections;
+        private readonly StateContainer state;
         private readonly HashSet<Id<Player>> readyPlayers = new HashSet<Id<Player>>(); 
         
-        public ReadyGameHandler(NetServer server, GameState game, PlayerLookup players, PlayerConnectionLookup connections)
-            : base(server)
+        public ReadyGameHandler(StateContainer state)
+            : base(state.Peer)
         {
-            this.game = game;
-            this.players = players;
-            this.connections = connections;
-            this.readyPlayers.Add(players.First().ID);
+            this.state = state;
+            this.readyPlayers.Add(state.Players.First().ID);
         }
 
         public override void Update(UpdateEventArgs e)
@@ -38,7 +34,7 @@ namespace Syzygy.GameManagement.Server
             {
                 case GameGenerationMessageType.PlayerReady:
                 {
-                    this.readyPlayers.Add(this.connections[message.SenderConnection]);
+                    this.readyPlayers.Add(this.state.Connections[message.SenderConnection]);
                     break;
                 }
                 default:
@@ -51,20 +47,20 @@ namespace Syzygy.GameManagement.Server
 
         private void tryStartGame()
         {
-            if (this.readyPlayers.Count == this.players.Count)
+            if (this.readyPlayers.Count == this.state.Players.Count)
                 this.startGame();
         }
 
         private void startGame()
         {
-            if (this.connections.Count > 0)
+            if (this.state.Connections.Count > 0)
             {
                 var startMessage = this.peer.CreateMessage();
                 startMessage.Write((byte)GameGenerationMessageType.StartGame);
-                this.peer.SendMessage(startMessage, this.connections,
+                this.peer.SendMessage(startMessage, this.state.Connections,
                     NetDeliveryMethod.ReliableOrdered, 0);
             }
-            this.stop(new IngameGameHandler(this.peer, this.game, this.players, this.connections));
+            this.stop(new IngameGameHandler(this.state));
         }
     }
 }

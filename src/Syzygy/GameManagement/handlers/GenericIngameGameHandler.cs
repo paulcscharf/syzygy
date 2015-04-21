@@ -1,6 +1,5 @@
 using amulware.Graphics;
 using Lidgren.Network;
-using Syzygy.Game;
 using Syzygy.Rendering;
 
 namespace Syzygy.GameManagement
@@ -8,26 +7,24 @@ namespace Syzygy.GameManagement
     abstract class GenericIngameGameHandler<TPeer> : GenericGameHandler<TPeer>, IGameDrawer
         where TPeer : NetPeer
     {
-        protected readonly GameState game;
-        protected readonly PlayerLookup players;
+        protected readonly IStateContainer<TPeer> state;
 
-        public GenericIngameGameHandler(TPeer peer, GameState game, PlayerLookup players)
-            : base(peer)
+        protected GenericIngameGameHandler(IStateContainer<TPeer> state)
+            : base(state.Peer)
         {
-            this.game = game;
-            this.players = players;
+            this.state = state;
         }
 
         public override void Update(UpdateEventArgs e)
         {
             base.Update(e);
 
-            this.game.Update(e);
+            this.state.Game.Update(e);
         }
 
         public void Render(RenderManager renderMan)
         {
-            renderMan.Render(this.game);
+            renderMan.Render(this.state.View);
         }
     }
 }
