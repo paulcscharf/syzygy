@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
@@ -8,6 +9,7 @@ using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
 using Syzygy.Rendering.Game;
+using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Syzygy.Game
 {
@@ -111,8 +113,6 @@ namespace Syzygy.Game
 
             for (int i = 0; i < 50; i++)
             {
-                var t = TimeSpan.One * (0.75f / v.Speed.NumericValue.Squared());
-
                 var acceleration = Vector2.Zero;
 
                 foreach (var body in this.game.Bodies)
@@ -129,6 +129,10 @@ namespace Syzygy.Game
 
                     acceleration += dirNormal * a;
                 }
+
+                var speedFactor = Math.Min(0.5f / acceleration.Length.Sqrted(), 0.5f / v.Speed.NumericValue.Squared());
+
+                var t = TimeSpan.One * speedFactor;
 
 
                 v += new Velocity2(acceleration * (float)t.NumericValue);

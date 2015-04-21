@@ -14,9 +14,9 @@ namespace Syzygy.GameGeneration
 
             var sun = idMan.GetNext<IBody>();
 
-            yield return new NewFixedBodyInstruction(sun, new Position2(), Radius.FromValue(1), 3f);
+            yield return new NewFixedBodyInstruction(sun, new Position2(), Radius.FromValue(1), 1);
 
-            var orbitRadius = 5.U();
+            var orbitRadius = 7.U();
             var orbitStep = 4.U();
 
             foreach (var pId in playerIds)
