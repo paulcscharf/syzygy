@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Windows.Forms;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
@@ -78,7 +77,6 @@ namespace Syzygy.Game
 
         public override void Draw(GeometryManager geos)
         {
-
             var geo = geos.Primitives;
 
             geo.Color = Color.Lime * 0.5f;
@@ -96,6 +94,58 @@ namespace Syzygy.Game
             geo.LineWidth = 0.05f;
             geo.DrawLine(center + dVector * r, center + dVector * (r + 0.25f));
 
+            this.drawHealthBar(geo);
+            this.drawProjectilePathPreview(geo);
+        }
+
+        private void drawProjectilePathPreview(PrimitiveGeometry geo)
+        {
+            var s = this.body.Shape;
+            var dVector = this.aimDirection.Vector;
+
+            var v = new Velocity2(dVector * 0.9f) + this.body.Velocity;
+            var p = s.Center + new Difference2(dVector * s.Radius.NumericValue * 1.5f);
+
+            geo.LineWidth = 0.05f;
+            geo.Color = Color.Gray;
+
+            for (int i = 0; i < 50; i++)
+            {
+                var t = TimeSpan.One * (0.75f / v.Speed.NumericValue.Squared());
+
+                var acceleration = Vector2.Zero;
+
+                foreach (var body in this.game.Bodies)
+                {
+                    var shape = body.Shape;
+
+                    var difference = shape.Center - p;
+
+                    var distanceSquared = difference.LengthSquared;
+
+                    var a = Constants.G * body.Mass / distanceSquared.NumericValue;
+
+                    var dirNormal = difference.Direction.Vector;
+
+                    acceleration += dirNormal * a;
+                }
+
+
+                v += new Velocity2(acceleration * (float)t.NumericValue);
+
+                var p2 = p + v * t;
+
+                geo.DrawLine(p.Vector, p2.Vector);
+
+                p = p2;
+            }
+        }
+
+        private void drawHealthBar(PrimitiveGeometry geo)
+        {
+            var shape = this.body.Shape;
+            var center = shape.Center.Vector;
+            var r = shape.Radius.NumericValue + 0.2f;
 
             var p = this.body.HealthPercentage;
 
@@ -107,8 +157,6 @@ namespace Syzygy.Game
             geo.DrawLine(barStart, barStart + new Vector2(barLength, 0));
             geo.Color = Color.FromHSVA(p.Squared() * GameMath.Pi * 2 / 3, 0.8f, 0.8f);
             geo.DrawLine(barStart, barStart + new Vector2(barLength * p, 0));
-
         }
-
     }
 }
