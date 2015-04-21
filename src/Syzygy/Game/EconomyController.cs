@@ -4,6 +4,7 @@ using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using OpenTK;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
@@ -94,6 +95,18 @@ namespace Syzygy.Game
 
             geo.LineWidth = 0.05f;
             geo.DrawLine(center + dVector * r, center + dVector * (r + 0.25f));
+
+
+            var p = this.body.HealthPercentage;
+
+            const float barLength = 1.5f;
+            var barStart = center + new Vector2(-0.5f * barLength, -r - 0.25f);
+
+            geo.LineWidth = 0.075f;
+            geo.Color = Color.Gray;
+            geo.DrawLine(barStart, barStart + new Vector2(barLength, 0));
+            geo.Color = Color.FromHSVA(p.Squared() * GameMath.Pi * 2 / 3, 0.8f, 0.8f);
+            geo.DrawLine(barStart, barStart + new Vector2(barLength * p, 0));
 
         }
 

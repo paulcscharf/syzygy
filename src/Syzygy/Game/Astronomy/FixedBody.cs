@@ -11,10 +11,6 @@ namespace Syzygy.Game.Astronomy
         private readonly float mass;
         private readonly Color color;
 
-        public Circle Shape { get { return new Circle(this.center, this.radius); } }
-        public float Mass { get { return this.mass; } }
-        public Velocity2 Velocity { get { return new Velocity2(); } }
-
         public FixedBody(GameState game, Id<IBody> id, Position2 center, Radius radius, float mass, Color color)
             : base(game, id)
         {
@@ -22,6 +18,16 @@ namespace Syzygy.Game.Astronomy
             this.radius = radius;
             this.mass = mass;
             this.color = color;
+        }
+
+        public Circle Shape { get { return new Circle(this.center, this.radius); } }
+        public float Mass { get { return this.mass; } }
+        public Velocity2 Velocity { get { return new Velocity2(); } }
+
+        public float HealthPercentage { get { return 1f; } }
+
+        public void DealDamage(float damage)
+        {
         }
 
         public override void Update(TimeSpan t)

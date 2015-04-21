@@ -8,5 +8,8 @@ namespace Syzygy.Game.Astronomy
         float Mass { get; }
 
         Velocity2 Velocity { get; }
+
+        float HealthPercentage { get; }
+        void DealDamage(float damage);
     }
 }

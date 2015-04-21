@@ -24,7 +24,7 @@ namespace Syzygy.GameGeneration
                 var planet = idMan.GetNext<IBody>();
 
                 yield return new NewOrbitingBodyInstruction(planet, sun,
-                    Radius.FromValue(orbitRadius), Direction2.Zero, Radius.FromValue(0.5f), 0.25f);
+                    Radius.FromValue(orbitRadius), Direction2.Zero, Radius.FromValue(0.5f), 0.25f, 100);
 
                 yield return new AssignPlayerToBodyInstruction(pId, planet);
 

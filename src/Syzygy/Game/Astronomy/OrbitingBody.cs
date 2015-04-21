@@ -1,3 +1,4 @@
+using System;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -14,13 +15,17 @@ namespace Syzygy.Game.Astronomy
         private readonly Radius radius;
         private readonly float mass;
         private readonly Color color;
+        private readonly float maxHealth;
+
+        private float health;
 
         private readonly Angle angularVelocity;
 
         private Position2 center;
 
         public OrbitingBody(GameState game, Id<IBody> id, IBody parent,
-            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
+            Radius orbitRadius, Direction2 orbitDirection, Radius radius,
+            float mass, Color color, float health)
             : base(game, id)
         {
             this.parent = parent;
@@ -29,6 +34,8 @@ namespace Syzygy.Game.Astronomy
             this.radius = radius;
             this.mass = mass;
             this.color = color;
+            this.health = health;
+            this.maxHealth = health;
 
             this.center = this.calculatePosition();
 
@@ -37,8 +44,8 @@ namespace Syzygy.Game.Astronomy
         }
 
         public OrbitingBody(GameState game, Id<IBody> id, Id<IBody> parentId,
-            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color)
-            : this(game, id, game.Bodies[parentId], orbitRadius, orbitDirection, radius, mass, color)
+            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, Color color, float health)
+            : this(game, id, game.Bodies[parentId], orbitRadius, orbitDirection, radius, mass, color, health)
         {
         }
 
@@ -57,6 +64,16 @@ namespace Syzygy.Game.Astronomy
                 return new Velocity2(this.orbitDirection.Vector.PerpendicularLeft
                     * (this.angularVelocity.Radians * this.orbitRadius.NumericValue));
             }
+        }
+
+        public float HealthPercentage { get { return this.health / this.maxHealth; } }
+
+        public void DealDamage(float damage)
+        {
+            if (damage <= 0)
+                return;
+
+            this.health = Math.Max(this.health - damage, 0);
         }
 
         public override void Update(TimeSpan t)

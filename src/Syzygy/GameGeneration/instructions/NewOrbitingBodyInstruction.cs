@@ -20,8 +20,10 @@ namespace Syzygy.GameGeneration
             public readonly Direction2 OrbitDirection;
             public readonly Radius Radius;
             public readonly float Mass;
+            public readonly float Health;
 
-            public Parameters(Id<IBody> id, Id<IBody> parentId, Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass)
+            public Parameters(Id<IBody> id, Id<IBody> parentId, Radius orbitRadius, Direction2 orbitDirection,
+                Radius radius, float mass, float health)
             {
                 this.Id = id;
                 this.ParentId = parentId;
@@ -29,6 +31,7 @@ namespace Syzygy.GameGeneration
                 this.OrbitDirection = orbitDirection;
                 this.Radius = radius;
                 this.Mass = mass;
+                this.Health = health;
             }
         }
 
@@ -39,8 +42,8 @@ namespace Syzygy.GameGeneration
             : base(GenerationMessageType.NewOrbitingBody, parameters) { }
 
         public NewOrbitingBodyInstruction(Id<IBody> id, Id<IBody> parentId,
-            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass)
-            : this(new Parameters(id, parentId, orbitRadius, orbitDirection, radius, mass)) { }
+            Radius orbitRadius, Direction2 orbitDirection, Radius radius, float mass, float health)
+            : this(new Parameters(id, parentId, orbitRadius, orbitDirection, radius, mass, health)) { }
 
         public override void Execute(GameState game)
         {
@@ -51,7 +54,8 @@ namespace Syzygy.GameGeneration
                 this.parameters.OrbitDirection,
                 this.parameters.Radius,
                 this.parameters.Mass,
-                Color.Gray
+                Color.Gray,
+                this.parameters.Health
                 );
         }
     }

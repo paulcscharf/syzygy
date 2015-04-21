@@ -16,7 +16,7 @@ namespace Syzygy.Game.FreeObjects
 
         protected override void hitBody(IBody body)
         {
-            // TODO: deal damage
+            body.DealDamage(1);
 
             base.hitBody(body);
         }

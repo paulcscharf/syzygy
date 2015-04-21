@@ -121,7 +121,7 @@ namespace Syzygy.Game.SyncedCommands
             {
                 var bodyShape = body.Shape;
 
-                var d = Difference2.In(direction, 1.U());
+                var d = Difference2.In(direction, 0.9f.U());
 
                 this.ps = new CommandParameters(
                     this.game.GetUniqueId<FreeObject>(),
