@@ -7,11 +7,13 @@ using OpenTK.Input;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
+using Syzygy.Rendering.Game;
 
 namespace Syzygy.Game
 {
     sealed class EconomyController : GameObject, IPlayerController
     {
+        private readonly PlayerGameView view;
         private readonly Player player;
         private readonly IBody body;
 
@@ -23,11 +25,14 @@ namespace Syzygy.Game
 
         private Direction2 aimDirection;
 
-        public EconomyController(GameState game, Id<Player> player)
+        public EconomyController(GameState game, Id<Player> player, PlayerGameView view)
             : base(game)
         {
+            this.view = view;
             this.player = game.Players[player];
             this.body = game.Economies.First(e => e.Player == this.player).Body;
+
+            view.FocusOnBody(this.body);
 
             this.rotateClockwiseAction = KeyboardAction.FromKey(Key.Right);
             this.rotateCounterClockwiseAction = KeyboardAction.FromKey(Key.Left);

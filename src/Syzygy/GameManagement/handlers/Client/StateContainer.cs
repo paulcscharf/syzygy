@@ -11,7 +11,7 @@ namespace Syzygy.GameManagement.Client
         {
         }
 
-        public class Builder
+        public class Builder : IBuilder
         {
             public NetClient Client { get; set; }
             public GameState Game { get; set; }

@@ -25,8 +25,7 @@ namespace Syzygy.GameManagement.Client
             var type = (GenerationMessageType)message.ReadByte();
             if (type == GenerationMessageType.FinishGenerating)
             {
-                this.stateBuilder.Game = this.finish();
-                this.stateBuilder.View = new PlayerGameView(this.stateBuilder.Game);
+                this.finish(this.stateBuilder);
 
                 var readyMessage = this.peer.CreateMessage();
                 readyMessage.Write((byte)GameGenerationMessageType.PlayerReady);

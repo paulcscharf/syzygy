@@ -42,8 +42,7 @@ namespace Syzygy.GameManagement.Server
             }
 
             // send finish message and finish
-            this.stateBuilder.Game = this.finish();
-            this.stateBuilder.View = new PlayerGameView(this.stateBuilder.Game);
+            this.finish(this.stateBuilder);
 
             if (connections.Count > 0)
             {

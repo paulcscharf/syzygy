@@ -18,7 +18,7 @@ namespace Syzygy.GameManagement.Server
             this.connections = connections;
         }
 
-        public class Builder
+        public class Builder : IBuilder
         {
             public NetServer Server { get; set; }
             public GameState Game { get; set; }

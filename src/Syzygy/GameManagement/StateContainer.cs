@@ -24,5 +24,11 @@ namespace Syzygy.GameManagement
             this.game = game;
             this.peer = peer;
         }
+
+        public interface IBuilder
+        {
+            GameState Game { set; }
+            IGameView View { set; }
+        }
     }
 }

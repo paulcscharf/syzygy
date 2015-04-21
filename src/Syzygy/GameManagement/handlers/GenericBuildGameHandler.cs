@@ -2,6 +2,7 @@ using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Behaviours;
 using Syzygy.GameGeneration;
+using Syzygy.Rendering.Game;
 
 namespace Syzygy.GameManagement
 {
@@ -23,11 +24,15 @@ namespace Syzygy.GameManagement
             this.gameBuilder.Execute(instruction);
         }
 
-        protected GameState finish()
+        protected void finish(StateContainer<TPeer>.IBuilder state)
         {
-            new EconomyController(this.gameBuilder.Game, this.ownID);
             this.gameBuilder.Finish();
-            return gameBuilder.Game;
+            var game = this.gameBuilder.Game;
+            var view = new PlayerGameView(game);
+            new EconomyController(game, this.ownID, view);
+
+            state.Game = game;
+            state.View = view;
         }
 
     }
