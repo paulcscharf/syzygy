@@ -19,7 +19,7 @@ namespace Syzygy.Game.SyncedCommands
             return new RequestImplementation(connectionLookup, connection, buffer, game);
         }
 
-        public static ICommand Command(NetBuffer buffer, GameState game)
+        public static ICommand Command(GameState game, NetBuffer buffer)
         {
             return new CommandImplementation(buffer, game);
         }

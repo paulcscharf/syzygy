@@ -21,7 +21,7 @@ namespace Syzygy.Game.SyncedCommands
             return new ShootProjectileFromPlanet.RequestImplementation(connectionLookup, connection, buffer, game);
         }
 
-        public static ICommand Command(NetBuffer buffer, GameState game)
+        public static ICommand Command(GameState game, NetBuffer buffer)
         {
             return new ShootProjectileFromPlanet.CommandImplementation(buffer, game);
         }
