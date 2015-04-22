@@ -99,6 +99,7 @@
     <Compile Include="Game\SyncedCommands\CommandReader.cs" />
     <Compile Include="Game\SyncedCommands\BaseCommand.cs" />
     <Compile Include="Game\SyncedCommands\CommandType.cs" />
+    <Compile Include="Game\SyncedCommands\implementations\EconomyUpdate.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ParticlePlanetCollision.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ParticleUpdate.cs" />
     <Compile Include="Game\SyncedCommands\implementations\ShootProjectileFromPlanet.cs" />

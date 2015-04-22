@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Bearded.Utilities;
 using Lidgren.Network;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
@@ -17,14 +16,16 @@ namespace Syzygy.Game.Behaviours
 
         private readonly Queue<FreeObject> objects = new Queue<FreeObject>();
 
-        private TimeSpan timeToNextUpdate;
+        private TimeSpan timeToNextObjectUpdate;
+        private TimeSpan timeToNextEcoUpdate;
 
         public ServerContinuousSynchronizer(GameState game, NetServer server, PlayerConnectionLookup connections)
             : base(game)
         {
             this.server = server;
             this.connections = connections;
-            this.timeToNextUpdate = TimeSpan.One;
+            this.timeToNextObjectUpdate = TimeSpan.One;
+            this.timeToNextEcoUpdate = TimeSpan.One;
         }
 
         public void Sync(FreeObject obj)
@@ -34,17 +35,39 @@ namespace Syzygy.Game.Behaviours
 
         public override void Update(TimeSpan t)
         {
-            this.timeToNextUpdate -= t;
+            this.timeToNextObjectUpdate -= t;
+            this.timeToNextEcoUpdate -= t;
 
-            if (timeToNextUpdate < TimeSpan.Zero)
+            if (this.timeToNextEcoUpdate < TimeSpan.Zero)
             {
-                this.sendUpdate();
+                this.sendEcoUpdate();
+                this.timeToNextEcoUpdate = TimeSpan.One;
+            }
+
+            if (this.timeToNextObjectUpdate < TimeSpan.Zero)
+            {
+                this.sendObjectUpdate();
                 // TODO: check math (intent: sends packages more often when there are more objects, to keep update frequency of single objects stable)
-                this.timeToNextUpdate = TimeSpan.One * (0.5f / (this.objects.Count + 2));
+                this.timeToNextObjectUpdate = TimeSpan.One * (0.5f / (this.objects.Count + 2));
             }
         }
 
-        private void sendUpdate()
+        private void sendEcoUpdate()
+        {
+            if (this.connections.Count == 0)
+                return;
+
+            var command = EconomyUpdate.Command(this.game);
+
+            var message = this.server.CreateMessage();
+            message.Write((byte)IngameMessageType.Command);
+            command.WriteToBuffer(message);
+
+            this.server.SendMessage(message, this.connections,
+                NetDeliveryMethod.UnreliableSequenced, Settings.Network.Channel.EconomyUpdates);
+        }
+
+        private void sendObjectUpdate()
         {
             if (this.objects.Count == 0 || this.connections.Count == 0)
                 return;
@@ -78,7 +101,8 @@ namespace Syzygy.Game.Behaviours
             message.Write((byte)IngameMessageType.Command);
             command.WriteToBuffer(message);
 
-            this.server.SendMessage(message, this.connections, NetDeliveryMethod.UnreliableSequenced, 1);  // TODO: replace ugly constant (1)
+            this.server.SendMessage(message, this.connections,
+                NetDeliveryMethod.UnreliableSequenced, Settings.Network.Channel.ParticleUpdates);
         }
 
         public override void Draw(GeometryManager geos)

@@ -7,6 +7,7 @@ namespace Syzygy.Game.SyncedCommands
         ParticlePlanetCollision = 2,
         ParticleUpdate = 3,
         ShootProjectileFromPlanet = 4,
+        EconomyUpdate = 5,
     }
 }
     

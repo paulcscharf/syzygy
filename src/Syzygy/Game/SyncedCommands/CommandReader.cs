@@ -25,6 +25,8 @@ namespace Syzygy.Game.SyncedCommands
                     return ParticleUpdate.Command(this.game, message);
                 case CommandType.ShootProjectileFromPlanet:
                     return ShootProjectileFromPlanet.Command(this.game, message);
+                case CommandType.EconomyUpdate:
+                    return EconomyUpdate.Command(this.game, message);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

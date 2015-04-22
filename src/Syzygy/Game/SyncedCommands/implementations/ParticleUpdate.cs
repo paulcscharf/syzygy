@@ -29,7 +29,7 @@ namespace Syzygy.Game.SyncedCommands
             public Position2 Position { get { return this.position; } }
             public Velocity2 Velocity { get { return this.velocity; } }
 
-            public SingleParameters(Id<FreeObject> id, Position2 position, Velocity2 velocity)
+            private SingleParameters(Id<FreeObject> id, Position2 position, Velocity2 velocity)
             {
                 this.id = id.Simple;
                 this.position = position;

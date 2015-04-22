@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Bearded.Utilities.Math;
 
 namespace Syzygy.Game.Economy
@@ -45,6 +45,11 @@ namespace Syzygy.Game.Economy
             if(value > this.Value)
                 throw new Exception("Cannot spend more resources than available.");
             this.Value -= value;
+        }
+
+        public void SetValue(double value)
+        {
+            this.Value = value;
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Syzygy.Game.Economy
 
         private readonly Dictionary<EcoValue, EcoStat> ecoStats = new Dictionary<EcoValue, EcoStat>(3)
         {
-            { EcoValue.Income, new EcoStat(1, 0.025f) },
-            { EcoValue.Projectiles, new EcoStat(0, 1f) },
-            { EcoValue.FireRate, new EcoStat(1, 0.1f) },
+            { EcoValue.Income, new EcoStat(1, 0.005f) },
+            { EcoValue.Projectiles, new EcoStat(0, 0.5f) },
+            { EcoValue.FireRate, new EcoStat(1, 0.025f) },
         };
 
         private double totalInvestment;
@@ -32,20 +32,10 @@ namespace Syzygy.Game.Economy
         public Player Player { get { return this.player; } }
         public IBody Body { get { return this.body; } }
 
-        public double TotalInvestment
-        {
-            get { return this.totalInvestment; }
-        }
-
-        public double Income
-        {
-            get { return this[EcoValue.Income].Value; }
-        }
-
-        public EcoStat this[EcoValue value]
-        {
-            get { return this.ecoStats[value]; }
-        }
+        public double TotalInvestment { get { return this.totalInvestment; } }
+        public double Income { get { return this[EcoValue.Income].Value; } }
+        public EcoStat this[EcoValue value] { get { return this.ecoStats[value]; } }
+        public ICollection<EcoValue> Values { get { return this.ecoStats.Keys; } } 
 
         public override void Update(TimeSpan t)
         {

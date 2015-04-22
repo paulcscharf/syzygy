@@ -1,6 +1,6 @@
 namespace Syzygy.Game.Economy
 {
-    enum EcoValue
+    enum EcoValue : byte
     {
         Income = 0,
         Projectiles,
