@@ -12,18 +12,18 @@ namespace Syzygy.Game.SyncedCommands
     {
         public static IRequest Request(GameState game, IPlayerController controller, IBody body, Direction2 direction)
         {
-            return new ShootProjectileFromPlanet.RequestImplementation(controller, game, body, direction);
+            return new RequestImplementation(controller, game, body, direction);
         }
 
         public static IRequest Request(GameState game, PlayerConnectionLookup connectionLookup, NetConnection connection,
             NetBuffer buffer)
         {
-            return new ShootProjectileFromPlanet.RequestImplementation(connectionLookup, connection, buffer, game);
+            return new RequestImplementation(connectionLookup, connection, buffer, game);
         }
 
         public static ICommand Command(GameState game, NetBuffer buffer)
         {
-            return new ShootProjectileFromPlanet.CommandImplementation(buffer, game);
+            return new CommandImplementation(buffer, game);
         }
 
         private struct RequestParameters

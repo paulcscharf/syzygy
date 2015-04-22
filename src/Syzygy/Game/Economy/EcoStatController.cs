@@ -3,21 +3,26 @@ using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.SpaceTime;
 using OpenTK;
+using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
 
 namespace Syzygy.Game.Economy
 {
     sealed class EcoStatController
     {
+        private readonly GameState game;
+        private readonly IPlayerController controller;
         private readonly Economy economy;
         private readonly EcoValue value;
         private readonly IAction decreaseInvestment;
         private readonly IAction increaseInvestment;
         private readonly string controlString;
 
-        public EcoStatController(Economy economy, EcoValue value,
+        public EcoStatController(GameState game, IPlayerController controller, Economy economy, EcoValue value,
             IAction decreaseInvestment, IAction increaseInvestment, string controlString)
         {
+            this.game = game;
+            this.controller = controller;
             this.economy = economy;
             this.value = value;
             this.decreaseInvestment = decreaseInvestment;
@@ -27,11 +32,26 @@ namespace Syzygy.Game.Economy
 
         public void Update(TimeSpan t)
         {
+            var delta = 0D;
+
             if (this.increaseInvestment.Hit)
-                this.economy[this.value].Investment += 0.1;
+                delta += 0.1;
 
             if (this.decreaseInvestment.Hit)
-                this.economy[this.value].Investment -= 0.1;
+                delta -= 0.1;
+
+            if (delta != 0)
+            {
+                var stat = this.economy[this.value];
+                var investment = stat.Investment;
+                stat.Investment += delta;
+                if (stat.Investment != investment)
+                {
+                    var request = EconomyValueInvestmentChanged
+                        .Request(this.game, this.controller, this.value, stat.Investment);
+                    this.game.RequestHandler.TryDo(request);
+                }
+            }
         }
 
         public void Draw(GeometryManager geos)

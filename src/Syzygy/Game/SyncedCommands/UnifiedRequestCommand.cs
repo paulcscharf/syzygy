@@ -29,6 +29,7 @@ namespace Syzygy.Game.SyncedCommands
             this.game = game;
             this.requester = game.Players[connectionLookup[connection]];
         }
+        public virtual bool IsClientOnlyRequest { get { return false; } }
         public Player Requester { get { return this.requester; } }
 
         public abstract bool CheckPreconditions();
@@ -53,7 +54,8 @@ namespace Syzygy.Game.SyncedCommands
             this.commandType = commandType;
         }
 
-        
+
+        public virtual bool IsServerOnlyCommand { get { return false; } }
         public abstract void Execute();
 
         void ICommand.WriteToBuffer(NetBuffer buffer)

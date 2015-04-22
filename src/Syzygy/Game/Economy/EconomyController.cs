@@ -44,11 +44,11 @@ namespace Syzygy.Game.Economy
 
             this.stats = new[]
             {
-                new EcoStatController(this.economy, EcoValue.Income,
+                new EcoStatController(this.game, this, this.economy, EcoValue.Income,
                     KeyboardAction.FromKey(Key.Q),KeyboardAction.FromKey(Key.W), "Q<>W"), 
-                new EcoStatController(this.economy, EcoValue.Projectiles,
+                new EcoStatController(this.game, this, this.economy, EcoValue.Projectiles,
                     KeyboardAction.FromKey(Key.A),KeyboardAction.FromKey(Key.S), "A<>S"), 
-                new EcoStatController(this.economy, EcoValue.FireRate,
+                new EcoStatController(this.game, this, this.economy, EcoValue.FireRate,
                     KeyboardAction.FromKey(Key.Z),KeyboardAction.FromKey(Key.X), "Z<>X"), 
             };
         }

@@ -5,5 +5,6 @@ namespace Syzygy.Game.SyncedCommands
         Unknown = 0,
         ShootDebugParticleFromPlanet = 1,
         ShootProjectileFromPlanet = 2,
+        EconomyValueInvestmentChanged = 3,
     }
 }

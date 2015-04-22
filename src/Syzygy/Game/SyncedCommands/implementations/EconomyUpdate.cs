@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Bearded.Utilities.SpaceTime;
 using Lidgren.Network;
@@ -121,6 +121,8 @@ namespace Syzygy.Game.SyncedCommands
                     this.parameters.Add(new ParameterGroup(buffer));
                 }
             }
+
+            public bool IsServerOnlyCommand { get { return false; } }
 
             public void Execute()
             {

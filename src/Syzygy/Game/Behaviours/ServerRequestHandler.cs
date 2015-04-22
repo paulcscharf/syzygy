@@ -14,6 +14,9 @@ namespace Syzygy.Game.Behaviours
 
         public void TryDo(IRequest request)
         {
+            if (request.IsClientOnlyRequest)
+                return;
+
             if (!request.CheckPreconditions())
             {
                 Console.WriteLine("Invalid request received and disregarded.");

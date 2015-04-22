@@ -24,6 +24,8 @@ namespace Syzygy.Game.SyncedCommands
             this.requester = game.Players[connectionLookup[connection]];
         }
 
+        public virtual bool IsClientOnlyRequest { get { return false; } }
+
         public Player Requester { get { return this.requester; } }
 
         public abstract bool CheckPreconditions();

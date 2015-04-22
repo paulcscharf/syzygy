@@ -9,6 +9,8 @@ namespace Syzygy.Game.SyncedCommands
 
         Player Requester { get; } 
 
+        bool IsClientOnlyRequest { get; }
+
         bool CheckPreconditions();
         void WriteToBuffer(NetBuffer buffer);
 

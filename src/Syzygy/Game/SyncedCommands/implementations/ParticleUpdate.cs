@@ -69,6 +69,8 @@ namespace Syzygy.Game.SyncedCommands
                  }
              }
 
+             public bool IsServerOnlyCommand { get { return false; } }
+
              public void Execute()
              {
                  foreach (var p in this.parameters)

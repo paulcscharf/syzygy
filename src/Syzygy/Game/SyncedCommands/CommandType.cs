@@ -1,6 +1,6 @@
 namespace Syzygy.Game.SyncedCommands
 {
-    internal enum CommandType
+    enum CommandType
     {
         Unknown = 0,
         ShootDebugParticleFromPlanet = 1,
@@ -8,6 +8,7 @@ namespace Syzygy.Game.SyncedCommands
         ParticleUpdate = 3,
         ShootProjectileFromPlanet = 4,
         EconomyUpdate = 5,
+        EconomyValueInvestmentChanged = 6,
     }
 }
     

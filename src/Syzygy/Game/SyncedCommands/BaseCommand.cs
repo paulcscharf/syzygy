@@ -14,6 +14,7 @@ namespace Syzygy.Game.SyncedCommands
             this.game = game;
         }
 
+        public virtual bool IsServerOnlyCommand { get { return false; } }
         public abstract void Execute();
 
         public void WriteToBuffer(NetBuffer buffer)

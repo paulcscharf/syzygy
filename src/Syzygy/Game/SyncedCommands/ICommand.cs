@@ -9,6 +9,8 @@ namespace Syzygy.Game.SyncedCommands
         // ctor From(Request) or From(parameters)
         // ctor From(Buffer)
 
+        bool IsServerOnlyCommand { get; }
+
         void Execute();
         void WriteToBuffer(NetBuffer buffer);
     }
