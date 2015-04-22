@@ -45,10 +45,12 @@ namespace Syzygy.Game.Economy
             this.stats = new[]
             {
                 new EcoStatController(this.game, this, this.economy, EcoValue.Income,
-                    KeyboardAction.FromKey(Key.Q),KeyboardAction.FromKey(Key.W), "Q<>W"), 
+                    KeyboardAction.FromKey(Key.Number1),KeyboardAction.FromKey(Key.Number2), "1<>2"), 
                 new EcoStatController(this.game, this, this.economy, EcoValue.Projectiles,
-                    KeyboardAction.FromKey(Key.A),KeyboardAction.FromKey(Key.S), "A<>S"), 
+                    KeyboardAction.FromKey(Key.Q),KeyboardAction.FromKey(Key.W), "Q<>W"), 
                 new EcoStatController(this.game, this, this.economy, EcoValue.FireRate,
+                    KeyboardAction.FromKey(Key.A),KeyboardAction.FromKey(Key.S), "A<>S"), 
+                new EcoStatController(this.game, this, this.economy, EcoValue.Defenses,
                     KeyboardAction.FromKey(Key.Z),KeyboardAction.FromKey(Key.X), "Z<>X"), 
             };
         }
@@ -151,6 +153,12 @@ namespace Syzygy.Game.Economy
             {
                 stat.Draw(geos);
             }
+
+            p = new Vector2(-16f, 9f - 0.5f * this.stats.Count());
+
+            var damageReduction = (1 - this.economy.DamageFactor) * 100;
+
+            text.DrawString(p, string.Format("Damage Reduction: {0:0.0}%", damageReduction));
         }
 
         private void drawProjectilePathPreview(PrimitiveGeometry geo)

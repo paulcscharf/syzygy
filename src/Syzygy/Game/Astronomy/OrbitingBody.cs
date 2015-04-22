@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -72,6 +73,11 @@ namespace Syzygy.Game.Astronomy
         {
             if (damage <= 0)
                 return;
+
+            var eco = this.game.Economies.FirstOrDefault(e => e.Body == this);
+
+            if (eco != null)
+                damage *= eco.DamageFactor;
 
             this.health = Math.Max(this.health - damage, 0);
         }

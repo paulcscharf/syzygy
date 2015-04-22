@@ -4,6 +4,7 @@ namespace Syzygy.Game.Economy
     {
         Income = 0,
         Projectiles,
-        FireRate
+        FireRate,
+        Defenses,
     }
 }

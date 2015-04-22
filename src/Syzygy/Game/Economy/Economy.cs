@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bearded.Utilities.Math;
 using Syzygy.Game.Astronomy;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
@@ -16,6 +18,7 @@ namespace Syzygy.Game.Economy
             { EcoValue.Income, new EcoStat(1, 0.005f) },
             { EcoValue.Projectiles, new EcoStat(0, 0.5f) },
             { EcoValue.FireRate, new EcoStat(1, 0.025f) },
+            { EcoValue.Defenses, new EcoStat(0, 0.01f) },
         };
 
         private double totalInvestment;
@@ -34,6 +37,16 @@ namespace Syzygy.Game.Economy
 
         public double TotalInvestment { get { return this.totalInvestment; } }
         public double Income { get { return this[EcoValue.Income].Value; } }
+
+        public float DamageFactor
+        {
+            get
+            {
+                var defense = this[EcoValue.Defenses].Value;
+                return (float)(1 - 2 / Math.PI * Math.Atan(defense));
+            }
+        }
+
         public EcoStat this[EcoValue value] { get { return this.ecoStats[value]; } }
         public ICollection<EcoValue> Values { get { return this.ecoStats.Keys; } } 
 
@@ -44,7 +57,6 @@ namespace Syzygy.Game.Economy
             var credits = this.Income * t.NumericValue;
 
             this.invest(credits);
-
         }
 
         private void invest(double credits)
