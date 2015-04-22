@@ -78,8 +78,7 @@ namespace Syzygy.Game.Astronomy
 
         public override void Update(TimeSpan t)
         {
-            var step = this.angularVelocity * (float)t.NumericValue;
-            this.orbitDirection += step;
+            this.orbitDirection = Direction2.Zero + this.angularVelocity * (float)this.game.Time.NumericValue;
             this.center = this.calculatePosition();
         }
 

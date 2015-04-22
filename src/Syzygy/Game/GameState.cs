@@ -52,6 +52,8 @@ namespace Syzygy.Game
 
         #region Properties
 
+        public Instant Time { get { return this.time; } }
+
         public PlayerLookup Players { get { return this.players; } }
         public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
         public DeletableObjectDictionary<FreeObject> FreeObjects { get { return this.freeObjects; } }
@@ -108,6 +110,15 @@ namespace Syzygy.Game
         public Id<T> GetUniqueId<T>()
         {
             return this.idManager.GetNext<T>();
+        }
+
+        #endregion
+
+        #region Overrides
+
+        public void SetTime(Instant time)
+        {
+            this.time = time;
         }
 
         #endregion

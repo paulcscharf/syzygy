@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Bearded.Utilities;
 using Bearded.Utilities.SpaceTime;
@@ -56,6 +56,10 @@ namespace Syzygy.Game.SyncedCommands
              public CommandImplementation(GameState game, NetBuffer buffer)
              {
                  this.game = game;
+                 var time = new Instant(buffer.ReadDouble());
+
+                 this.game.SetTime(time);
+
                  int count = buffer.ReadByte();
                  this.parameters = new List<SingleParameters>(count);
 
@@ -78,6 +82,7 @@ namespace Syzygy.Game.SyncedCommands
              public void WriteToBuffer(NetBuffer buffer)
              {
                  buffer.Write((byte)CommandType.ParticleUpdate);
+                 buffer.Write(this.game.Time.NumericValue);
                  buffer.Write((byte)this.parameters.Count);
 
                  foreach (var p in this.parameters)
