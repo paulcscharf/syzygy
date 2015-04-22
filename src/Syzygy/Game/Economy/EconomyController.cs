@@ -76,7 +76,7 @@ namespace Syzygy.Game.Economy
 
                 if (timeSinceLastShot > fireInterval)
                 {
-                    if (this.economy[EcoValue.Projectiles].TrySpend(1))
+                    if (this.economy[EcoValue.Projectiles].Value >= 1)
                     {
                         var request = ShootProjectileFromPlanet.Request(this.game, this, this.body, this.aimDirection);
                         this.game.RequestHandler.TryDo(request);

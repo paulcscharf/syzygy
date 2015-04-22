@@ -3,6 +3,7 @@ using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using Lidgren.Network;
 using Syzygy.Game.Astronomy;
+using Syzygy.Game.Economy;
 using Syzygy.Game.FreeObjects;
 using Syzygy.GameManagement;
 
@@ -93,12 +94,12 @@ namespace Syzygy.Game.SyncedCommands
 
             public override bool CheckPreconditions()
             {
-                return validPlayer
-                    && this.game != null
-                    && this.body != null
-                    && this.game.Economies
-                        .Any(e => e.Body == this.body && e.Player == this.Requester)
-                    ;
+                if (!validPlayer || this.game == null || this.body == null)
+                    return false;
+
+                var eco = this.game.Economies.FirstOrDefault(e => e.Body == this.body && e.Player == this.Requester);
+
+                return eco != null && eco[EcoValue.Projectiles].Value >= 1;
             }
 
             public override ICommand MakeCommand()
@@ -139,7 +140,10 @@ namespace Syzygy.Game.SyncedCommands
 
             public override void Execute()
             {
-                new Projectile(this.game, this.ps.ID, this.game.Players[this.ps.PlayerId], this.ps.Position, this.ps.Velocity);
+                var player = this.game.Players[this.ps.PlayerId];
+                var eco = this.game.Economies.First(e => e.Player == player);
+                eco[EcoValue.Projectiles].Spend(1);
+                new Projectile(this.game, this.ps.ID, player, this.ps.Position, this.ps.Velocity);
             }
 
             protected override CommandParameters parameters
