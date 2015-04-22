@@ -19,6 +19,9 @@ namespace Syzygy.Game.Behaviours
         {
             command.Execute();
 
+            if (command.IsServerOnlyCommand)
+                return;
+
             if (this.connections.Count == 0)
                 return;
 

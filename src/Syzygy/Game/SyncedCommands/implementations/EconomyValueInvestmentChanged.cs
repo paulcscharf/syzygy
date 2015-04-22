@@ -1,4 +1,5 @@
 using System.Linq;
+using Bearded.Utilities;
 using Lidgren.Network;
 using Syzygy.Game.Economy;
 using Syzygy.GameManagement;
@@ -36,11 +37,13 @@ namespace Syzygy.Game.SyncedCommands
         class Implementation : UnifiedRequestCommand<Parameters>
         {
             private readonly Parameters p;
+            private readonly bool clientOnly;
 
             public Implementation(IPlayerController controller, GameState game, EcoValue value, double investment)
                 : base(RequestType.EconomyValueInvestmentChanged, CommandType.EconomyValueInvestmentChanged, controller, game)
             {
                 this.p = new Parameters(value, investment);
+                this.clientOnly = true;
             }
 
             public Implementation(PlayerConnectionLookup connectionLookup, NetConnection connection, NetBuffer buffer, GameState game)
@@ -49,6 +52,7 @@ namespace Syzygy.Game.SyncedCommands
                 this.p = buffer.Read<Parameters>();
             }
 
+            public override bool IsClientOnlyRequest { get { return this.clientOnly; } }
             public override bool IsServerOnlyCommand { get { return true; } }
 
             public override bool CheckPreconditions()

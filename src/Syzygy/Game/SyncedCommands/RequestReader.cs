@@ -27,6 +27,9 @@ namespace Syzygy.Game.SyncedCommands
                 case RequestType.ShootProjectileFromPlanet:
                     return ShootProjectileFromPlanet.Request(this.game,
                         this.connections, connection, message);
+                case RequestType.EconomyValueInvestmentChanged:
+                    return EconomyValueInvestmentChanged.Request(this.game,
+                        this.connections, connection, message);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
