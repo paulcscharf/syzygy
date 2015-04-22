@@ -5,26 +5,30 @@ using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using OpenTK;
+using OpenTK.Input;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.SyncedCommands;
 using Syzygy.Rendering;
 using Syzygy.Rendering.Game;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
-namespace Syzygy.Game
+namespace Syzygy.Game.Economy
 {
     sealed class EconomyController : GameObject, IPlayerController
     {
         private readonly PlayerGameView view;
         private readonly Player player;
         private readonly IBody body;
-        private readonly Economy economy;
+        private readonly Game.Economy.Economy economy;
+        private readonly EcoStatController[] stats;
 
         public Player Player { get { return this.player; } }
 
         private readonly PlayerControls controls;
 
         private Direction2 aimDirection;
+        private Instant lastShot;
+
 
         public EconomyController(GameState game, Id<Player> player, PlayerGameView view)
             : base(game)
@@ -37,6 +41,16 @@ namespace Syzygy.Game
             view.FocusOnBody(this.body);
 
             this.controls = new PlayerControls();
+
+            this.stats = new[]
+            {
+                new EcoStatController(this.economy, EcoValue.Income,
+                    KeyboardAction.FromKey(Key.Q),KeyboardAction.FromKey(Key.W), "Q<>W"), 
+                new EcoStatController(this.economy, EcoValue.Projectiles,
+                    KeyboardAction.FromKey(Key.A),KeyboardAction.FromKey(Key.S), "A<>S"), 
+                new EcoStatController(this.economy, EcoValue.FireRate,
+                    KeyboardAction.FromKey(Key.Z),KeyboardAction.FromKey(Key.X), "Z<>X"), 
+            };
         }
 
         public override void Update(TimeSpan t)
@@ -53,13 +67,30 @@ namespace Syzygy.Game
                 this.game.RequestHandler.TryDo(request);
             }
 #endif
-            if (this.controls.Shoot.Hit)
+
+            if (this.controls.Shoot.Active)
             {
-                var request = ShootProjectileFromPlanet.Request(this.game, this, this.body, this.aimDirection);
-                this.game.RequestHandler.TryDo(request);
+                var fireInterval = new TimeSpan(1 / this.economy[EcoValue.FireRate].Value);
+
+                var timeSinceLastShot = this.game.Time - this.lastShot;
+
+                if (timeSinceLastShot > fireInterval)
+                {
+                    if (this.economy[EcoValue.Projectiles].TrySpend(1))
+                    {
+                        var request = ShootProjectileFromPlanet.Request(this.game, this, this.body, this.aimDirection);
+                        this.game.RequestHandler.TryDo(request);
+                        this.lastShot = this.game.Time;
+                    }
+                }
             }
 
             this.updateZoom(t);
+
+            foreach (var stat in this.stats)
+            {
+                stat.Update(t);
+            }
         }
 
         private void updateZoom(TimeSpan t)
@@ -103,17 +134,22 @@ namespace Syzygy.Game
 
         private void drawHud(GeometryManager geos)
         {
-            var p = new Vector2(-16f, 9f);
+            var p = new Vector2(16f, 9f);
 
             var text = geos.HudText;
-            text.Height = 0.4f;
+            text.Height = 0.5f;
 
             foreach (var economy in this.game.Economies)
             {
                 text.Color = economy.Body.HealthPercentage > 0 ? Color.White : Color.Red;
-                text.DrawString(p, string.Format("{0}", economy.Player.Name));
+                text.DrawString(p, string.Format("{0}", economy.Player.Name), 1);
 
-                p += new Vector2(0, -0.4f);
+                p += new Vector2(0, -0.5f);
+            }
+
+            foreach (var stat in this.stats)
+            {
+                stat.Draw(geos);
             }
         }
 

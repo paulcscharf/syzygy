@@ -1,6 +1,7 @@
 using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Behaviours;
+using Syzygy.Game.Economy;
 using Syzygy.GameGeneration;
 using Syzygy.Rendering.Game;
 

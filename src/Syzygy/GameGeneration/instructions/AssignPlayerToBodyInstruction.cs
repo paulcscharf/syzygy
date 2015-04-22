@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using Lidgren.Network;
 using Syzygy.Game;
 using Syzygy.Game.Astronomy;
+using Syzygy.Game.Economy;
 
 namespace Syzygy.GameGeneration
 {

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Activation;
 using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 using Syzygy.Game.Astronomy;
 using Syzygy.Game.Behaviours;
-using Syzygy.Game.SyncedCommands;
 using Syzygy.GameManagement;
 using Syzygy.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
@@ -38,7 +36,7 @@ namespace Syzygy.Game
         private readonly DeletableObjectDictionary<IBody> bodies = new DeletableObjectDictionary<IBody>();
         private readonly DeletableObjectDictionary<FreeObject> freeObjects = new DeletableObjectDictionary<FreeObject>();
 
-        private readonly DeletableObjectList<Economy> economies = new DeletableObjectList<Economy>();
+        private readonly DeletableObjectList<Economy.Economy> economies = new DeletableObjectList<Economy.Economy>();
 
         #endregion
 
@@ -58,7 +56,7 @@ namespace Syzygy.Game
         public DeletableObjectDictionary<IBody> Bodies { get { return this.bodies; } }
         public DeletableObjectDictionary<FreeObject> FreeObjects { get { return this.freeObjects; } }
 
-        public DeletableObjectList<Economy> Economies { get { return this.economies; } }
+        public DeletableObjectList<Economy.Economy> Economies { get { return this.economies; } }
 
         public IRequestHandler RequestHandler { get { return this.requestHandler; } }
         public ICollisionHandler CollisionHandler { get { return this.collisionHandler; } }
@@ -80,7 +78,7 @@ namespace Syzygy.Game
                 { typeof (FreeObject), this.freeObjects },
             };
             this.deletableLists = new Dictionary<Type, object>{
-                { typeof (Economy), this.economies },
+                { typeof (Economy.Economy), this.economies },
             };
         }
 

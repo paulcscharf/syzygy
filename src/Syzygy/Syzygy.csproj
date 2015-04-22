@@ -81,10 +81,13 @@
     <Compile Include="Game\Behaviours\IContinuousSynchronizer.cs" />
     <Compile Include="Game\Behaviours\ServerCommandSender.cs" />
     <Compile Include="Game\Behaviours\ServerContinuousSynchronizer.cs" />
-    <Compile Include="Game\Economy.cs" />
-    <Compile Include="Game\EconomyController.cs" />
+    <Compile Include="Game\Economy\Economy.cs" />
+    <Compile Include="Game\Economy\EconomyController.cs" />
     <Compile Include="Game\Behaviours\GameBehaviourProvider.cs" />
     <Compile Include="Game\Behaviours\ICollisionHandler.cs" />
+    <Compile Include="Game\Economy\EcoStat.cs" />
+    <Compile Include="Game\Economy\EcoStatController.cs" />
+    <Compile Include="Game\Economy\EcoValue.cs" />
     <Compile Include="Game\FreeObjects\Projectile.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="GameManagement\PlayerLookup.cs" />
